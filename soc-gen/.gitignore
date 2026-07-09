@@ -1,0 +1,10 @@
+.classpath_cache/
+.ivy2/
+.java_tmp/
+.sbt/
+target/
+project/target/
+project/project/target/
+project/.bloop/
+project/project/.bloop/
+

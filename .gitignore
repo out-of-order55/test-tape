@@ -28,6 +28,7 @@ project/project/
 .ivy2
 .sbt
 .classpath_cache/
+.coursier-cache/
 .vscode/
 tests/build/
 conda-reqs/chipyard-base.yaml.bak
