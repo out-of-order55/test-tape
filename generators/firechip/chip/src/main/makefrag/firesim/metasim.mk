@@ -123,18 +123,3 @@ $(OUTPUT_DIR)/%.fsdb: $(OUTPUT_DIR)/% $(EMUL)-debug
 	$(disasm) $(patsubst %.fsdb,%.out,$@) && [ $$PIPESTATUS -eq 0 ]
 
 .PRECIOUS: $(OUTPUT_DIR)/%.fsdb $(OUTPUT_DIR)/%.vpd $(OUTPUT_DIR)/%.out $(OUTPUT_DIR)/%.run
-
-# TraceGen rules
-
-$(OUTPUT_DIR)/tracegen.out: $($(EMUL))
-	mkdir -p $(OUTPUT_DIR) && \
-	cd $(dir $($(EMUL))) && \
-	./$(notdir $($(EMUL))) $($(EMUL)_args) $(COMMON_SIM_ARGS) $(MIDAS_LEVEL_SIM_ARGS) $(EXTRA_SIM_ARGS) \
-	2> /dev/null 2> $@ && [ $$PIPESTATUS -eq 0 ]
-
-$(OUTPUT_DIR)/tracegen.result: $(OUTPUT_DIR)/tracegen.out $(AXE)
-	$(chipyard_dir)/scripts/check-tracegen.sh $< > $@
-
-fsim-tracegen: $(OUTPUT_DIR)/tracegen.result
-
-.PHONY: fsim-tracegen

@@ -19,7 +19,7 @@ import freechips.rocketchip.util.{DontTouch}
 // ---------------------------------------------------------------------
 
 /**
- * Base top with periphery devices and ports, and a BOOM + Rocket subsystem
+ * Base top with periphery devices, ports, and externally attachable tiles/cores.
  */
 class ChipyardSystem(implicit p: Parameters) extends ChipyardSubsystem
   with HasAsyncExtInterrupts
@@ -36,7 +36,7 @@ class ChipyardSystem(implicit p: Parameters) extends ChipyardSubsystem
 }
 
 /**
- * Base top module implementation with periphery devices and ports, and a BOOM + Rocket subsystem
+ * Base top module implementation with periphery devices, ports, and externally attachable tiles/cores.
  */
 class ChipyardSystemModule(_outer: ChipyardSystem) extends ChipyardSubsystemModuleImp(_outer)
   with HasRTCModuleImp

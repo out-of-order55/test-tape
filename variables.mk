@@ -135,43 +135,6 @@ ifeq ($(SUB_PROJECT),icenet)
 	TB                ?= TestDriver
 	TOP               ?= UnitTestSuite
 endif
-# For Constellation developers
-ifeq ($(SUB_PROJECT),constellation)
-	SBT_PROJECT       ?= chipyard
-	MODEL             ?= TestHarness
-	VLOG_MODEL        ?= $(MODEL)
-	MODEL_PACKAGE     ?= constellation.test
-	CONFIG            ?= TestConfig00
-	CONFIG_PACKAGE    ?= constellation.test
-	GENERATOR_PACKAGE ?= chipyard
-	TB                ?= TestDriver
-	TOP               ?= NoC
-endif
-# For graphics developers
-ifeq ($(SUB_PROJECT),coalescer)
-	SBT_PROJECT       ?= chipyard
-	MODEL             ?= TestHarness
-	VLOG_MODEL        ?= $(MODEL)
-	MODEL_PACKAGE     ?= chipyard.unittest
-	CONFIG            ?= CoalescingUnitTestConfig
-	CONFIG_PACKAGE    ?= radiance.unittest
-	GENERATOR_PACKAGE ?= chipyard
-	TB                ?= TestDriver
-	TOP               ?= UnitTestSuite
-endif
-ifeq ($(SUB_PROJECT),tensor)
-	SBT_PROJECT       ?= chipyard
-	MODEL             ?= TestHarness
-	VLOG_MODEL        ?= $(MODEL)
-	MODEL_PACKAGE     ?= chipyard.unittest
-	CONFIG            ?= TensorUnitTestConfig
-	CONFIG_PACKAGE    ?= radiance.unittest
-	GENERATOR_PACKAGE ?= chipyard
-	TB                ?= TestDriver
-	TOP               ?= UnitTestSuite
-endif
-
-
 #########################################################################################
 # path to rocket-chip and testchipip
 #########################################################################################

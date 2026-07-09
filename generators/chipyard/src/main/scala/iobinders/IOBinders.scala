@@ -25,7 +25,6 @@ import sifive.blocks.devices.gpio._
 import sifive.blocks.devices.uart._
 import sifive.blocks.devices.spi._
 import sifive.blocks.devices.i2c._
-import tracegen.{TraceGenSystemModuleImp}
 
 import chipyard.iocell._
 
@@ -469,14 +468,6 @@ class WithNICIOPunchthrough extends OverrideIOBinder({
       NICPort(() => port, p(NICKey).get)
     }).toSeq
     (ports, Nil)
-  }
-})
-
-class WithTraceGenSuccessPunchthrough extends OverrideIOBinder({
-  (system: TraceGenSystemModuleImp) => {
-    val success: Bool = IO(Output(Bool())).suggestName("success")
-    success := system.success
-    (Seq(SuccessPort(() => success)), Nil)
   }
 })
 

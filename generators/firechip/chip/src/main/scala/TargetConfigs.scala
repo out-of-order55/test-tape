@@ -38,7 +38,7 @@ class WithScalaTestFeatures extends Config((site, here, up) => {
   case TracePortKey => up(TracePortKey).map(_.copy(print = true))
 })
 
-// Multi-cycle regfile for rocket+boom
+// Multi-cycle regfile for Rocket tiles
 class WithFireSimMultiCycleRegfile extends Config((site, here, up) => {
   case FireSimMultiCycleRegFile => true
 })
@@ -49,10 +49,6 @@ class WithFireSimFAME5 extends Config((site, here, up) => {
 })
 
 class WithNIC extends icenet.WithIceNIC(inBufFlits = 8192, ctrlQueueDepth = 64)
-
-// Adds a small/large NVDLA to the system
-class WithNVDLALarge extends nvidia.blocks.dla.WithNVDLA("large")
-class WithNVDLASmall extends nvidia.blocks.dla.WithNVDLA("small")
 
 // Minimal set of FireSim-related design tweaks - notably discludes FASED, TraceIO, and the BlockDevice
 class WithMinimalFireSimDesignTweaks extends Config(
@@ -175,7 +171,6 @@ class WithFireSimTestChipConfigTweaks extends Config(
   new chipyard.config.WithCbusToPbusCrossingType(AsynchronousCrossing()) ++ // Add Async crossing between PBUS and CBUS
   new chipyard.config.WithSbusToMbusCrossingType(AsynchronousCrossing()) ++ // Add Async crossings between backside of L2 and MBUS
   new freechips.rocketchip.rocket.WithRationalCDCs ++   // Add rational crossings between RocketTile and uncore
-  new boom.v3.common.WithRationalBoomTiles ++ // Add rational crossings between BoomTile and uncore
   new WithFireSimDesignTweaks
 )
 
@@ -248,53 +243,6 @@ class FireSimDmiRocketConfig extends Config(
   new WithFireSimConfigTweaks ++
   new chipyard.dmiRocketConfig)
 
-//*****************************************************************
-// Boom config, base off chipyard's LargeBoomV3Config
-//*****************************************************************
-class FireSimLargeBoomConfig extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.LargeBoomV3Config)
-
-//*****************************************************************
-// Saturn configs, base off chipyard's SaturnConfigs
-//*****************************************************************
-class FireSimREFV256D128RocketConfig extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.REFV256D128RocketConfig)
-
-class FireSimGENV256D128ShuttleConfig extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.GENV256D128ShuttleConfig)
-
-//********************************************************************
-// Heterogeneous config, base off chipyard's LargeBoomAndRocketConfig
-//********************************************************************
-class FireSimLargeBoomAndRocketConfig extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.LargeBoomAndRocketConfig)
-
-//******************************************************************
-// Gemmini NN accel config, base off chipyard's GemminiRocketConfig
-//******************************************************************
-class FireSimGemminiRocketConfig extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.GemminiRocketConfig)
-
-class FireSimLeanGemminiRocketConfig extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.LeanGemminiRocketConfig)
-
-class FireSimLeanGemminiPrintfRocketConfig extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.LeanGemminiPrintfRocketConfig)
-
 //**********************************************************************************
 // Supernode Configurations, base off chipyard's RocketConfig
 //**********************************************************************************
@@ -303,25 +251,6 @@ class SupernodeFireSimRocketConfig extends Config(
   new chipyard.harness.WithHomogeneousMultiChip(n=4, new Config(
     new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 8L) ++ // 8GB DRAM per node
     new FireSimRocketConfig)))
-
-//**********************************************************************************
-//* CVA6 Configurations
-//*********************************************************************************/
-class FireSimCVA6Config extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.CVA6Config)
-
-//**********************************************************************************
-// System with 16 LargeBOOMs that can be simulated with Golden Gate optimizations
-// - Requires MTModels and MCRams mixins as prefixes to the platform config
-// - May require larger build instances or JVM memory footprints
-//*********************************************************************************/
-class FireSim16LargeBoomV3Config extends Config(
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new boom.v3.common.WithNLargeBooms(16) ++
-  new chipyard.config.AbstractConfig)
 
 class FireSimNoMemPortConfig extends Config(
   new WithDefaultFireSimBridges ++
@@ -334,38 +263,6 @@ class FireSimRocketMMIOOnlyConfig extends Config(
   new WithDefaultMMIOOnlyFireSimBridges ++
   new WithFireSimConfigTweaks ++
   new chipyard.RocketConfig)
-
-class FireSimLeanGemminiRocketMMIOOnlyConfig extends Config(
-  new WithDefaultMMIOOnlyFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.LeanGemminiRocketConfig)
-
-class FireSimRadianceClusterSynConfig extends Config(
-  new chipyard.harness.WithHarnessBinderClockFreqMHz(500.0) ++
-  new chipyard.config.WithNoTraceIO ++
-  new WithDefaultFireSimBridges ++
-  new chipyard.config.WithRadBootROM ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.RadianceClusterSynConfig)
-
-class FireSimLargeBoomCospikeConfig extends Config(
-  new WithCospikeBridge ++
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks++
-  new chipyard.LargeBoomV3Config)
-
-class FireSimQuadRocketSbusRingNoCConfig extends Config(
-  new chipyard.config.WithNoTraceIO ++
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks++
-  new chipyard.QuadRocketSbusRingNoCConfig)
-
-class FireSimLargeBoomSV39CospikeConfig extends Config(
-  new WithCospikeBridge ++
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks++
-  new freechips.rocketchip.rocket.WithSV39 ++
-  new chipyard.LargeBoomV3Config)
 
 class CTCFireSimConfig extends Config(
   new WithCTCBridge ++
@@ -381,5 +278,4 @@ class CTCFireSimConfig extends Config(
   new chipyard.iobinders.WithCTCPunchthrough ++ 
   new FireSimRocketConfig
 )
-
 

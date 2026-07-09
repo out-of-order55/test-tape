@@ -91,7 +91,6 @@ HELP_COMMANDS += \
 # include additional subproject make fragments
 # see HELP_COMPILATION_VARIABLES
 #########################################################################################
-include $(base_dir)/generators/tracegen/tracegen.mk
 include $(base_dir)/tools/torture.mk
 # Optional generator make fragments should not fail build if absent
 # Wildcard include for standardized per-generator make fragments
@@ -145,7 +144,6 @@ $(TAPEOUT_CLASSPATH) &: $(TAPEOUT_SCALA_SOURCES) $(SCALA_BUILDTOOL_DEPS) $(TAPEO
 #########################################################################################
 # verilog generation pipeline
 #########################################################################################
-# AG: must re-elaborate if cva6 sources have changed... otherwise just run firrtl compile
 $(FIRRTL_FILE) $(ANNO_FILE) $(CHISEL_LOG_FILE) &: $(GENERATOR_CLASSPATH) $(EXTRA_GENERATOR_REQS)
 	mkdir -p $(build_dir)
 	(set -o pipefail && $(call run_jar_scala_main,$(GENERATOR_CLASSPATH),$(GENERATOR_PACKAGE).Generator,\

@@ -107,28 +107,10 @@ VERILATOR_OPT_FLAGS ?= \
 	--output-split 10000 \
 	--output-split-cfuncs 100
 
-# default flags added for external IP (cva6/NVDLA)
-VERILOG_IP_VERILATOR_FLAGS := \
-	--unroll-count 256 \
-	-Wno-PINCONNECTEMPTY \
-	-Wno-ASSIGNDLY \
-	-Wno-DECLFILENAME \
-	-Wno-UNUSED \
-	-Wno-UNOPTFLAT \
-	-Wno-BLKANDNBLK \
-	-Wno-style \
-	-Wall
-
-# normal flags used for chipyard builds (that are incompatible with vlog ip aka cva6/NVDLA)
 CHIPYARD_VERILATOR_FLAGS := \
 	--assert
 
-# options dependent on whether external IP (cva6/NVDLA) or just chipyard is used
-# NOTE: defer the evaluation of this until it is used!
-PLATFORM_OPTS = $(shell \
-	if grep -qiP "module\s+(CVA6|NVDLA|Ara)" $(GEN_COLLATERAL_DIR)/*.*v; \
-	then echo "$(VERILOG_IP_VERILATOR_FLAGS)"; \
-	else echo "$(CHIPYARD_VERILATOR_FLAGS)"; fi)
+PLATFORM_OPTS = $(CHIPYARD_VERILATOR_FLAGS)
 
 # Use --timescale to approximate timescale behavior of pre-4.034
 TIMESCALE_OPTS := $(shell verilator --version | perl -lne 'if (/(\d.\d+)/ && $$1 >= 4.034) { print "--timescale 1ns/1ps"; }')

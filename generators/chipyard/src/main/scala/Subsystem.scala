@@ -80,8 +80,8 @@ class ChipyardSubsystem(implicit p: Parameters) extends BaseSubsystem
 {
   def coreMonitorBundles = totalTiles.values.map {
     case r: RocketTile => r.module.core.rocketImpl.coreMonitorBundle
-    case b: boom.v3.common.BoomTile => b.module.core.coreMonitorBundle
-    case b: boom.v4.common.BoomTile => b.module.core.coreMonitorBundle
+    case other => throw new IllegalArgumentException(
+      s"Core monitor bundle extraction is not defined for tile type ${other.getClass.getName}")
   }.toList
 
   // No-tile configs have to be handled specially.

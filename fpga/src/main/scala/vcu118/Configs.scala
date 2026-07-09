@@ -66,12 +66,6 @@ class RocketVCU118Config extends Config(
 )
 // DOC include end: AbstractVCU118 and Rocket
 
-class BoomVCU118Config extends Config(
-  new WithFPGAFrequency(50) ++
-  new WithVCU118Tweaks ++
-  new chipyard.MegaBoomV3Config
-)
-
 class WithFPGAFrequency(fMHz: Double) extends Config(
   new chipyard.harness.WithHarnessBinderClockFreqMHz(fMHz) ++
   new chipyard.config.WithSystemBusFrequency(fMHz) ++

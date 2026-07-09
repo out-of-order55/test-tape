@@ -11,7 +11,6 @@ import freechips.rocketchip.prci._
 import freechips.rocketchip.subsystem._
 import org.chipsalliance.cde.config.{Field, Parameters}
 import freechips.rocketchip.tile.{RocketTile}
-import boom.v3.common.{BoomTile}
 import freechips.rocketchip.util.property
 
 import chipyard._
@@ -128,20 +127,9 @@ class FireSim(implicit val p: Parameters) extends RawModule with HasHarnessInsta
             // TODO: currently, fpu mem. model optimizations are broken with model multi-threading so disable for now
             //r.module.fpuOpt.foreach(fpu => annotate(MemModelAnnotation(fpu.fpuImpl.regfile)))
           }
-          case b: BoomTile => {
-            val core = b.module.core
-            core.iregfile match {
-              case irf: boom.v3.exu.RegisterFileSynthesizable => annotate(MemModelAnnotation(irf.regfile))
-            }
-            if (core.fp_pipeline != null) core.fp_pipeline.fregfile match {
-              case frf: boom.v3.exu.RegisterFileSynthesizable => annotate(MemModelAnnotation(frf.regfile))
-            }
-          }
           case _ =>
         }
         if (p(FireSimFAME5)) ls.totalTiles.values.map {
-          case b: BoomTile =>
-            annotate(EnableModelMultiThreadingAnnotation(b.module))
           case r: RocketTile =>
             annotate(EnableModelMultiThreadingAnnotation(r.module))
           case _ => Nil

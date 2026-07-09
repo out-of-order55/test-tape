@@ -107,26 +107,10 @@ class MultiRocketF1Tests
       Seq("WithSynthAsserts", "WithModelMultiThreading", "FRFCFS16GBQuadRankLLC4MB"),
     )
 
-class BoomF1Tests
-    extends FireSimTestSuite(
-      "FireSim",
-      "FireSimLargeBoomConfig",
-      BaseConfigs.F1,
-      Seq("FRFCFS16GBQuadRankLLC4MB"),
-    )
-
 class RocketNICF1Tests
     extends FireSimTestSuite(
       "FireSim",
       "WithNIC_FireSimRocketConfig",
-      BaseConfigs.F1,
-      Seq("FRFCFS16GBQuadRankLLC4MB"),
-    )
-
-class CVA6F1Tests
-    extends FireSimTestSuite(
-      "FireSim",
-      "WithNIC_FireSimCVA6Config",
       BaseConfigs.F1,
       Seq("FRFCFS16GBQuadRankLLC4MB"),
     )
@@ -136,6 +120,5 @@ class CITests
       new SimpleRocketF1Tests,
       new RocketF1Tests,
       new MultiRocketF1Tests,
-      new BoomF1Tests,
       new RocketNICF1Tests,
     )

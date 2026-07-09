@@ -16,7 +16,7 @@ import freechips.rocketchip.tile._
 import freechips.rocketchip.amba.axi4._
 import freechips.rocketchip.prci._
 
-// Example parameter class copied from CVA6, not included in documentation but for compile check only
+// Example parameter class for compile checks, not included in documentation.
 // If you are here for documentation, DO NOT copy MyCoreParams and MyTileParams directly - always figure
 // out what parameters you need before you write the parameter class
 case class MyCoreParams(
@@ -177,14 +177,12 @@ class MyTileModuleImp(outer: MyTile) extends BaseTileModuleImp(outer){
   //   val core = Module(new MyCoreBlackbox(params...))
   // (as described in the blackbox tutorial) and connect appropriate signals. See the blackbox tutorial
   // (link on the top of the page) for more info.
-  // You can look at https://github.com/ucb-bar/cva6-wrapper/blob/master/src/main/scala/CVA6Tile.scala
-  // for a Verilog example.
+  // Verilog cores can be integrated through a blackbox wrapper with these tile ports.
 
   // If your core is in Chisel, you can simply instantiate the top module here like other Chisel module
   // and connect appropriate signal. You can even implement this class as your top module.
-  // See https://github.com/riscv-boom/riscv-boom/blob/master/src/main/scala/common/tile.scala and
-  // https://github.com/chipsalliance/rocket-chip/blob/master/src/main/scala/tile/RocketTile.scala for
-  // Chisel example.
+  // See https://github.com/chipsalliance/rocket-chip/blob/master/src/main/scala/tile/RocketTile.scala for
+  // a Chisel example.
 
   // DOC include end: Implementation class
 
