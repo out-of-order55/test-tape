@@ -54,8 +54,8 @@ abstract class FireSimTestSuite(
 
   def runSuite(backend: String, debug: Boolean)(suite: RocketTestSuite) {
     val postfix = suite match {
-      case _: BenchmarkTestSuite | _: BlockdevTestSuite | _: NICTestSuite => ".riscv"
-      case _                                                              => ""
+      case _: BenchmarkTestSuite => ".riscv"
+      case _                     => ""
     }
     it should s"pass all tests in ${suite.makeTargetName}" in {
       val results = suite.names.toSeq.sliding(N, N).map { t =>
@@ -107,18 +107,9 @@ class MultiRocketF1Tests
       Seq("WithSynthAsserts", "WithModelMultiThreading", "FRFCFS16GBQuadRankLLC4MB"),
     )
 
-class RocketNICF1Tests
-    extends FireSimTestSuite(
-      "FireSim",
-      "WithNIC_FireSimRocketConfig",
-      BaseConfigs.F1,
-      Seq("FRFCFS16GBQuadRankLLC4MB"),
-    )
-
 class CITests
     extends Suites(
       new SimpleRocketF1Tests,
       new RocketF1Tests,
       new MultiRocketF1Tests,
-      new RocketNICF1Tests,
     )

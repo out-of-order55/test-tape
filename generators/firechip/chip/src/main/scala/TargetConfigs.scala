@@ -16,7 +16,6 @@ import freechips.rocketchip.devices.debug.{DebugModuleKey}
 import freechips.rocketchip.diplomacy.{AddressSet}
 import freechips.rocketchip.prci.{AsynchronousCrossing}
 import testchipip.cosim.{TracePortKey}
-import icenet._
 
 import chipyard.clocking.{ChipyardPRCIControlKey}
 import chipyard.harness.{HarnessClockInstantiatorKey}
@@ -47,8 +46,6 @@ class WithFireSimMultiCycleRegfile extends Config((site, here, up) => {
 class WithFireSimFAME5 extends Config((site, here, up) => {
   case FireSimFAME5 => true
 })
-
-class WithNIC extends icenet.WithIceNIC(inBufFlits = 8192, ctrlQueueDepth = 64)
 
 // Minimal set of FireSim-related design tweaks - notably discludes FASED, TraceIO, and the BlockDevice
 class WithMinimalFireSimDesignTweaks extends Config(
@@ -278,4 +275,3 @@ class CTCFireSimConfig extends Config(
   new chipyard.iobinders.WithCTCPunchthrough ++ 
   new FireSimRocketConfig
 )
-

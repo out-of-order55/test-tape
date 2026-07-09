@@ -7,9 +7,6 @@
 [submodule "generators/hardfloat"]
 	path = generators/hardfloat
 	url = https://github.com/ucb-bar/berkeley-hardfloat.git
-[submodule "generators/icenet"]
-	path = generators/icenet
-	url = https://github.com/firesim/icenet.git
 [submodule "generators/rocket-chip"]
 	path = generators/rocket-chip
 	url = https://github.com/chipsalliance/rocket-chip.git
@@ -28,21 +25,6 @@
 [submodule "software/baremetal-ide"]
 	path = software/baremetal-ide
 	url = https://github.com/ucb-bar/Baremetal-IDE.git
-[submodule "software/coremark"]
-	path = software/coremark
-	url = https://github.com/ucb-bar/coremark-workload.git
-[submodule "software/embench/embench-iot"]
-	path = software/embench/embench-iot
-	url = https://github.com/embench/embench-iot.git
-[submodule "software/firemarshal"]
-	path = software/firemarshal
-	url = https://github.com/firesim/FireMarshal.git
-[submodule "software/nvdla-workload"]
-	path = software/nvdla-workload
-	url = https://github.com/ucb-bar/nvdla-workload.git
-[submodule "software/spec2017"]
-	path = software/spec2017
-	url = https://github.com/ucb-bar/spec2017-workload.git
 [submodule "toolchains/libgloss"]
 	path = toolchains/libgloss
 	url = https://github.com/ucb-bar/libgloss-htif.git
@@ -91,15 +73,9 @@
 [submodule "tools/fixedpoint"]
 	path = tools/fixedpoint
 	url = https://github.com/ucb-bar/fixedpoint.git
-[submodule "software/firesim-paper-workloads"]
-	path = software/firesim-paper-workloads
-	url = https://github.com/firesim/firesim-paper-workloads.git
 [submodule "tools/firrtl2"]
 	path = tools/firrtl2
 	url = https://github.com/ucb-bar/firrtl2.git
-[submodule "software/zephyrproject/zephyr"]
-	path = software/zephyrproject/zephyr
-	url = https://github.com/ucb-bar/zephyr.git
 [submodule "software/tacit_decoder"]
 	path = software/tacit_decoder
 	url = https://github.com/riscv-tacit/tacit_decoder.git

@@ -44,12 +44,6 @@ class GPIORocketConfig extends Config(
   new chipyard.config.AbstractConfig)
 // DOC include end: GPIORocketConfig
 
-class LoopbackNICRocketConfig extends Config(
-  new chipyard.harness.WithLoopbackNIC ++                      // drive NIC IOs with loopback
-  new icenet.WithIceNIC ++                                     // add an IceNIC
-  new freechips.rocketchip.rocket.WithNHugeCores(1) ++
-  new chipyard.config.AbstractConfig)
-
 class MMIORocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithDefaultMMIOPort ++  // add default external master port
   new freechips.rocketchip.subsystem.WithDefaultSlavePort ++ // add default external slave port

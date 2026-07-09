@@ -36,16 +36,3 @@ class InitZeroRocketConfig extends Config(
   new freechips.rocketchip.rocket.WithNHugeCores(1) ++
   new chipyard.config.AbstractConfig)
 // DOC include end: InitZeroRocketConfig
-
-class StreamingPassthroughRocketConfig extends Config(
-  new chipyard.example.WithStreamingPassthrough ++          // use top with tilelink-controlled streaming passthrough
-  new freechips.rocketchip.rocket.WithNHugeCores(1) ++
-  new chipyard.config.AbstractConfig)
-
-// DOC include start: StreamingFIRRocketConfig
-class StreamingFIRRocketConfig extends Config (
-  new chipyard.example.WithStreamingFIR ++                  // use top with tilelink-controlled streaming FIR
-  new freechips.rocketchip.rocket.WithNHugeCores(1) ++
-  new chipyard.config.AbstractConfig)
-// DOC include end: StreamingFIRRocketConfig
-

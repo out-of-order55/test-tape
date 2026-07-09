@@ -37,7 +37,6 @@ import testchipip.iceblk.{CanHavePeripheryBlockDevice, BlockDeviceKey, BlockDevi
 import testchipip.cosim.{CanHaveTraceIO, TraceOutputTop, SpikeCosimConfig}
 import testchipip.tsi.{CanHavePeripheryUARTTSI, UARTTSIIO}
 import testchipip.ctc.{CanHavePeripheryCTC}
-import icenet.{CanHavePeripheryIceNIC, SimNetwork, NicLoopback, NICKey, NICIOvonly}
 import chipyard.{CanHaveMasterTLMemPort, ChipyardSystem, ChipyardSystemModule}
 import chipyard.example.{CanHavePeripheryGCD}
 
@@ -454,18 +453,6 @@ class WithBlockDeviceIOPunchthrough extends OverrideIOBinder({
       val port = IO(new ClockedIO(new BlockDeviceIO(bdParams))).suggestName("blockdev")
       port <> bdev
       BlockDevicePort(() => port, bdParams)
-    }).toSeq
-    (ports, Nil)
-  }
-})
-
-class WithNICIOPunchthrough extends OverrideIOBinder({
-  (system: CanHavePeripheryIceNIC) => {
-    val ports: Seq[NICPort] = system.icenicOpt.map({ n =>
-      val p = GetSystemParameters(system)
-      val port = IO(new ClockedIO(new NICIOvonly)).suggestName("nic")
-      port <> n
-      NICPort(() => port, p(NICKey).get)
     }).toSeq
     (ports, Nil)
   }

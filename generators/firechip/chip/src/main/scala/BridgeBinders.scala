@@ -99,12 +99,6 @@ class WithDMIBridge extends HarnessBinder({
   }
 })
 
-class WithNICBridge extends HarnessBinder({
-  case (th: FireSim, port: NICPort, chipId: Int) => {
-    NICBridge(port.io.clock, port.io.bits)(th.p)
-  }
-})
-
 class WithUARTBridge extends HarnessBinder({
   case (th: FireSim, port: UARTPort, chipId: Int) =>
     val uartSyncClock = th.harnessClockInstantiator.requestClockMHz("uart_clock", port.freqMHz)
@@ -155,7 +149,6 @@ class WithSuccessBridge extends HarnessBinder({
 class WithDefaultFireSimBridges extends Config(
   new WithTSIBridgeAndHarnessRAMOverSerialTL ++
   new WithDMIBridge ++
-  new WithNICBridge ++
   new WithUARTBridge ++
   new WithBlockDeviceBridge ++
   new WithFASEDBridge ++

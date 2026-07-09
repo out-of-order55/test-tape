@@ -178,7 +178,6 @@ lazy val chipyard = {
   val baseProjects: Seq[ProjectReference] =
     Seq(
       testchipip, rocketchip, rocketchip_blocks, rocketchip_inclusive_cache,
-      icenet,
     ).map(sbt.Project.projectToRef) ++
     (if (useChisel7) Seq() else Seq(sbt.Project.projectToRef(firrtl2_bridge))) ++
     (if (useChisel7) Seq() else Seq(sbt.Project.projectToRef(dsptools), sbt.Project.projectToRef(rocket_dsp_utils)))
@@ -191,14 +190,17 @@ lazy val chipyard = {
       val files = (Compile / unmanagedSources).value
       val root = (ThisBuild / baseDirectory).value
       val excludeList = Seq(
-        if (useChisel7) Seq(
-          // Directories or files relative to repo root
-          "generators/chipyard/src/main/scala/example/dsptools",
-          "generators/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala",
-          "generators/chipyard/src/main/scala/upf"
-        ) else Seq.empty
-      ).flatten.distinct.map(p => (root / p).getCanonicalFile)
-      val (excludeDirs, excludeFiles) = excludeList.partition(_.isDirectory)
+        // Directories or files relative to repo root
+        "generators/chipyard/src/main/scala/config/SpikeConfigs.scala",
+        "generators/chipyard/src/main/scala/config/ChipletConfigs.scala",
+        "generators/chipyard/src/main/scala/SpikeTile.scala",
+        "generators/chipyard/src/main/scala/example/dsptools"
+      ) ++ (if (useChisel7) Seq(
+        "generators/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala",
+        "generators/chipyard/src/main/scala/upf"
+      ) else Seq.empty)
+      val excludes = excludeList.distinct.map(p => (root / p).getCanonicalFile)
+      val (excludeDirs, excludeFiles) = excludes.partition(_.isDirectory)
       files.filterNot { f =>
         val cf = f.getCanonicalFile
         excludeFiles.contains(cf) || excludeDirs.exists(d => cf.toPath.startsWith(d.toPath))
@@ -221,11 +223,6 @@ lazy val chipyard = {
     })
     .settings(chisel7SourceExcludeSettings: _*)
 }
-
-lazy val icenet = withInitCheck((project in file("generators/icenet")), "icenet")
-  .dependsOn(rocketchip)
-  .settings(libraryDependencies ++= rocketLibDeps.value)
-  .settings(commonSettings)
 
 // Helper: fail fast if a generator project is used without its submodule initialized.
 def withInitCheck(p: Project, genDirName: String): Project = {

@@ -123,18 +123,6 @@ ifeq ($(SUB_PROJECT),rocketchip)
 	TB                ?= TestDriver
 	TOP               ?= UnitTestSuite
 endif
-# For IceNet developers
-ifeq ($(SUB_PROJECT),icenet)
-	SBT_PROJECT       ?= chipyard
-	MODEL             ?= TestHarness
-	VLOG_MODEL        ?= $(MODEL)
-	MODEL_PACKAGE     ?= chipyard.unittest
-	CONFIG            ?= IceNetUnitTestConfig
-	CONFIG_PACKAGE    ?= icenet
-	GENERATOR_PACKAGE ?= chipyard
-	TB                ?= TestDriver
-	TOP               ?= UnitTestSuite
-endif
 #########################################################################################
 # path to rocket-chip and testchipip
 #########################################################################################

@@ -21,7 +21,7 @@ class NICBridge(implicit p: Parameters) extends BlackBox with Bridge[HostPortIO[
 
 
 object NICBridge {
-  def apply(clock: Clock, nicIO: icenet.NICIOvonly)(implicit p: Parameters): NICBridge = {
+  def apply(clock: Clock, nicIO: firechip.bridgeinterfaces.NICIOvonly)(implicit p: Parameters): NICBridge = {
     val ep = Module(new NICBridge)
     // TODO: Check following IOs are same size/names/etc
     ep.io.nic <> nicIO

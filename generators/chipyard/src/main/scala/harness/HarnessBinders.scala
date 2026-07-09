@@ -22,7 +22,6 @@ import testchipip.serdes._
 import testchipip.iceblk.{SimBlockDevice, BlockDeviceModel}
 import testchipip.cosim.{SpikeCosim}
 import testchipip.ctc.{CTCBridgeIO}
-import icenet.{NicLoopback, SimNetwork}
 import chipyard._
 import chipyard.clocking.{HasChipyardPRCI}
 import chipyard.iobinders._
@@ -97,18 +96,6 @@ class WithBlockDeviceModel extends HarnessBinder({
     blkdev_model.io <> port.io.bits
     blkdev_model.clock := port.io.clock
     blkdev_model.reset := th.harnessBinderReset
-  }
-})
-
-class WithLoopbackNIC extends HarnessBinder({
-  case (th: HasHarnessInstantiators, port: NICPort, chipId: Int) => {
-    withClock(port.io.clock) { NicLoopback.connect(port.io.bits, port.params) }
-  }
-})
-
-class WithSimNetwork extends HarnessBinder({
-  case (th: HasHarnessInstantiators, port: NICPort, chipId: Int) => {
-    withClock(port.io.clock) { SimNetwork.connect(Some(port.io.bits), port.io.clock, th.harnessBinderReset.asBool) }
   }
 })
 
