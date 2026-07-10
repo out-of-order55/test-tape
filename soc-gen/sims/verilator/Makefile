@@ -25,7 +25,7 @@ sim_prefix = simulator
 sim = $(sim_dir)/$(sim_prefix)-$(MODEL_PACKAGE)-$(CONFIG)
 sim_debug = $(sim_dir)/$(sim_prefix)-$(MODEL_PACKAGE)-$(CONFIG)-debug
 
-include $(base_dir)/sim/common-sim-flags.mk
+include $(base_dir)/sims/common-sim-flags.mk
 
 # If verilator seed unspecified, verilator uses srand as random seed
 ifdef RANDOM_SEED
@@ -47,6 +47,7 @@ SIM_FILE_REQS += \
 # copy files and add -FI for *.h files in *.f
 $(sim_files): $(SIM_FILE_REQS) $(ALL_MODS_FILELIST) | $(GEN_COLLATERAL_DIR)
 	cp -f $(SIM_FILE_REQS) $(GEN_COLLATERAL_DIR)
+	rm -f $@
 	$(foreach file,\
 		$(SIM_FILE_REQS),\
 		$(if $(filter %.h,$(file)),\

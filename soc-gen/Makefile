@@ -5,9 +5,9 @@
 SIM ?= verilator
 
 ifeq ($(SIM),verilator)
-sim_make_dir := $(CURDIR)/sim/verilator
+sim_make_dir := $(CURDIR)/sims/verilator
 else ifeq ($(SIM),vcs)
-sim_make_dir := $(CURDIR)/sim/vcs
+sim_make_dir := $(CURDIR)/sims/vcs
 else
 $(error Unsupported SIM='$(SIM)'. Use SIM=verilator or SIM=vcs)
 endif

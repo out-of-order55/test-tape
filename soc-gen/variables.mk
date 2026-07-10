@@ -127,13 +127,13 @@ endif
 #########################################################################################
 # path to rocket-chip and testchipip
 #########################################################################################
-ROCKETCHIP_DIR       = $(base_dir)/generators/rocket-chip
+ROCKETCHIP_DIR       = $(base_dir)/generator/rocket-chip
 ROCKETCHIP_RSRCS_DIR = $(ROCKETCHIP_DIR)/src/main/resources
-TESTCHIP_DIR         = $(base_dir)/generators/testchipip
+TESTCHIP_DIR         = $(base_dir)/generator/testchipip
 TESTCHIP_RSRCS_DIR   = $(TESTCHIP_DIR)/src/main/resources
-deps_dir             ?= $(base_dir)/../deps
+deps_dir             ?= $(base_dir)/../dep
 CHIPYARD_FIRRTL_DIR  = $(deps_dir)/tools/firrtl
-CHIPYARD_RSRCS_DIR   = $(base_dir)/generators/chipyard/src/main/resources
+CHIPYARD_RSRCS_DIR   = $(base_dir)/generator/chipyard/src/main/resources
 
 #########################################################################################
 # names of various files needed to compile and run things

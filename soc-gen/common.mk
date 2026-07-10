@@ -68,7 +68,7 @@ HELP_SIMULATION_VARIABLES += \
 EXTRA_SIM_FLAGS ?=
 NUMACTL         ?= 0
 
-deps_dir ?= $(base_dir)/../deps
+deps_dir ?= $(base_dir)/../dep
 
 NUMA_PREFIX = $(if $(filter $(NUMACTL),0),,$(shell $(deps_dir)/scripts/numa_prefix))
 
@@ -110,7 +110,7 @@ torture-overnight: $(output_dir) $(sim)
 	$(MAKE) -C $(deps_dir)/tools/torture R_SIM=$(sim) OPTIONS="$(TORTURE_ONIGHT_OPTIONS)" rnight
 # Optional generator make fragments should not fail build if absent
 # Wildcard include for standardized per-generator make fragments
--include $(wildcard $(base_dir)/generators/*/chipyard.mk)
+-include $(wildcard $(base_dir)/generator/*/chipyard.mk)
 
 
 #########################################################################################
@@ -129,9 +129,9 @@ lookup_srcs_by_multiple_type = $(foreach type,$(2),$(call lookup_srcs,$(1),$(typ
 
 SCALA_EXT = scala
 VLOG_EXT = sv v
-FIRESIM_SOURCE_DIRS = $(addprefix $(deps_dir)/sims/firesim/,sim/firesim-lib sim/midas/targetutils) $(addprefix $(base_dir)/generators/firechip/,chip bridgeinterfaces bridgestubs) $(deps_dir)/tools/firrtl2
+FIRESIM_SOURCE_DIRS = $(addprefix $(base_dir)/sims/firesim/,sim/firesim-lib sim/midas/targetutils) $(addprefix $(base_dir)/generator/firechip/,chip bridgeinterfaces bridgestubs) $(deps_dir)/tools/firrtl2
 CHIPYARD_SOURCE_DIRS = \
-	$(filter-out $(base_dir)/generators/firechip,$(wildcard $(base_dir)/generators/*)) \
+	$(filter-out $(base_dir)/generator/firechip,$(wildcard $(base_dir)/generator/*)) \
 	$(wildcard $(deps_dir)/fpga/fpga-shells $(deps_dir)/fpga/src $(deps_dir)/tools/stage) \
 	$(FIRESIM_SOURCE_DIRS)
 CHIPYARD_SCALA_SOURCES = $(call lookup_srcs_by_multiple_type,$(CHIPYARD_SOURCE_DIRS),$(SCALA_EXT))
@@ -140,7 +140,7 @@ TAPEOUT_SOURCE_DIRS = $(deps_dir)/tools/tapeout
 TAPEOUT_SCALA_SOURCES = $(call lookup_srcs_by_multiple_type,$(TAPEOUT_SOURCE_DIRS),$(SCALA_EXT))
 TAPEOUT_VLOG_SOURCES = $(call lookup_srcs_by_multiple_type,$(TAPEOUT_SOURCE_DIRS),$(VLOG_EXT))
 # This assumes no SBT meta-build sources
-SBT_SOURCE_DIRS = $(base_dir)/generators $(deps_dir)/tools $(deps_dir)/fpga
+SBT_SOURCE_DIRS = $(base_dir)/generator $(deps_dir)/tools $(deps_dir)/fpga
 SBT_SOURCES = $(call lookup_srcs,$(SBT_SOURCE_DIRS),sbt) $(base_dir)/build.sbt $(base_dir)/project/plugins.sbt $(base_dir)/project/build.properties
 
 $(build_dir):

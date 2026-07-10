@@ -24,7 +24,7 @@ RESET_DELAY ?= 777.7
 #----------------------------------------------------------------------------------------
 # gcc configuration/optimization
 #----------------------------------------------------------------------------------------
-include $(base_dir)/sim/common-sim-flags.mk
+include $(base_dir)/sims/common-sim-flags.mk
 
 VCS_CXXFLAGS = $(SIM_CXXFLAGS)
 VCS_LDFLAGS = $(SIM_LDFLAGS)

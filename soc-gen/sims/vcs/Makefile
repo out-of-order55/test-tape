@@ -40,6 +40,7 @@ SIM_FILE_REQS += \
 # copy files but ignore *.h files in *.f since vcs has +incdir+$(build_dir)
 $(sim_files): $(SIM_FILE_REQS) $(ALL_MODS_FILELIST) | $(GEN_COLLATERAL_DIR)
 	cp -f $(SIM_FILE_REQS) $(GEN_COLLATERAL_DIR)
+	rm -f $@
 	$(foreach file,\
 		$(SIM_FILE_REQS),\
 		$(if $(filter %.h,$(file)),\

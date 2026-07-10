@@ -1,4 +1,4 @@
-# deps transition area
+# dep
 
 `soc-gen` treats this directory as the home for non-SoC-generator dependencies.
 
@@ -12,12 +12,10 @@ Current compatibility links:
 - `fpga -> ../fpga`
 - `scripts -> ../scripts`
 - `sims -> ../sims`
-- `software -> ../software`
 - `toolchains -> ../toolchains`
+
+Application and software trees are exposed through the sibling `app/` entry.
+FireSim is exposed to `soc-gen` through `soc-gen/sims/firesim`.
 
 The next migration phase can replace these links with real directories and then
 update `.gitmodules` paths.
-
-`soc-gen` also exposes selected compatibility links (`tools/`, `fpga/`,
-`sims/`, and `scripts/`) inside its own tree so SBT sees every subproject under
-the `soc-gen` build root.

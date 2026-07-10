@@ -16,17 +16,17 @@ the repository root:
 nix develop --command bash -lc 'cd soc-gen && make CONFIG=RocketConfig verilog'
 ```
 
-By default these commands use `sim/verilator`. Set `SIM=vcs` to use the VCS
+By default these commands use `sims/verilator`. Set `SIM=vcs` to use the VCS
 entry point:
 
 ```sh
 make SIM=vcs CONFIG=RocketConfig verilog
 ```
 
-For this migration phase, `generators/` contains symlinks to the existing
+For this migration phase, `generator/` contains symlinks to the existing
 top-level generator directories and non-generator dependencies are referenced
-through `../deps`.
+through `../dep`.
 
-SBT project bases must remain under the build root, so `tools/`, `fpga/`,
-`sims/`, and `scripts/` are also exposed inside `soc-gen/` as compatibility
-symlinks to `../deps/...`.
+FireSim is exposed through `sims/firesim`, currently as a symlink to the
+existing top-level FireSim checkout. Application/software trees are exposed at
+the repository top level through `../app`.
