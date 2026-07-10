@@ -164,10 +164,15 @@ EOF
           RISCV = "${chipyardRiscvTools}";
           FIRTOOL_BIN = "${circt}/bin/firtool";
           JAVA_HOME = "${pkgs.jdk17_headless}";
-          COURSIER_CACHE = "$PWD/.coursier-cache";
-          SBT_OPTS = "-Dsbt.global.base=$PWD/.sbt -Dsbt.boot.directory=$PWD/.sbt/boot -Dsbt.ivy.home=$PWD/.ivy2";
-          EXTRA_SIM_CXXFLAGS = "-O1";
-          EXTRA_SIM_LDFLAGS = "-no-pie";
+
+          shellHook = ''
+            export CY_DIR="$PWD"
+            export COURSIER_CACHE="$PWD/.coursier-cache"
+            export SBT_OPTS="-Dsbt.global.base=$PWD/.sbt -Dsbt.boot.directory=$PWD/.sbt/boot -Dsbt.ivy.home=$PWD/.ivy2 ''${SBT_OPTS:-}"
+            unset NIX_LDFLAGS
+            export EXTRA_SIM_CXXFLAGS="-O1 ''${EXTRA_SIM_CXXFLAGS:-}"
+            export EXTRA_SIM_LDFLAGS="-no-pie ''${EXTRA_SIM_LDFLAGS:-}"
+          '';
 
           packages = [
             pkgs.autoconf

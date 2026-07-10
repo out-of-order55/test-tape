@@ -102,7 +102,7 @@ jobs:
           mkdir ${{ env.JAVA_TMP_DIR }}
           export MAKEFLAGS="-j32"
           git submodule sync
-          nix develop --no-write-lock-file -c ./build-setup.sh -v
+          ./build-setup.sh -v
       - name: Run config finder
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}

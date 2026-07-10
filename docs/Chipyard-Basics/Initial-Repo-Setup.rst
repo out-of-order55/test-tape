@@ -61,7 +61,7 @@ Next run the following script to fully setup Chipyard with the ``riscv-tools`` t
 
     ``-s 9`` skips pre-compiling FireMarshal default buildroot Linux sources
 
-    ``-s 10`` skips installing CIRCT
+    ``-s 10`` skips the optional CIRCT source build
 
     ``-s 11`` skips running repository clean-up
 

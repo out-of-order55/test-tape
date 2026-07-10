@@ -116,7 +116,7 @@ jobs:
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
           export MAKEFLAGS="-j32"
-          nix develop --no-write-lock-file -c ./build-setup.sh --verbose
+          ./build-setup.sh --verbose
           cd soc-gen/sims/firesim
           source sourceme-manager.sh --skip-ssh-setup
           firesim managerinit --platform xilinx_alveo_u250

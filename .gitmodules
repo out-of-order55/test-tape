@@ -58,9 +58,6 @@
 [submodule "dep/tools/circt"]
 	path = dep/tools/circt
 	url = https://github.com/llvm/circt.git
-[submodule "dep/tools/install-circt"]
-	path = dep/tools/install-circt
-	url = https://github.com/circt/install-circt.git
 [submodule "dep/tools/rocket-dsp-utils"]
 	path = dep/tools/rocket-dsp-utils
 	url = https://github.com/ucb-bar/rocket-dsp-utils.git

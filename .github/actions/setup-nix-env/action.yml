@@ -10,7 +10,7 @@ runs:
           experimental-features = nix-command flakes
     - name: Initialize Nix environment
       run: |
-        nix develop --no-write-lock-file -c ./build-setup.sh \
+        ./build-setup.sh \
           --verbose \
           --skip-submodules \
           --skip-ctags \

@@ -15,7 +15,6 @@ usage() {
     echo "  --help -h               : Display this message"
     echo "  --verbose -v            : Verbose printout"
     echo "  --build-circt           : Build CIRCT from source"
-    echo "  --github-token TOKEN    : Github token for downloading CIRCT"
     echo "  --skip -s N             : Skip step N"
     echo "  --skip-nix              : Skip Nix environment initialization (step 1)"
     echo "  --skip-submodules       : Skip submodule initialization (step 2)"
@@ -24,7 +23,6 @@ usage() {
     echo "  --skip-precompile       : Skip precompiling sources (steps 5/7)"
     echo "  --skip-firesim          : Skip Firesim initialization (steps 6/7)"
     echo "  --skip-marshal          : Skip FireMarshal initialization (steps 8/9)"
-    echo "  --skip-circt            : Skip CIRCT installation (step 10)"
     echo "  --skip-clean            : Skip repository cleanup (step 11)"
     exit "$1"
 }
@@ -33,7 +31,6 @@ TOOLCHAIN_TYPE="riscv-tools"
 VERBOSE_FLAG=""
 SKIP_LIST=()
 BUILD_CIRCT=false
-GITHUB_TOKEN="null"
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -46,9 +43,6 @@ while [ "$#" -gt 0 ]; do
             set -x ;;
         --build-circt)
             BUILD_CIRCT=true ;;
-        --github-token)
-            shift
-            GITHUB_TOKEN="$1" ;;
         --skip|-s)
             shift
             SKIP_LIST+=("$1") ;;
@@ -66,8 +60,6 @@ while [ "$#" -gt 0 ]; do
             SKIP_LIST+=(6 7) ;;
         --skip-marshal)
             SKIP_LIST+=(8 9) ;;
-        --skip-circt)
-            SKIP_LIST+=(10) ;;
         --skip-clean)
             SKIP_LIST+=(11) ;;
         *)
@@ -149,19 +141,9 @@ begin_step() {
         popd
     fi
 
-    if run_step 10; then
-        begin_step 10 "Installing CIRCT"
-        if [ "$BUILD_CIRCT" = true ]; then
-            "$CYDIR/dep/scripts/build-circt-from-source.sh" --prefix "$RISCV"
-        else
-            git submodule update --init "$CYDIR/dep/tools/install-circt"
-            "$CYDIR/dep/tools/install-circt/bin/download-release-or-nightly-circt.sh" \
-                -f circt-full-static-linux-x64.tar.gz \
-                -i "$RISCV" \
-                -v version-file \
-                -x "$CYDIR/dep/circt-version.json" \
-                -g "$GITHUB_TOKEN"
-        fi
+    if run_step 10 && [ "$BUILD_CIRCT" = true ]; then
+        begin_step 10 "Building CIRCT from source"
+        "$CYDIR/dep/scripts/build-circt-from-source.sh" --prefix "$RISCV"
     fi
 
     if run_step 11; then

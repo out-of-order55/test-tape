@@ -9,14 +9,15 @@ if ! command -v nix >/dev/null 2>&1; then
 fi
 
 # Read the Nix shell environment through Bash so this file is also sourceable from zsh.
-NIX_PATH=$(cd "$CY_DIR" && nix develop --no-write-lock-file --command bash -c 'printf %s "$PATH"')
-NIX_JAVA_HOME=$(cd "$CY_DIR" && nix develop --no-write-lock-file --command bash -c 'printf %s "$JAVA_HOME"')
-NIX_FIRTOOL_BIN=$(cd "$CY_DIR" && nix develop --no-write-lock-file --command bash -c 'printf %s "$FIRTOOL_BIN"')
+NIX_ENV=$(cd "$CY_DIR" && nix develop --no-write-lock-file --command bash -c \
+    'printf "%s\n%s\n%s" "$PATH" "$JAVA_HOME" "$RISCV"')
+NIX_PATH=${NIX_ENV%%$'\n'*}
+NIX_ENV_REST=${NIX_ENV#*$'\n'}
+NIX_JAVA_HOME=${NIX_ENV_REST%%$'\n'*}
+NIX_RISCV=${NIX_ENV_REST#*$'\n'}
 export PATH="$NIX_PATH"
 export JAVA_HOME="$NIX_JAVA_HOME"
-export FIRTOOL_BIN="$NIX_FIRTOOL_BIN"
 
-NIX_RISCV=$(cd "$CY_DIR" && nix build .#chipyardRiscvTools --no-link --print-out-paths)
 export RISCV="$CY_DIR/.nix-riscv"
 mkdir -p "$RISCV"
 for directory in bin include lib riscv64-unknown-elf; do
@@ -24,6 +25,23 @@ for directory in bin include lib riscv64-unknown-elf; do
         cp -a "$NIX_RISCV/$directory" "$RISCV/$directory"
     fi
 done
+
+# Keep the local toolchain prefix writable for the extra tools built by build-setup.sh.
+find -P "$RISCV" -type d -exec chmod u+rwx {} +
+while IFS= read -r -d '' link; do
+    target=$(readlink -f "$link" 2>/dev/null || true)
+    case "$target" in
+            /nix/store/*)
+            temporary_dir=$(mktemp -d "${TMPDIR:-/tmp}/chipyard-nix-link.XXXXXX")
+            cp -aL "$link" "$temporary_dir/value"
+            chmod -R u+rwX "$temporary_dir/value"
+            rm "$link"
+            mv "$temporary_dir/value" "$link"
+            rmdir "$temporary_dir"
+            ;;
+    esac
+done < <(find "$RISCV" -type l -print0)
+
 export PATH="$RISCV/bin:$PATH"
 
 export FIRTOOL_BIN="$(command -v firtool)"

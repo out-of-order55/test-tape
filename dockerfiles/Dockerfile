@@ -45,7 +45,7 @@ SHELL ["/bin/bash", "-cl"]
 # Initialize the repository in the Nix development environment.
 RUN cd chipyard && \
         export MAKEFLAGS=-"j $(nproc)" && \
-        nix develop -c ./build-setup.sh --skip-firesim --skip-marshal --skip-precompile
+        ./build-setup.sh --skip-firesim --skip-marshal --skip-precompile
 
 # Set up FireMarshal. Building and cleaning br-base.json builds the underlying
 # buildroot image (which takes a long time) but doesn't keep all the br-base
