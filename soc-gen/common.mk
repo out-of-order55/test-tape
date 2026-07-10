@@ -140,8 +140,9 @@ TAPEOUT_SOURCE_DIRS = $(deps_dir)/tools/tapeout
 TAPEOUT_SCALA_SOURCES = $(call lookup_srcs_by_multiple_type,$(TAPEOUT_SOURCE_DIRS),$(SCALA_EXT))
 TAPEOUT_VLOG_SOURCES = $(call lookup_srcs_by_multiple_type,$(TAPEOUT_SOURCE_DIRS),$(VLOG_EXT))
 # This assumes no SBT meta-build sources
+SBT_ROOT ?= $(base_dir)/..
 SBT_SOURCE_DIRS = $(base_dir)/generator $(deps_dir)/tools $(deps_dir)/fpga
-SBT_SOURCES = $(call lookup_srcs,$(SBT_SOURCE_DIRS),sbt) $(base_dir)/build.sbt $(base_dir)/project/plugins.sbt $(base_dir)/project/build.properties
+SBT_SOURCES = $(call lookup_srcs,$(SBT_SOURCE_DIRS),sbt) $(SBT_ROOT)/build.sbt $(SBT_ROOT)/project/plugins.sbt $(SBT_ROOT)/project/build.properties
 
 $(build_dir):
 	mkdir -p $@
@@ -353,7 +354,7 @@ $(MODEL_MACRO_STAMP): $(TAPEOUT_CLASSPATH) $(MODEL_SMEMS_CONF)
 # note: {MODEL,TOP}_BB_MODS_FILELIST is added as a req. so that the files get generated,
 #       however it is really unneeded since ALL_MODS_FILELIST includes all BB files
 ########################################################################################
-$(sim_common_files): $(sim_files) $(ALL_MODS_FILELIST) $(TOP_SMEMS_FILE) $(MODEL_SMEMS_FILE) $(BB_MODS_FILELIST) $(EXT_FILELISTS)
+$(sim_common_files): $(sim_files) $(ALL_MODS_FILELIST) $(TOP_SMEMS_FILE) $(MODEL_SMEMS_FILE) $(BB_MODS_FILELIST) $(EXT_FILELISTS) $(base_dir)/common.mk $(sim_dir)/Makefile
 ifneq (,$(EXT_FILELISTS))
 	cat $(EXT_FILELISTS) > $@
 else
@@ -526,7 +527,7 @@ $(dramsim_lib):
 SBT_COMMAND ?= shell
 .PHONY: launch-sbt
 launch-sbt:
-	cd $(base_dir) && $(SBT) "$(SBT_COMMAND)"
+	cd $(base_dir)/.. && $(SBT) "$(SBT_COMMAND)"
 
 #########################################################################################
 # print help text (and other help)

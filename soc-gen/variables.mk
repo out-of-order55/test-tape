@@ -230,13 +230,13 @@ endef
 # (2) - main class
 # (3) - main class arguments
 define run_scala_main
-	cd $(base_dir) && $(SBT) ";project $(1); runMain $(2) $(3)"
+	cd $(base_dir)/.. && $(SBT) ";project $(1); runMain $(2) $(3)"
 endef
 
 # (1) - sbt project to assemble
 # (2) - classpath file(s) to create
 define run_sbt_assembly
-	cd $(base_dir) && $(SBT) ";project $(1); set assembly / assemblyOutputPath := file(\"$(2)\"); assembly" && touch $(2)
+	cd $(base_dir)/.. && $(SBT) ";project $(1); set assembly / assemblyOutputPath := file(\"$(2)\"); assembly" && touch $(2)
 endef
 
 #########################################################################################

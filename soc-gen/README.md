@@ -25,7 +25,9 @@ make SIM=vcs CONFIG=RocketConfig verilog
 
 For this migration phase, `generator/` contains symlinks to the existing
 top-level generator directories and non-generator dependencies are referenced
-through `../dep`.
+through the sibling `../dep`. `soc-gen` intentionally does not contain a `dep/`
+entry; the SBT build is loaded from the repository root so `soc-gen/generator`
+and `dep` are both inside the build root.
 
 FireSim is exposed through `sims/firesim`, currently as a symlink to the
 existing top-level FireSim checkout. Application/software trees are exposed at
