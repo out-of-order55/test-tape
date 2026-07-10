@@ -7,7 +7,7 @@ To build the tests, we do the following procedure.
 First, we clean the previous build. This step is recommended when any changes are made to the CMake build flow. This is equivalent to running `make clean` to the CMake build system.
 
 ```bash
-cd $chipyard/tests/
+cd $chipyard/app/tests/
 rm -rf ./build/
 ```
 

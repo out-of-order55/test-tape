@@ -81,7 +81,7 @@ run-xsim: $(xsim)
 EMUL ?= verilator
 
 # Firechip Tests
-fc_test_dir = $(chipyard_dir)/tests
+fc_test_dir = $(chipyard_dir)/app/tests
 fc_test_srcs = $(wildcard $(fc_test_dir)/*.c)
 fc_test_hdrs = $(wildcard $(fc_test_dir)/*.h)
 
