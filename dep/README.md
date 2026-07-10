@@ -11,11 +11,11 @@ Current compatibility links:
 - `tools -> ../tools`
 - `fpga -> ../fpga`
 - `scripts -> ../scripts`
-- `sims -> ../sims`
 - `toolchains -> ../toolchains`
 
 Application and software trees are exposed through the sibling `app/` entry.
-FireSim is exposed to `soc-gen` through `soc-gen/sims/firesim`.
+Simulation trees belong to `soc-gen/sims`; FireSim is exposed there through
+`soc-gen/sims/firesim`.
 
 The next migration phase can replace these links with real directories and then
 update `.gitmodules` paths.

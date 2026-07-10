@@ -4,7 +4,8 @@
 .sbt/
 target/
 project/target/
+project/metals.sbt
+project/project/metals.sbt
 project/project/target/
 project/.bloop/
 project/project/.bloop/
-
