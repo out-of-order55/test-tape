@@ -2,7 +2,7 @@ Accessing Scala Resources
 ===============================
 
 A simple way to copy over a source file to the build directory to be used for a simulation compile or VLSI flow is to use the ``addResource`` function given by FIRRTL.
-An example of its use can be seen in `generators/testchipip/src/main/scala/SimTSI.scala <https://github.com/ucb-bar/testchipip/blob/master/src/main/scala/SimTSI.scala>`_.
+An example of its use can be seen in `soc-gen/generator/testchipip/src/main/scala/SimTSI.scala <https://github.com/ucb-bar/testchipip/blob/master/src/main/scala/SimTSI.scala>`_.
 Here is the example inlined:
 
 .. code-block:: scala
@@ -30,6 +30,6 @@ For example:
 
 .. code-block:: scala
 
-    lazy val myAwesomeAccel = (project in file("generators/myAwesomeAccelFolder"))
+    lazy val myAwesomeAccel = (project in file("soc-gen/generator/myAwesomeAccelFolder"))
       .dependsOn(rocketchip)
       .settings(commonSettings)

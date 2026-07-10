@@ -45,7 +45,7 @@ case $1 in
     chipyard-dmirocket)
         # Test checkpoint-restore without cospike
         # TODO: This is broken on verilator for some reason
-        # $LOCAL_CHIPYARD_DIR/scripts/generate-ckpt.sh -b $RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/dhrystone.riscv -i 10000
+        # $LOCAL_CHIPYARD_DIR/dep/scripts/generate-ckpt.sh -b $RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/dhrystone.riscv -i 10000
         # run_binary LOADARCH=$PWD/dhrystone.riscv.0x80000000.unused.10000.defaultspikedts.loadarch EXTRA_SIM_FLAGS="+cospike-enable=0"
         # Test cospike without checkpoint-restore
         run_binary BINARY=$RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/dhrystone.riscv LOADMEM=1
@@ -56,7 +56,7 @@ case $1 in
         ;;
     chipyard-dmiboomv3|chipyard-dmiboomv4)
         # Test checkpoint-restore
-        $LOCAL_CHIPYARD_DIR/scripts/generate-ckpt.sh -b $RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/dhrystone.riscv -i 10000
+        $LOCAL_CHIPYARD_DIR/dep/scripts/generate-ckpt.sh -b $RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/dhrystone.riscv -i 10000
         run_binary LOADARCH=$PWD/dhrystone.riscv.0x80000000.unused.10000.defaultspikedts.loadarch
         ;;
     chipyard-hetero)
@@ -66,7 +66,7 @@ case $1 in
         run_binary BINARY=$RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/dhrystone.riscv LOADMEM=1
         ;;
     chipyard-gemmini)
-        GEMMINI_SOFTWARE_DIR=$LOCAL_SIM_DIR/../../generators/gemmini/software/gemmini-rocc-tests
+        GEMMINI_SOFTWARE_DIR=$LOCAL_CHIPYARD_DIR/soc-gen/generator/gemmini/software/gemmini-rocc-tests
         rm -rf $GEMMINI_SOFTWARE_DIR/riscv-tests
         cd $LOCAL_SIM_DIR
         run_binary BINARY=$GEMMINI_SOFTWARE_DIR/build/bareMetalC/aligned-baremetal LOADMEM=1
@@ -74,12 +74,12 @@ case $1 in
         run_binary BINARY=$GEMMINI_SOFTWARE_DIR/build/bareMetalC/mvin_mvout-baremetal LOADMEM=1
         ;;
     chipyard-mempress)
-        (cd $LOCAL_CHIPYARD_DIR/generators/mempress/software/src && make)
-        run_binary BINARY=$LOCAL_CHIPYARD_DIR/generators/mempress/software/src/mempress-rocc.riscv LOADMEM=1
+        (cd $LOCAL_CHIPYARD_DIR/soc-gen/generator/mempress/software/src && make)
+        run_binary BINARY=$LOCAL_CHIPYARD_DIR/soc-gen/generator/mempress/software/src/mempress-rocc.riscv LOADMEM=1
         ;;
     chipyard-compressacc)
-        (cd $LOCAL_CHIPYARD_DIR/generators/compress-acc/software-zstd/compress && ./build-hcb-single-file.sh)
-        run_binary BINARY=$LOCAL_CHIPYARD_DIR/generators/compress-acc/software-zstd/compress/009987_cl0_ws12.riscv LOADMEM=1
+        (cd $LOCAL_CHIPYARD_DIR/soc-gen/generator/compress-acc/software-zstd/compress && ./build-hcb-single-file.sh)
+        run_binary BINARY=$LOCAL_CHIPYARD_DIR/soc-gen/generator/compress-acc/software-zstd/compress/009987_cl0_ws12.riscv LOADMEM=1
         ;;
     chipyard-manymmioaccels)
         build_tests
@@ -127,8 +127,8 @@ case $1 in
         run_binary BINARY=$LOCAL_CHIPYARD_DIR/tests/hello.riscv LOADMEM=1
         ;;
     chipyard-rerocc)
-        make -C $LOCAL_CHIPYARD_DIR/generators/rerocc/software
-        run_binary BINARY=$LOCAL_CHIPYARD_DIR/generators/rerocc/software/test.riscv LOADMEM=1
+        make -C $LOCAL_CHIPYARD_DIR/soc-gen/generator/rerocc/software
+        run_binary BINARY=$LOCAL_CHIPYARD_DIR/soc-gen/generator/rerocc/software/test.riscv LOADMEM=1
         ;;
     chipyard-rocketvector|chipyard-shuttlevector)
         run_binary BINARY=$RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/vec-sgemm.riscv LOADMEM=1
@@ -174,7 +174,7 @@ case $1 in
         run_binary LOADMEM=1 BINARY=$RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/dhrystone.riscv
         ;;
     chipyard-zephyr)
-        run_binary LOADMEM=1 BINARY=$LOCAL_CHIPYARD_DIR/software/zephyrproject/zephyr/build/zephyr/zephyr.elf
+        run_binary LOADMEM=1 BINARY=$LOCAL_CHIPYARD_DIR/app/zephyrproject/zephyr/build/zephyr/zephyr.elf
         ;;
     chipyard-radiance)
         # Verilator fails to build sim binary, just generate verilog

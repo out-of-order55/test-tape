@@ -104,7 +104,7 @@ jobs:
           cd ${{ env.REMOTE_WORK_DIR }}
           eval "$(conda shell.bash hook)"
           source env.sh
-          cd sims/verilator
+          cd soc-gen/sims/verilator
           make find-config-fragments
           make find-configs
       - name: Run smoke test
@@ -112,7 +112,7 @@ jobs:
           cd ${{ env.REMOTE_WORK_DIR }}
           eval "$(conda shell.bash hook)"
           source env.sh
-          cd sims/verilator
+          cd soc-gen/sims/verilator
           make verilog
       - name: VLSI test
         run: |
@@ -174,10 +174,10 @@ jobs:
           cd ${{ env.REMOTE_WORK_DIR }}
           eval "$(conda shell.bash hook)"
           source env.sh
-          pushd sims/firesim
+          pushd soc-gen/sims/firesim
           source sourceme-manager.sh --skip-ssh-setup
           popd
-          cd sims/firesim-staging
+          cd soc-gen/sims/firesim-staging
           export TEST_DISABLE_VERILATOR=1
           export TEST_DISABLE_VIVADO=1
           make launch-sbt SBT_COMMAND=";project firechip_bridgestubs; testOnly firechip.bridgestubs.BridgeTests"
@@ -186,10 +186,10 @@ jobs:
           cd ${{ env.REMOTE_WORK_DIR }}
           eval "$(conda shell.bash hook)"
           source env.sh
-          pushd sims/firesim
+          pushd soc-gen/sims/firesim
           source sourceme-manager.sh --skip-ssh-setup
           popd
-          cd sims/firesim-staging
+          cd soc-gen/sims/firesim-staging
           export TEST_MINIMAL_BENCHMARKS=1 # seems like dhrystone is the longest so this doesn't affect runtime much
           export TEST_DISABLE_VERILATOR=1
           export TEST_DISABLE_VIVADO=1

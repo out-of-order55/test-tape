@@ -21,9 +21,9 @@ runs:
       id: rtl-build-id
       with:
         path: |
-          sims/verilator
-          sims/firesim/sim
-          generators/gemmini/software/gemmini-rocc-tests
+          soc-gen/sims/verilator
+          soc-gen/sims/firesim/sim
+          soc-gen/generator/gemmini/software/gemmini-rocc-tests
         key: ${{ inputs.group-key }}-${{ github.sha }}
 
     - name: Run RTL build if not cached

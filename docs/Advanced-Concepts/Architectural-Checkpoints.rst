@@ -14,15 +14,15 @@ RTL simulations of SoCs can resume execution from checkpoints after restoring th
 Generating Checkpoints
 ------------------------
 
-``scripts/generate-ckpt.sh`` is a script that runs Spike with the right commands to generate an architectural checkpoint.
-``scripts/generate-ckpt.sh -h`` lists options for checkpoint generation.
+``dep/scripts/generate-ckpt.sh`` is a script that runs Spike with the right commands to generate an architectural checkpoint.
+``dep/scripts/generate-ckpt.sh -h`` lists options for checkpoint generation.
 
 Example: run the ``hello.riscv`` binary for 1000 instructions before generating a checkpoint.
 This should produce a directory named ``hello.riscv.*.loadarch``
 
 .. code::
 
-   scripts/generate-ckpt.sh -b tests/hello.riscv -i 1000
+   dep/scripts/generate-ckpt.sh -b tests/hello.riscv -i 1000
 
 
 Loading Checkpoints in RTL Simulation
@@ -37,7 +37,7 @@ The target config needs the following properties:
 
 .. code::
 
-   cd sims/vcs
+   cd soc-gen/sims/vcs
    make CONFIG=dmiRocketConfig run-binary LOADARCH=../../hello.riscv.*.loadarch
 
 Checkpointing Linux Binaries

@@ -19,7 +19,7 @@ submodules are located in the ``software`` directory.
 
 .. code-block:: shell
 
-    ./scripts/init-software.sh
+    ./dep/scripts/init-software.sh
 
 
 .. toctree::

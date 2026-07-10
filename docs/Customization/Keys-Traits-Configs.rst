@@ -7,7 +7,7 @@ You have probably seen snippets of Chisel referencing keys, traits, and configs 
 This section aims to elucidate the interactions between these Chisel/Scala components, and provide
 best practices for how these should be used to create a parameterized design and configure it.
 
-We will continue to use the `GCD example <https://ucb.bar/cy/generators/chipyard/src/main/scala/example/GCD.scala>`__.
+We will continue to use the `GCD example <https://ucb.bar/cy/soc-gen/generator/chipyard/src/main/scala/example/GCD.scala>`__.
 
 Keys
 ----
@@ -16,7 +16,7 @@ Keys specify some parameter which controls some custom widget. Keys should typic
 
 Keys should be defined and documented in sub-projects, since they generally deal with some specific block, and not system-level integration. (We make an exception for the example GCD widget).
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD key
     :end-before: DOC include end: GCD key
@@ -24,7 +24,7 @@ Keys should be defined and documented in sub-projects, since they generally deal
 The object within a key is typically a ``case class XXXParams``, which defines a set of parameters which some block accepts. For example, the GCD widget's ``GCDParams`` parameterizes its address, operand widths, whether the widget should be connected by Tilelink or AXI4, and whether the widget should use the blackbox-Verilog implementation, or the Chisel implementation.
 
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD params
     :end-before: DOC include end: GCD params
@@ -42,14 +42,14 @@ Top-level traits should be defined and documented in subprojects, alongside thei
 
 Below we see the traits for the GCD example. The Lazy trait connects the GCD module to the Diplomacy graph.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD lazy trait
     :end-before: DOC include end: GCD lazy trait
 
 These traits are added to the default ``DigitalTop`` in Chipyard.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/DigitalTop.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/DigitalTop.scala
     :language: scala
     :start-after: DOC include start: DigitalTop
     :end-before: DOC include end: DigitalTop
@@ -61,14 +61,14 @@ Config fragments set the keys to a non-default value. Together, the collection o
 
 For example, the ``WithGCD`` config fragment is parameterized by the type of GCD widget you want to instantiate. When this config fragment is added to a config, the ``GCDKey`` is set to a instance of ``GCDParams``, informing the previously mentioned traits to instantiate and connect the GCD widget appropriately.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD config fragment
     :end-before: DOC include end: GCD config fragment
 
 We can use this config fragment when composing our configs.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala
     :language: scala
     :start-after: DOC include start: GCDTLRocketConfig
     :end-before: DOC include end: GCDTLRocketConfig

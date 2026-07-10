@@ -16,16 +16,16 @@ source $SCRIPT_DIR/defaults.sh
 
 cd $REMOTE_CHIPYARD_DIR
 git submodule sync
-./scripts/init-submodules-no-riscv-tools.sh --full
+./dep/scripts/init-submodules-no-riscv-tools.sh --full
 
 # Constellation can run without espresso, but this improves
 # elaboration time drastically
-pushd $REMOTE_CHIPYARD_DIR/generators/constellation
+pushd $REMOTE_CHIPYARD_DIR/soc-gen/generator/constellation
 scripts/install-espresso.sh $RISCV
 popd
 
 if [ $1 = "group-accels" ]; then
-    pushd $REMOTE_CHIPYARD_DIR/generators/gemmini/software
+    pushd $REMOTE_CHIPYARD_DIR/soc-gen/generator/gemmini/software
     git submodule update --init --recursive gemmini-rocc-tests
     pushd gemmini-rocc-tests
     ./build.sh

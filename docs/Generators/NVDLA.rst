@@ -12,5 +12,5 @@ For more information on both the HW architecture and the SW, please visit their 
 NVDLA Software with FireMarshal
 -------------------------------
 
-Located at ``software/nvdla-workload`` is a FireMarshal-based workload to boot Linux with the proper NVDLA drivers.
+Located at ``app/nvdla-workload`` is a FireMarshal-based workload to boot Linux with the proper NVDLA drivers.
 Refer to that ``README.md`` for more information on how to run a simulation.

@@ -15,7 +15,7 @@ For TileLink devices, you can use the ``regmap`` interface of the ``TLRegisterNo
 Basic Usage
 -----------
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/RegisterNodeExample.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/RegisterNodeExample.scala
     :language: scala
     :start-after: DOC include start: MyDeviceController
     :end-before: DOC include end: MyDeviceController
@@ -53,7 +53,7 @@ register. The ``RegField`` interface also provides support for reading
 and writing ``DecoupledIO`` interfaces. For instance, you can implement a
 hardware FIFO like so.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/RegisterNodeExample.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/RegisterNodeExample.scala
     :language: scala
     :start-after: DOC include start: MyQueueRegisters
     :end-before: DOC include end: MyQueueRegisters
@@ -68,7 +68,7 @@ You need not specify both read and write for a register. You can also create
 read-only or write-only registers. So for the previous example, if you wanted
 enqueue and dequeue to use different addresses, you could write the following.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/RegisterNodeExample.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/RegisterNodeExample.scala
     :language: scala
     :start-after: DOC include start: MySeparateQueueRegisters
     :end-before: DOC include end: MySeparateQueueRegisters
@@ -90,7 +90,7 @@ You can also create registers using functions. Say, for instance, that you
 want to create a counter that gets incremented on a write and decremented on
 a read.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/RegisterNodeExample.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/RegisterNodeExample.scala
     :language: scala
     :start-after: DOC include start: MyCounterRegisters
     :end-before: DOC include end: MyCounterRegisters
@@ -104,7 +104,7 @@ You can also pass functions that decouple the read/write request and response.
 The request will appear as a decoupled input and the response as a decoupled
 output. So for instance, if we wanted to do this for the previous example.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/RegisterNodeExample.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/RegisterNodeExample.scala
     :language: scala
     :start-after: DOC include start: MyCounterReqRespRegisters
     :end-before: DOC include end: MyCounterReqRespRegisters
@@ -128,7 +128,7 @@ change the protocol being used. For instance, in the first example in
 :ref:`TileLink-Diplomacy-Reference/Register-Node:Basic Usage`, you could simply change the ``TLRegisterNode`` to
 and ``AXI4RegisterNode``.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/RegisterNodeExample.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/RegisterNodeExample.scala
     :language: scala
     :start-after: DOC include start: MyAXI4DeviceController
     :end-before: DOC include end: MyAXI4DeviceController

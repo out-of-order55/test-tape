@@ -12,10 +12,10 @@ having the CPU poll data from the device, we may want to have the device write
 directly to the coherent memory system instead. For example, here is a device
 that writes zeros to the memory at a configured address.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/InitZero.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/InitZero.scala
     :language: scala
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/DigitalTop.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/DigitalTop.scala
     :language: scala
     :start-after: DOC include start: DigitalTop
     :end-before: DOC include end: DigitalTop
@@ -26,12 +26,12 @@ For more info on creating TileLink client nodes, take a look at :ref:`TileLink-D
 
 Once we've created our top-level module including the DMA widget, we can create a configuration for it as we did before.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/InitZero.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/InitZero.scala
     :language: scala
     :start-after: DOC include start: WithInitZero
     :end-before: DOC include end: WithInitZero
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala
     :language: scala
     :start-after: DOC include start: InitZeroRocketConfig
     :end-before: DOC include end: InitZeroRocketConfig

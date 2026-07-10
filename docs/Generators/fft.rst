@@ -7,7 +7,7 @@ Configuration
 --------------------------
 The following configuration creates an 8-point FFT:
 
-.. literalinclude:: ../../generators/fft-generator/chipyard/FFTConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/fft-generator/chipyard/FFTConfigs.scala
    :language: scala
    :start-after: DOC include start: FFTRocketConfig
    :end-before: DOC include end: FFTRocketConfig
@@ -20,7 +20,7 @@ To build a simulation of this example Chipyard config, run the following command
 
 .. code-block:: shell
 
-    cd sims/verilator # or "cd sims/vcs"
+    cd soc-gen/sims/verilator # or "cd soc-gen/sims/vcs"
     make CONFIG=FFTRocketConfig
 
 Usage and Testing

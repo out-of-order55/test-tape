@@ -48,12 +48,12 @@ By default, Chipyard uses the Tethered Serial Interface (TSI) to communicate wit
 TSI protocol is an implementation of HTIF that is used to send commands to the RISC-V DUT.
 These TSI commands are simple R/W commands that are able to access the DUT's memory space.
 During simulation, the host sends TSI commands to a simulation stub in the test harness called ``SimTSI``
-(C++ class) that resides in a ``SimTSI`` Verilog module (both are located in the ``generators/testchipip``
+(C++ class) that resides in a ``SimTSI`` Verilog module (both are located in the ``soc-gen/generator/testchipip``
 project).
 This ``SimTSI`` Verilog module then sends the TSI command recieved by the simulation stub
 to an adapter that converts the TSI command into a TileLink request.
-This conversion is done by the ``TSIToTileLink`` module (located in the ``generators/testchipip`` project).
-After the transaction is converted to TileLink, the ``TLSerdesser`` (located in ``generators/testchipip``) serializes the
+This conversion is done by the ``TSIToTileLink`` module (located in the ``soc-gen/generator/testchipip`` project).
+After the transaction is converted to TileLink, the ``TLSerdesser`` (located in ``soc-gen/generator/testchipip``) serializes the
 transaction and sends it to the chip (this ``TLSerdesser`` is sometimes also referred to as a digital serial-link or SerDes).
 Once the serialized transaction is received on the chip, it is deserialized and masters a TileLink bus on the chip
 which handles the request.
@@ -72,9 +72,9 @@ and is responsible for managing communication between the DUT and whatever lives
 This is implemented in the Rocket Chip ``Subsystem`` by having the ``HasPeripheryDebug`` and ``HasPeripheryDebugModuleImp`` traits.
 During simulation, the host sends DMI commands to a
 simulation stub called ``SimDTM`` (C++ class) that resides in a ``SimDTM`` Verilog module
-(both are located in the ``generators/rocket-chip`` project). This ``SimDTM`` Verilog module then
+(both are located in the ``soc-gen/generator/rocket-chip`` project). This ``SimDTM`` Verilog module then
 sends the DMI command recieved by the simulation stub into the DUT which then converts the DMI
-command into a TileLink request. This conversion is done by the DTM named ``DebugModule`` in the ``generators/rocket-chip`` project.
+command into a TileLink request. This conversion is done by the DTM named ``DebugModule`` in the ``soc-gen/generator/rocket-chip`` project.
 When the DTM receives the program to load, it starts to write the binary byte-wise into memory.
 This is considerably slower than the TSI protocol communication pipeline (i.e. ``SimTSI``/``TSIToTileLink``/TileLink)
 which directly writes the program binary to memory.
@@ -89,18 +89,18 @@ As a reminder, to run a software RTL simulation, run:
 
 .. code-block:: bash
 
-   cd sims/verilator
+   cd soc-gen/sims/verilator
    # or
-   cd sims/vcs
+   cd soc-gen/sims/vcs
 
    make CONFIG=RocketConfig run-asm-tests
 
 If you would like to build and simulate a Chipyard configuration with a DTM configured for DMI communication,
 then you must tie-off the serial-link interface, and instantiate the `SimDTM`.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/PeripheralDeviceConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/PeripheralDeviceConfigs.scala
     :language: scala
-    :prepend: // ucb.bar/chipyard/generators/chipyard/src/main/scala/config/PeripheralDeviceConfigs.scala
+    :prepend: // ucb.bar/chipyard/soc-gen/generator/chipyard/src/main/scala/config/PeripheralDeviceConfigs.scala
     :start-after: DOC include start: DmiRocket
     :end-before: DOC include end: DmiRocket
 
@@ -108,9 +108,9 @@ Then you can run simulations with the new DMI-enabled top-level and test-harness
 
 .. code-block:: bash
 
-    cd sims/verilator
+    cd soc-gen/sims/verilator
     # or
-    cd sims/vcs
+    cd soc-gen/sims/vcs
 
     make CONFIG=dmiRocketConfig run-asm-tests
 
@@ -121,7 +121,7 @@ Another way to interface with the DUT is to use JTAG.
 Similar to the :ref:`Advanced-Concepts/Chip-Communication:Using the Debug Module interface (DMI)` section, in order to use the JTAG protocol,
 the DUT needs to contain a Debug Transfer Module (DTM) configured to use JTAG instead of DMI.
 Once the JTAG port is exposed, the host can communicate over JTAG to the DUT through a simulation stub
-called ``SimJTAG`` (C++ class) that resides in a ``SimJTAG`` Verilog module (both reside in the ``generators/rocket-chip`` project).
+called ``SimJTAG`` (C++ class) that resides in a ``SimJTAG`` Verilog module (both reside in the ``soc-gen/generator/rocket-chip`` project).
 This simulation stub creates a socket that OpenOCD and GDB can connect to when the simulation is running.
 The default Chipyard designs instantiate the DTM configured to use JTAG (i.e. ``RocketConfig``).
 
@@ -410,8 +410,8 @@ This system can be generated and simulated with the following example configurat
 a ``ChipLikeRocketConfig`` (the design to be taped-out) with the ``ChipBringupHostConfig`` (the FPGA
 bringup design).
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/ChipConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/ChipConfigs.scala
     :language: scala
-    :prepend: // ucb.bar/chipyard/generators/chipyard/src/main/scala/config/ChipConfigs.scala
+    :prepend: // ucb.bar/chipyard/soc-gen/generator/chipyard/src/main/scala/config/ChipConfigs.scala
     :start-after: DOC include start: TetheredChipLikeRocketConfig
     :end-before: DOC include end: TetheredChipLikeRocketConfig

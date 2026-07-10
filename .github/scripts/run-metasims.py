@@ -16,7 +16,7 @@ def run_parallel_metasim():
 
     with prefix(f"cd {remote_fsim_dir}"):
         with prefix('source sourceme-manager.sh --skip-ssh-setup'):
-            with prefix(f'cd {remote_cy_dir}/software/firemarshal'):
+            with prefix(f'cd {remote_cy_dir}/app/firemarshal'):
                 # build hello world baremetal test
                 run("./marshal -v build test/bare.yaml")
                 run("./marshal -v install test/bare.yaml")
@@ -31,7 +31,7 @@ def run_parallel_metasim():
 
                 def run_firesim_cmd(typ, extra_args = ""):
                     timeout_prefix = f"timeout {timeout} "
-                    firesim_opts = f"-c {workload} -a {remote_cy_dir}/sims/firesim-staging/sample_config_hwdb.yaml -r {remote_cy_dir}/sims/firesim-staging/sample_config_build_recipes.yaml"
+                    firesim_opts = f"-c {workload} -a {remote_cy_dir}/soc-gen/sims/firesim-staging/sample_config_hwdb.yaml -r {remote_cy_dir}/soc-gen/sims/firesim-staging/sample_config_build_recipes.yaml"
                     return run_warn_only(f"{timeout_prefix} firesim {firesim_opts} {extra_args} {typ}", pty=False)
 
                 # unique tag based on the ci workflow and filename is needed to ensure
@@ -67,8 +67,8 @@ def run_parallel_metasim():
                     else:
                         print(f"Workload {workload} successful.")
 
-            run_w_timeout(f"{remote_cy_dir}/sims/firesim-staging/ci/hello-world-localhost-vcs-metasim.yaml", "45m")
-            run_w_timeout(f"{remote_cy_dir}/sims/firesim-staging/ci/hello-world-localhost-verilator-metasim.yaml", "45m")
+            run_w_timeout(f"{remote_cy_dir}/soc-gen/sims/firesim-staging/ci/hello-world-localhost-vcs-metasim.yaml", "45m")
+            run_w_timeout(f"{remote_cy_dir}/soc-gen/sims/firesim-staging/ci/hello-world-localhost-verilator-metasim.yaml", "45m")
 
 if __name__ == "__main__":
     execute(run_parallel_metasim, hosts=["localhost"])

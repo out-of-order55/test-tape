@@ -96,26 +96,26 @@ where ``#`` is the SPI flash ID (usually ``0``).
 Chip ID Pin
 ---------------
 
-The chip ID pin sets the chip ID for the chip it is added to. This is most useful in 
-multi-chip configs. The pin value is driven by the chip ID value set in the harness 
+The chip ID pin sets the chip ID for the chip it is added to. This is most useful in
+multi-chip configs. The pin value is driven by the chip ID value set in the harness
 binder and the chip ID value can be read through MMIO at the address ``0x2000`` by default.
 
 The pin can be added to a system with the ``testchipip.soc.WithChipIdPin`` config. The pin
-width and MMIO address are parameterizable and can be set by passing ``ChipIdPinParams`` as an 
+width and MMIO address are parameterizable and can be set by passing ``ChipIdPinParams`` as an
 argument to the config. The width can additionally be set using the ``testchipip.soc.WithChipIdPinWidth``
-config. 
+config.
 
 CTC
 ---------------
 
-The CTC (Chip-To-Chip) link converts TileLink requests to a simple 32-bit protocol, 
-similar to TSI. This link is intended to connect chiplets in a Chipyard design, and can be 
-added to a multichip config using ``chipyard.harness.WithMultiChipCTC``. To add CTC ports to 
-a single SoC, use ``testchipip.ctc.WithCTC``. Refer to 
-`ChipletConfigs.scala <https://github.com/ucb-bar/chipyard/blob/main/generators/chipyard/src/main/scala/config/ChipletConfigs.scala>`_ 
+The CTC (Chip-To-Chip) link converts TileLink requests to a simple 32-bit protocol,
+similar to TSI. This link is intended to connect chiplets in a Chipyard design, and can be
+added to a multichip config using ``chipyard.harness.WithMultiChipCTC``. To add CTC ports to
+a single SoC, use ``testchipip.ctc.WithCTC``. Refer to
+`ChipletConfigs.scala <https://github.com/ucb-bar/chipyard/blob/main/soc-gen/generator/chipyard/src/main/scala/config/ChipletConfigs.scala>`_
 for examples of configs with CTC.
 
-By default, CTC uses the credited PHY provided with the Serial TileLink interface (see 
-:ref:`Generators/TestChipIP:TileLink SERDES`). CTC can also be instantiated without a PHY. The 
-intended use for this mode is for multi-chiplet FireSim simulations using the CTC bridge. For 
+By default, CTC uses the credited PHY provided with the Serial TileLink interface (see
+:ref:`Generators/TestChipIP:TileLink SERDES`). CTC can also be instantiated without a PHY. The
+intended use for this mode is for multi-chiplet FireSim simulations using the CTC bridge. For
 more information on FireSim, see :ref:`Simulation/FPGA-Accelerated-Simulation:FireSim`.

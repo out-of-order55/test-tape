@@ -104,7 +104,7 @@ See ``./build-setup.sh --help`` for more details on what this does and how to di
 
 .. Note for power users: Chipyard includes internal scripts that can selectively initialize generator submodules. The default ``./build-setup.sh`` initializes all standard generator submodules and is the recommended path.
 
-.. Note:: If you are a power user and would like to build your own compiler/toolchain, you can refer to the https://github.com/ucb-bar/riscv-tools-feedstock repository (submoduled in the ``toolchains/*`` directories) on how to build the compiler yourself.
+.. Note:: If you are a power user and would like to build your own compiler/toolchain, you can refer to the https://github.com/ucb-bar/riscv-tools-feedstock repository (submoduled in the ``dep/toolchains/*`` directories) on how to build the compiler yourself.
 
 By running the following command you should see an environment listed with the path ``$CHIPYARD_DIRECTORY/.conda-env``.
 

@@ -10,9 +10,9 @@ The interface for the ``uart_tsi`` program provides unique functionality that is
 
 An example tweaks + Rocket config fragment can be found below:
 
-.. literalinclude:: ../../fpga/src/main/scala/nexysvideo/Configs.scala
+.. literalinclude:: ../../dep/fpga/src/main/scala/nexysvideo/Configs.scala
     :language: scala
-    :prepend: // https://ucb.bar/chipyard/fpga/src/main/scala/nexysvideo/Configs.scala
+    :prepend: // https://ucb.bar/chipyard/dep/fpga/src/main/scala/nexysvideo/Configs.scala
     :start-after: DOC include start: WithNexysVideoTweaks and Rocket
     :end-before: DOC include end: WithNexysVideoTweaks and Rocket
 
@@ -20,14 +20,14 @@ To build the design (Vivado should be added to the ``PATH``), run:
 
 .. code-block:: shell
 
-		cd fpga/
+		cd dep/fpga/
 		make SUB_PROJECT=nexysvideo bitstream
 
 To build the UART-based frontend server, run:
 
 .. code-block:: shell
 
-		cd generators/testchipip/uart_tsi
+		cd soc-gen/generator/testchipip/uart_tsi
 		make
 
 After programming the bitstream, and connecting the Nexys Video's UART to a host PC via the USB cable, the ``uart_tsi`` program can be run to interact with the target.

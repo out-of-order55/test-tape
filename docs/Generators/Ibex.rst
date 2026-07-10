@@ -13,8 +13,8 @@ While the core itself is not a generator, we expose the same parameterization th
 
 For more information, see the `GitHub repository for Ibex <https://github.com/lowRISC/ibex>`__.
 
-Configuration classes and Chipyard glue for Ibex live under ``generators/ibex/chipyard`` and are compiled directly from the Ibex repository sources. After running the standard setup (``./build-setup.sh``), build the example config with:
+Configuration classes and Chipyard glue for Ibex live under ``soc-gen/generator/ibex/chipyard`` and are compiled directly from the Ibex repository sources. After running the standard setup (``./build-setup.sh``), build the example config with:
 
 ::
 
-  cd sims/vcs && make CONFIG=IbexConfig
+  cd soc-gen/sims/vcs && make CONFIG=IbexConfig

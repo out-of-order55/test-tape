@@ -19,7 +19,7 @@ def run_linux_poweroff():
 
     with prefix(f"cd {remote_fsim_dir}"):
         with prefix('source sourceme-manager.sh --skip-ssh-setup'):
-            with prefix(f'cd {remote_cy_dir}/software/firemarshal'):
+            with prefix(f'cd {remote_cy_dir}/app/firemarshal'):
                 # build outputs.yaml (use this workload since firemarshal can guestmount)
                 run("./marshal -v build test/outputs.yaml")
                 run("./marshal -v install test/outputs.yaml")
@@ -30,7 +30,7 @@ def run_linux_poweroff():
 
                 def run_firesim_cmd(typ, extra_args = ""):
                     timeout_prefix = f"timeout {timeout} "
-                    firesim_opts = f"-c {workload_path}/{config_runtime} -a {remote_cy_dir}/sims/firesim-staging/sample_config_hwdb.yaml -r {remote_cy_dir}/sims/firesim-staging/sample_config_build_recipes.yaml"
+                    firesim_opts = f"-c {workload_path}/{config_runtime} -a {remote_cy_dir}/soc-gen/sims/firesim-staging/sample_config_hwdb.yaml -r {remote_cy_dir}/soc-gen/sims/firesim-staging/sample_config_build_recipes.yaml"
                     return run_warn_only(f"{timeout_prefix} firesim {firesim_opts} {extra_args} {typ}", pty=False)
 
                 rc = run_firesim_cmd("launchrunfarm")
@@ -78,9 +78,9 @@ def run_linux_poweroff():
 
                     print(f"Workload run {workload} successful.")
 
-            run_w_timeout(f"{remote_cy_dir}/sims/firesim-staging/ci/{args.platform}", "config_runtime_rocket_singlecore.yaml", "linux-poweroff-singlenode-rocketsinglecore", "30m", 1)
-            run_w_timeout(f"{remote_cy_dir}/sims/firesim-staging/ci/{args.platform}",   "config_runtime_rocket_quadcore.yaml",   "linux-poweroff-singlenode-rocketquadcore", "30m", 1)
-            run_w_timeout(f"{remote_cy_dir}/sims/firesim-staging/ci/{args.platform}",   "config_runtime_boom_singlecore.yaml",   "linux-poweroff-singlenode-boomsinglecore", "30m", 1)
+            run_w_timeout(f"{remote_cy_dir}/soc-gen/sims/firesim-staging/ci/{args.platform}", "config_runtime_rocket_singlecore.yaml", "linux-poweroff-singlenode-rocketsinglecore", "30m", 1)
+            run_w_timeout(f"{remote_cy_dir}/soc-gen/sims/firesim-staging/ci/{args.platform}",   "config_runtime_rocket_quadcore.yaml",   "linux-poweroff-singlenode-rocketquadcore", "30m", 1)
+            run_w_timeout(f"{remote_cy_dir}/soc-gen/sims/firesim-staging/ci/{args.platform}",   "config_runtime_boom_singlecore.yaml",   "linux-poweroff-singlenode-boomsinglecore", "30m", 1)
 
 if __name__ == "__main__":
     execute(run_linux_poweroff, hosts=["localhost"])

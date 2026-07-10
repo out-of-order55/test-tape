@@ -21,7 +21,7 @@ To add a submodule to the Chipyard framework, make sure that your project is org
             YourFile.scala
 
 Put this in a git repository and make it accessible.
-Then add it as a submodule to under the following directory hierarchy: ``generators/yourproject``.
+Then add it as a submodule to under the following directory hierarchy: ``soc-gen/generator/yourproject``.
 
 The ``build.sbt`` is a minimal file which describes metadata for a Chisel project.
 For a simple project, the ``build.sbt`` can even be empty, but below we provide an example
@@ -41,14 +41,14 @@ build.sbt.
 
 .. code-block:: shell
 
-    cd generators/
+    cd soc-gen/generator/
     git submodule add https://git-repository.com/yourproject.git
 
 Then add ``yourproject`` to the Chipyard top-level build.sbt file.
 
 .. code-block:: scala
 
-    lazy val yourproject = (project in file("generators/yourproject")).settings(commonSettings).dependsOn(rocketchip)
+    lazy val yourproject = (project in file("soc-gen/generator/yourproject")).settings(commonSettings).dependsOn(rocketchip)
 
 You can then import the classes defined in the submodule in a new project if
 you add it as a dependency. For instance, if you want to use this code in
@@ -58,7 +58,7 @@ should look something like this:
 
 .. code-block:: scala
 
-    lazy val chipyard = (project in file("generators/chipyard"))
+    lazy val chipyard = (project in file("soc-gen/generator/chipyard"))
         .dependsOn(testchipip, rocketchip, boom, rocketchip_blocks, rocketchip_inclusive_cache,
             dsptools, `rocket-dsp-utils`,
             gemmini, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,

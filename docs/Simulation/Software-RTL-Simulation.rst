@@ -26,19 +26,19 @@ Choice of Simulator
 
 First, we will start by entering the Verilator or VCS directory:
 
-For an open-source Verilator simulation, enter the ``sims/verilator`` directory
+For an open-source Verilator simulation, enter the ``soc-gen/sims/verilator`` directory
 
 .. code-block:: shell
 
     # Enter Verilator directory
-    cd sims/verilator
+    cd soc-gen/sims/verilator
 
-For a proprietry VCS simulation, enter the ``sims/vcs`` directory
+For a proprietry VCS simulation, enter the ``soc-gen/sims/vcs`` directory
 
 .. code-block:: shell
 
     # Enter VCS directory
-    cd sims/vcs
+    cd soc-gen/sims/vcs
 
 .. _sw-sim-help:
 
@@ -93,7 +93,7 @@ To compile your own bare-metal code to run in a Verilator/VCS simulation, add it
     make
 
     # Enter Verilator or VCS directory
-    cd ../sims/verilator
+    cd ../soc-gen/sims/verilator
     make run-binary BINARY=../../tests/hello.riscv
 
 .. Note:: On multi-core configurations, only hart (**har**\ dware **t**\ hread) 0 executes the ``main()`` function. All other harts execute the secondary ``__main()`` function, which defaults to a busy loop. To run a multi-threaded workload on a Verilator/VCS simulation, override ``__main()`` with your own code. More details can be found `here <https://github.com/ucb-bar/libgloss-htif>`_
@@ -106,11 +106,11 @@ You can get a list of useful Makefile variables and commands available from the 
 .. code-block:: shell
 
     # Enter Verilator directory
-    cd sims/verilator
+    cd soc-gen/sims/verilator
     make help
 
     # Enter VCS directory
-    cd sims/vcs
+    cd soc-gen/sims/vcs
     make help
 
 .. _sim-default:
@@ -250,7 +250,7 @@ For instance:
 
 .. code-block:: scala
 
-  // ucb.bar/chipyard/generators/chipyard/src/main/scala/config/RocketConfigs.scala#L108
+  // ucb.bar/chipyard/soc-gen/generator/chipyard/src/main/scala/config/RocketConfigs.scala#L108
   class FastRTLSimRocketConfig extends Config(
     new freechips.rocketchip.subsystem.WithoutTLMonitors ++
     new chipyard.RocketConfig)

@@ -1,1 +1,1 @@
-scripts/build-setup.sh
+dep/scripts/build-setup.sh

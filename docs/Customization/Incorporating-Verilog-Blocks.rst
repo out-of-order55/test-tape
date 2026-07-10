@@ -25,7 +25,7 @@ different directory from Chisel (Scala) sources.
 
 .. code-block:: none
 
-    generators/yourproject/
+    soc-gen/generator/yourproject/
         build.sbt
         src/main/
             scala/
@@ -40,7 +40,7 @@ and Verilog sources follow the prescribed directory layout.
 
 .. code-block:: none
 
-    generators/chipyard/
+    soc-gen/generator/chipyard/
         build.sbt
         src/main/
             scala/
@@ -69,14 +69,14 @@ as the bitwidth of the GCD calculation does in this example.
 
 **Verilog GCD port list and parameters**
 
-.. literalinclude:: ../../generators/chipyard/src/main/resources/vsrc/GCDMMIOBlackBox.v
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/resources/vsrc/GCDMMIOBlackBox.v
     :language: Verilog
     :start-after: DOC include start: GCD portlist
     :end-before: DOC include end: GCD portlist
 
 **Chisel BlackBox Definition**
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD blackbox
     :end-before: DOC include end: GCD blackbox
@@ -89,7 +89,7 @@ diplomatic memory mapping on the system bus, we still have to
 integrate the peripheral at the Chisel level by instantiating a LazyModule wrapper
 that instantiates a TileLink RegisterNode.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD router
     :end-before: DOC include end: GCD router
@@ -97,7 +97,7 @@ that instantiates a TileLink RegisterNode.
 Within the LazyModule, the ``regmap`` function can be called to attach wires and
 registers to the MMIO port.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD instance regmap
     :end-before: DOC include end: GCD instance regmap
@@ -109,7 +109,7 @@ Defining a Chip with a BlackBox
 Since we've parameterized the GCD instantiation to choose between the
 Chisel and the Verilog module, creating a config is easy.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala
     :language: scala
     :start-after: DOC include start: GCDAXI4BlackBoxRocketConfig
     :end-before: DOC include end: GCDAXI4BlackBoxRocketConfig

@@ -7,4 +7,4 @@ The superscalar microarchitecture presents the most advantages for 1) floating-p
 
 Shuttle is tape-out proven, and has similar physical design complexity as Rocket.
 
-``ShuttleConfig`` provides a base configuration of a single-core Shuttle-based SoC. A set of example configurations are available at `generators/chipyard/src/main/scala/config/ShuttleConfigs.scala <https:/ucb.bar/cy/generators/chipyard/src/main/scala/config/ShuttleConfigs.scala>`__.
+``ShuttleConfig`` provides a base configuration of a single-core Shuttle-based SoC. A set of example configurations are available at `soc-gen/generator/chipyard/src/main/scala/config/ShuttleConfigs.scala <https:/ucb.bar/cy/soc-gen/generator/chipyard/src/main/scala/config/ShuttleConfigs.scala>`__.

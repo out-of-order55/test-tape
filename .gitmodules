@@ -1,81 +1,84 @@
-[submodule "fpga/fpga-shells"]
-	path = fpga/fpga-shells
+[submodule "dep/fpga/fpga-shells"]
+	path = dep/fpga/fpga-shells
 	url = https://github.com/chipsalliance/rocket-chip-fpga-shells.git
-[submodule "generators/diplomacy"]
-	path = generators/diplomacy
+[submodule "soc-gen/generator/diplomacy"]
+	path = soc-gen/generator/diplomacy
 	url = https://github.com/chipsalliance/diplomacy.git
-[submodule "generators/hardfloat"]
-	path = generators/hardfloat
+[submodule "soc-gen/generator/hardfloat"]
+	path = soc-gen/generator/hardfloat
 	url = https://github.com/ucb-bar/berkeley-hardfloat.git
-[submodule "generators/rocket-chip"]
-	path = generators/rocket-chip
+[submodule "soc-gen/generator/rocket-chip"]
+	path = soc-gen/generator/rocket-chip
 	url = https://github.com/chipsalliance/rocket-chip.git
-[submodule "generators/rocket-chip-blocks"]
-	path = generators/rocket-chip-blocks
+[submodule "soc-gen/generator/rocket-chip-blocks"]
+	path = soc-gen/generator/rocket-chip-blocks
 	url = https://github.com/chipsalliance/rocket-chip-blocks.git
-[submodule "generators/rocket-chip-inclusive-cache"]
-	path = generators/rocket-chip-inclusive-cache
+[submodule "soc-gen/generator/rocket-chip-inclusive-cache"]
+	path = soc-gen/generator/rocket-chip-inclusive-cache
 	url = https://github.com/chipsalliance/rocket-chip-inclusive-cache.git
-[submodule "generators/testchipip"]
-	path = generators/testchipip
+[submodule "soc-gen/generator/testchipip"]
+	path = soc-gen/generator/testchipip
 	url = https://github.com/ucb-bar/testchipip.git
-[submodule "sims/firesim"]
-	path = sims/firesim
+[submodule "soc-gen/sims/firesim"]
+	path = soc-gen/sims/firesim
 	url = https://github.com/firesim/firesim.git
-[submodule "software/baremetal-ide"]
-	path = software/baremetal-ide
+[submodule "app/baremetal-ide"]
+	path = app/baremetal-ide
 	url = https://github.com/ucb-bar/Baremetal-IDE.git
-[submodule "toolchains/libgloss"]
-	path = toolchains/libgloss
+[submodule "dep/toolchains/libgloss"]
+	path = dep/toolchains/libgloss
 	url = https://github.com/ucb-bar/libgloss-htif.git
-[submodule "toolchains/riscv-tools/riscv-isa-sim"]
-	path = toolchains/riscv-tools/riscv-isa-sim
+[submodule "dep/toolchains/riscv-tools/riscv-isa-sim"]
+	path = dep/toolchains/riscv-tools/riscv-isa-sim
 	url = https://github.com/riscv-software-src/riscv-isa-sim.git
-[submodule "toolchains/riscv-tools/riscv-openocd"]
-	path = toolchains/riscv-tools/riscv-openocd
+[submodule "dep/toolchains/riscv-tools/riscv-openocd"]
+	path = dep/toolchains/riscv-tools/riscv-openocd
 	url = https://github.com/riscv/riscv-openocd.git
-[submodule "toolchains/riscv-tools/riscv-pk"]
-	path = toolchains/riscv-tools/riscv-pk
+[submodule "dep/toolchains/riscv-tools/riscv-pk"]
+	path = dep/toolchains/riscv-tools/riscv-pk
 	url = https://github.com/riscv-software-src/riscv-pk.git
-[submodule "toolchains/riscv-tools/riscv-spike-devices"]
-	path = toolchains/riscv-tools/riscv-spike-devices
+[submodule "dep/toolchains/riscv-tools/riscv-spike-devices"]
+	path = dep/toolchains/riscv-tools/riscv-spike-devices
 	url = https://github.com/ucb-bar/spike-devices.git
-[submodule "toolchains/riscv-tools/riscv-tests"]
-	path = toolchains/riscv-tools/riscv-tests
+[submodule "dep/toolchains/riscv-tools/riscv-tests"]
+	path = dep/toolchains/riscv-tools/riscv-tests
 	url = https://github.com/riscv-software-src/riscv-tests.git
-[submodule "toolchains/riscv-tools/riscv-tools-feedstock"]
-	path = toolchains/riscv-tools/riscv-tools-feedstock
+[submodule "dep/toolchains/riscv-tools/riscv-tools-feedstock"]
+	path = dep/toolchains/riscv-tools/riscv-tools-feedstock
 	url = https://github.com/ucb-bar/riscv-tools-feedstock.git
-[submodule "tools/DRAMSim2"]
-	path = tools/DRAMSim2
+[submodule "dep/tools/DRAMSim2"]
+	path = dep/tools/DRAMSim2
 	url = https://github.com/firesim/DRAMSim2.git
-[submodule "tools/axe"]
-	path = tools/axe
+[submodule "dep/tools/axe"]
+	path = dep/tools/axe
 	url = https://github.com/CTSRD-CHERI/axe.git
-[submodule "tools/cde"]
-	path = tools/cde
+[submodule "dep/tools/cde"]
+	path = dep/tools/cde
 	url = https://github.com/chipsalliance/cde.git
-[submodule "tools/circt"]
-	path = tools/circt
+[submodule "dep/tools/circt"]
+	path = dep/tools/circt
 	url = https://github.com/llvm/circt.git
-[submodule "tools/install-circt"]
-	path = tools/install-circt
+[submodule "dep/tools/install-circt"]
+	path = dep/tools/install-circt
 	url = https://github.com/circt/install-circt.git
-[submodule "tools/rocket-dsp-utils"]
-	path = tools/rocket-dsp-utils
+[submodule "dep/tools/rocket-dsp-utils"]
+	path = dep/tools/rocket-dsp-utils
 	url = https://github.com/ucb-bar/rocket-dsp-utils.git
-[submodule "tools/torture"]
-	path = tools/torture
+[submodule "dep/tools/torture"]
+	path = dep/tools/torture
 	url = https://github.com/ucb-bar/riscv-torture.git
-[submodule "tools/dsptools"]
-	path = tools/dsptools
+[submodule "dep/tools/dsptools"]
+	path = dep/tools/dsptools
 	url = https://github.com/ucb-bar/dsptools.git
-[submodule "tools/fixedpoint"]
-	path = tools/fixedpoint
+[submodule "dep/tools/fixedpoint"]
+	path = dep/tools/fixedpoint
 	url = https://github.com/ucb-bar/fixedpoint.git
-[submodule "tools/firrtl2"]
-	path = tools/firrtl2
+[submodule "dep/tools/firrtl2"]
+	path = dep/tools/firrtl2
 	url = https://github.com/ucb-bar/firrtl2.git
-[submodule "software/tacit_decoder"]
-	path = software/tacit_decoder
+[submodule "app/tacit_decoder"]
+	path = app/tacit_decoder
 	url = https://github.com/riscv-tacit/tacit_decoder.git
+[submodule "app/firemarshal"]
+	path = app/firemarshal
+	url = https://github.com/firesim/FireMarshal.git

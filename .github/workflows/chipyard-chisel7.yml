@@ -33,12 +33,12 @@ jobs:
 
       - name: Init submodules (saturn only)
         run: |
-          scripts/init-submodules-no-riscv-tools-nolog.sh --saturn
+          dep/scripts/init-submodules-no-riscv-tools-nolog.sh --saturn
 
       - name: Run firrtl target with Chisel 7
         env:
           USE_CHISEL7: "1"
         run: |
-          cd sims/verilator
+          cd soc-gen/sims/verilator
           make firrtl
 

@@ -8,14 +8,14 @@ REMOTE_MAKE_NPROC=4
 # remote variables
 REMOTE_WORK_DIR=$GITHUB_WORKSPACE
 REMOTE_CHIPYARD_DIR=$GITHUB_WORKSPACE
-REMOTE_SIM_DIR=$REMOTE_CHIPYARD_DIR/sims/verilator
-REMOTE_FIRESIM_DIR=$REMOTE_CHIPYARD_DIR/sims/firesim/sim
-REMOTE_FPGA_DIR=$REMOTE_CHIPYARD_DIR/fpga
+REMOTE_SIM_DIR=$REMOTE_CHIPYARD_DIR/soc-gen/sims/verilator
+REMOTE_FIRESIM_DIR=$REMOTE_CHIPYARD_DIR/soc-gen/sims/firesim/sim
+REMOTE_FPGA_DIR=$REMOTE_CHIPYARD_DIR/dep/fpga
 
 # local variables (aka within the docker container)
 LOCAL_CHIPYARD_DIR=$GITHUB_WORKSPACE
-LOCAL_SIM_DIR=$LOCAL_CHIPYARD_DIR/sims/verilator
-LOCAL_FIRESIM_DIR=$LOCAL_CHIPYARD_DIR/sims/firesim/sim
+LOCAL_SIM_DIR=$LOCAL_CHIPYARD_DIR/soc-gen/sims/verilator
+LOCAL_FIRESIM_DIR=$LOCAL_CHIPYARD_DIR/soc-gen/sims/firesim/sim
 
 # CI uses temp directories with very long names
 # explicitly force socket creation to use /tmp to avoid name length errors

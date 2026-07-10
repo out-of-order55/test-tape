@@ -130,7 +130,7 @@ creating your own custom fields.
 
 You will also need a ``CanAttachTile`` class to add the tile config into the config system, with the following format:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: CanAttachTile
     :end-before: DOC include end: CanAttachTile
@@ -159,7 +159,7 @@ usually contains Diplomacy/TileLink code only, and Chisel RTL code should not go
 All tile classes implement ``BaseTile`` and will normally implement ``SinksExternalInterrupts`` and ``SourcesExternalNotifications``,
 which allow the tile to accept external interrupt. A typical tile has the following form:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: Tile class
     :end-before: DOC include end: Tile class
@@ -172,7 +172,7 @@ between the core's memory protocol and TileLink within the Tile module.
 in the tile class. Below is an example of how to connect a core using AXI4 to the TileLink bus with converters provided by
 Rocket chip:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: AXI4 convert
     :end-before: DOC include end: AXI4 convert
@@ -180,14 +180,14 @@ Rocket chip:
 Remember, you may not need all of these intermediate widgets. See :ref:`diplomatic_widgets` for the meaning of each intermediate
 widget. If you are using TileLink, then you only need the tap node and the TileLink node used by your components. Chipyard also
 provides converters for AHB, APB and AXIS, and most of the AXI4 widgets has equivalent widget for these bus protocol; see the
-source files in `generators/rocket-chip/src/main/scala/amba <https://ucb.bar/rocket-chip/src/main/scala/amba>`_ for more info.
+source files in `soc-gen/generator/rocket-chip/src/main/scala/amba <https://ucb.bar/rocket-chip/src/main/scala/amba>`_ for more info.
 
-If you are using some other bus protocol, you may implement your own converters, using the files in `generators/rocket-chip/src/main/scala/amba <https://ucb.bar/rocket-chip/src/main/scala/amba>`_
+If you are using some other bus protocol, you may implement your own converters, using the files in `soc-gen/generator/rocket-chip/src/main/scala/amba <https://ucb.bar/rocket-chip/src/main/scala/amba>`_
 as the template, but it is not recommended unless you are familiar with TileLink.
 
 ``memAXI4Node`` is an AXI4 master node and is defined as following in our example:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: AXI4 node
     :end-before: DOC include end: AXI4 node
@@ -219,14 +219,14 @@ interfaces or other diplomatically defined components, which are located in the 
 
 The implementation class for your core is of the following form:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: Implementation class
     :end-before: DOC include end: Implementation class
 
 If you create an AXI4 node (or equivalents), you will need to connect them to your core. You can connect a port like this:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: AXI4 connect
     :end-before: DOC include end: AXI4 connect
@@ -254,7 +254,7 @@ we create above. The definition of ``TileInterrupts``
 
 Here is an example on how to connect these signals in the implementation class:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: connect interrupt
     :end-before: DOC include end: connect interrupt
@@ -273,7 +273,7 @@ from the implementation class:
 
 Here is an example on how to use these functions to raise interrupt.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: raise interrupt
     :end-before: DOC include end: raise interrupt
@@ -284,7 +284,7 @@ Create Config Fragments to Integrate the Core
 To use your core in a Chipyard config, you will need a config fragment that will create a ``TileParams`` object of your core in
 the current config. An example of such config will be like this:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/TutorialTile.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/TutorialTile.scala
     :language: scala
     :start-after: DOC include start: Config fragment
     :end-before: DOC include end: Config fragment
@@ -296,6 +296,6 @@ Now you have finished all the steps to prepare your cores for Chipyard! To gener
 in :ref:`custom_chisel` to add your project to the build system, then create a config by following the steps in :ref:`hetero_socs_`.
 You can now run most desired workflows for the new config just as you would for the built-in cores (depending on the functionality your core supports).
 
-If you would like to see an example of a complete third-party Verilog core integrated into Chipyard, `generators/ariane/src/main/scala/CVA6Tile.scala <https://ucb.bar/cva6-wrapper/src/main/scala/cva6/CVA6Tile.scala>`__
+If you would like to see an example of a complete third-party Verilog core integrated into Chipyard, `soc-gen/generator/ariane/src/main/scala/CVA6Tile.scala <https://ucb.bar/cva6-wrapper/src/main/scala/cva6/CVA6Tile.scala>`__
 provides a concrete example of the CVA6 core. Note that this particular example includes additional nuances with respect to the interaction of the AXI
 interface with the memory coherency system.

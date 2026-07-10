@@ -11,11 +11,11 @@ have independent clock domains through diplomacy.
 The ``HarnessBinder`` s in ``ChipTop`` are clocked by the ``HarnessBinderClockFrequencyKey`` value. The reset is provided as a synchronous reset, sync'd to the clock.
 
 
-Requests for a harness clock is done by the ``HarnessClockInstantiator`` class in ``generators/chipyard/src/main/scala/harness/HarnessClocks.scala``.
+Requests for a harness clock is done by the ``HarnessClockInstantiator`` class in ``soc-gen/generator/chipyard/src/main/scala/harness/HarnessClocks.scala``.
 Then you can request a clock and syncronized reset at a particular frequency by invoking the ``requestClock`` function.
 Take the following example:
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/harness/HarnessBinders.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/harness/HarnessBinders.scala
     :language: scala
     :start-after: DOC include start: HarnessClockInstantiatorEx
     :end-before: DOC include end: HarnessClockInstantiatorEx

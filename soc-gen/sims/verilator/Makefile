@@ -43,10 +43,13 @@ debug: $(sim_debug)
 #########################################################################################
 SIM_FILE_REQS += \
 	$(ROCKETCHIP_RSRCS_DIR)/vsrc/TestDriver.v
+SIM_COPIED_FILE_REQS := $(addprefix $(GEN_COLLATERAL_DIR)/,$(notdir $(SIM_FILE_REQS)))
+
+$(SIM_COPIED_FILE_REQS): $(SIM_FILE_REQS) | $(GEN_COLLATERAL_DIR)
+	cp -f $(SIM_FILE_REQS) $(GEN_COLLATERAL_DIR)
 
 # copy files and add -FI for *.h files in *.f
-$(sim_files): $(SIM_FILE_REQS) $(ALL_MODS_FILELIST) $(sim_dir)/Makefile | $(GEN_COLLATERAL_DIR)
-	cp -f $(SIM_FILE_REQS) $(GEN_COLLATERAL_DIR)
+$(sim_files): $(SIM_COPIED_FILE_REQS) $(ALL_MODS_FILELIST) $(sim_dir)/Makefile | $(GEN_COLLATERAL_DIR)
 	rm -f $@
 	$(foreach file,\
 		$(SIM_FILE_REQS),\
@@ -174,6 +177,7 @@ model_mk_debug = $(model_dir_debug)/V$(TB).mk
 
 $(model_mk): $(sim_common_files) $(EXTRA_SIM_REQS)
 	$(call require_cmd,verilator)
+	$(MAKE) $(sim_common_files)
 	rm -rf $(model_dir)
 	mkdir -p $(model_dir)
 	$(VERILATOR) $(VERILATOR_OPTS) $(EXTRA_SIM_SOURCES) -o $(sim) -Mdir $(model_dir)
@@ -181,6 +185,7 @@ $(model_mk): $(sim_common_files) $(EXTRA_SIM_REQS)
 
 $(model_mk_debug): $(sim_common_files) $(EXTRA_SIM_REQS)
 	$(call require_cmd,verilator)
+	$(MAKE) $(sim_common_files)
 	rm -rf $(model_dir_debug)
 	mkdir -p $(model_dir_debug)
 	$(VERILATOR) $(VERILATOR_OPTS) +define+DEBUG $(EXTRA_SIM_SOURCES) -o $(sim_debug) $(TRACING_OPTS) -Mdir $(model_dir_debug)

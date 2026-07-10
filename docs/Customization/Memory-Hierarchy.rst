@@ -29,7 +29,7 @@ you can only use a single core and you cannot give the design an external DRAM.
 Note that these configurations fully remove the L2 cache and mbus.
 
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/RocketConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/RocketConfigs.scala
     :language: scala
     :start-after: DOC include start: l1scratchpadrocket
     :end-before: DOC include end: l1scratchpadrocket
@@ -97,7 +97,7 @@ and remove the off-chip link. This is done by adding a fragment like
 ``testchipip.soc.WithScratchpad`` to your configuration and removing the
 memory port with ``freechips.rocketchip.subsystem.WithNoMemPort``.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/MemorySystemConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/MemorySystemConfigs.scala
     :language: scala
     :start-after: DOC include start: mbusscratchpadrocket
     :end-before: DOC include end: mbusscratchpadrocket

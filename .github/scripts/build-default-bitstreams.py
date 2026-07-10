@@ -15,7 +15,7 @@ URL_PREFIX = f"https://raw.githubusercontent.com/{ci_env['GH_ORG']}/{ci_env['GH_
 
 shared_build_dir = "/scratch/buildbot/FIRESIM_BUILD_DIR"
 
-from_chipyard_firesim_build_recipes = "sims/firesim-staging/sample_config_build_recipes.yaml"
+from_chipyard_firesim_build_recipes = "soc-gen/sims/firesim-staging/sample_config_build_recipes.yaml"
 from_chipyard_firesim_hwdb = ci_env['CHIPYARD_HWDB_PATH']
 # this must point to build recipe in clone setup for firesim s.t. the makefrag it points to itself points to the working clone
 setup_clone_firesim_build_recipes = f"{remote_cy_dir}/{from_chipyard_firesim_build_recipes}"

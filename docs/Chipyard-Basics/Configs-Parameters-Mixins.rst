@@ -77,7 +77,7 @@ It is used in the Rocket Chip SoC library and Chipyard framework in merging mult
 This example shows the Chipyard default top that composes multiple traits together into a fully-featured SoC with many optional components.
 
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/DigitalTop.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/DigitalTop.scala
     :language: scala
     :start-after: DOC include start: DigitalTop
     :end-before: DOC include end: DigitalTop
@@ -129,5 +129,5 @@ Optional Generator Injectors
 
 Some generic Chipyard config fragments (for example, trace toggles and tile prefetch settings) are designed to affect optional generators without hard dependencies. Chipyard discovers generator-provided injectors at elaboration time and applies them, allowing fragments like ``WithTraceIO`` and ``WithTilePrefetchers`` to work across different tiles.
 
-- Generators that want to participate implement ``chipyard.config.TilePluginProvider`` under their ``generators/<name>/chipyard`` sources. Chipyard discovers implementations via classpath scanning and applies the provided injectors.
+- Generators that want to participate implement ``chipyard.config.TilePluginProvider`` under their ``soc-gen/generator/<name>/chipyard`` sources. Chipyard discovers implementations via classpath scanning and applies the provided injectors.
 - This keeps the core fragments generic, while enabling per-generator behavior (e.g., mapping a prefetch intent to the correct port parameters for that tile).

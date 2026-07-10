@@ -10,7 +10,7 @@ BootROM and RISC-V Frontend Server
 The BootROM contains both the first instructions to run when the SoC is powered on as well as the
 Device Tree Binary (dtb) which details the components of the system.
 The assembly for the BootROM code is located in
-`generators/testchipip/src/main/resources/testchipip/bootrom/bootrom.S <https://github.com/ucb-bar/testchipip/blob/master/src/main/resources/testchipip/bootrom/bootrom.S>`_.
+`soc-gen/generator/testchipip/src/main/resources/testchipip/bootrom/bootrom.S <https://github.com/ucb-bar/testchipip/blob/master/src/main/resources/testchipip/bootrom/bootrom.S>`_.
 The BootROM address space starts at ``0x10000`` (determined by the ``BootROMParams`` key in the configuration) and execution starts at address
 ``0x10000`` (given by the linker script and reset vector in the ``BootROMParams``), which is marked by the ``_hang`` label in the BootROM assembly.
 

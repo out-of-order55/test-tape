@@ -37,7 +37,7 @@ Before beginning, ensure that your Chipyard RISCV toolchain is installed, and `e
 
 .. code-block:: shell
 
-    git submodule update --init software/zephyrproject/zephyr/
+    git submodule update --init app/zephyrproject/zephyr/
 
 
 `west` is Zephyr's CMake-based build tool and dependency manager, designed to streamline project setup, compilation, and firmware deployment. It automates building Zephyr applications into ELF binaries and manages multiple repositories and submodules. In Chipyard, `west` is used to build ELF files for simulation on Spike, software RTL simulation, or FireSim. 
@@ -46,7 +46,7 @@ Run the following commands to initialize the Zephyr workspace:
 
 .. code-block:: shell
 
-    cd software/zephyrproject/zephyr
+    cd app/zephyrproject/zephyr
     west init -l .
     west config manifest.file west-riscv.yml
     west update

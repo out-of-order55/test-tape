@@ -3,22 +3,22 @@
 MMIO Peripherals
 ==================
 
-The easiest way to create a MMIO peripheral is to follow the GCD TileLink MMIO example. Since Chipyard and Rocket Chip SoCs primarily use Tilelink as the on-chip interconnect protocol, this section will primarily focus on designing Tilelink-based peripherals. However, see `generators/chipyard/src/main/scala/example/GCD.scala <https://ucb.bar/chipyard/generators/chipyard/src/main/scala/example/GCD.scala>`_ for how an example AXI4 based peripheral is defined and connected to the Tilelink graph through converters.
+The easiest way to create a MMIO peripheral is to follow the GCD TileLink MMIO example. Since Chipyard and Rocket Chip SoCs primarily use Tilelink as the on-chip interconnect protocol, this section will primarily focus on designing Tilelink-based peripherals. However, see `soc-gen/generator/chipyard/src/main/scala/example/GCD.scala <https://ucb.bar/chipyard/soc-gen/generator/chipyard/src/main/scala/example/GCD.scala>`_ for how an example AXI4 based peripheral is defined and connected to the Tilelink graph through converters.
 
 To create a MMIO-mapped peripheral, you will need to specify a ``LazyModule`` wrapper containing the TileLink port as a Diplomacy Node, as well as an internal ``LazyModuleImp`` class that defines the MMIO's implementation and any non-TileLink I/O.
 
 For this example, we will show how to connect a MMIO peripheral which computes the GCD.
-The full code can be found in `generators/chipyard/src/main/scala/example/GCD.scala <https://ucb.bar/chipyard/generators/chipyard/src/main/scala/example/GCD.scala>`_.
+The full code can be found in `soc-gen/generator/chipyard/src/main/scala/example/GCD.scala <https://ucb.bar/chipyard/soc-gen/generator/chipyard/src/main/scala/example/GCD.scala>`_.
 
 In this case we use a submodule ``GCDMMIOChiselModule`` to actually perform the GCD. The ``GCDTL`` and ``GCDAXI4`` classes are the ``LazyModule`` classes which construct the TileLink or AXI4 ports, wrapping the inner ``GCDMMIOChiselModule``.
 The ``node`` object is a Diplomacy node, which connects the peripheral to the Diplomacy interconnect graph.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD chisel
     :end-before: DOC include end: GCD chisel
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD router
     :end-before: DOC include end: GCD router
@@ -43,7 +43,7 @@ triggering the GCD algorithm when ``y`` is written. Therefore, the
 algorithm is set up by first writing ``x`` and then performing a
 triggering write to ``y``. Polling can be used for status checks.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD instance regmap
     :end-before: DOC include end: GCD instance regmap
@@ -69,7 +69,7 @@ The parameters to the ``TLRegisterNode`` object specify the size of the managed 
 Within the register-mapped peripheral, the control registers can be mapped using the ``node.regmap`` function, as described above.
 A similar procedure is followed for both AXI4 and TileLin peripherals.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD router
     :end-before: DOC include end: GCD router
@@ -83,7 +83,7 @@ After creating the module, we need to hook it up to our SoC.
 The ``LazyModule`` abstract class containst the TileLink node representing the peripheral's I/O.
 For a simple memory-mapped peripheral, connecting the peripheral's TileLink node must be connected to the relevant bu.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD lazy trait
     :end-before: DOC include end: GCD lazy trait
@@ -97,9 +97,9 @@ Constructing the DigitalTop and Config
 --------------------------------------
 
 Now we want to mix our traits into the system as a whole.
-This code is from `generators/chipyard/src/main/scala/DigitalTop.scala <https://ucb.bar/chipyard/generators/chipyard/src/main/scala/DigitalTop.scala>`_.
+This code is from `soc-gen/generator/chipyard/src/main/scala/DigitalTop.scala <https://ucb.bar/chipyard/soc-gen/generator/chipyard/src/main/scala/DigitalTop.scala>`_.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/DigitalTop.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/DigitalTop.scala
     :language: scala
     :start-after: DOC include start: DigitalTop
     :end-before: DOC include end: DigitalTop
@@ -111,14 +111,14 @@ The ``DigitalTopModule`` class is the actual RTL that gets synthesized.
 
 
 
-And finally, we create a configuration class in `generators/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala <https://ucb.bar/chipyard/generators/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala>`_ that uses the ``WithGCD`` config fragment defined earlier.
+And finally, we create a configuration class in `soc-gen/generator/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala <https://ucb.bar/chipyard/soc-gen/generator/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala>`_ that uses the ``WithGCD`` config fragment defined earlier.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/example/GCD.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/example/GCD.scala
     :language: scala
     :start-after: DOC include start: GCD config fragment
     :end-before: DOC include end: GCD config fragment
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/MMIOAcceleratorConfigs.scala
     :language: scala
     :start-after: DOC include start: GCDTLRocketConfig
     :end-before: DOC include end: GCDTLRocketConfig
@@ -142,5 +142,5 @@ Now with all of that done, we can go ahead and run our simulation.
 
 .. code-block:: shell
 
-    cd sims/verilator
+    cd soc-gen/sims/verilator
     make CONFIG=GCDTLRocketConfig BINARY=../../tests/gcd.riscv run-binary

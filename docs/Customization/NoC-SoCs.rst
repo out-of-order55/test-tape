@@ -10,9 +10,9 @@ Alternatively, the interconnect can be mapped to a shared global interconnect, i
 
 Private Interconnects
 ---------------------
-An example of integrating dedicated private interconnects for the System Bus, Memory Bus, and Control Bus can be seen in the ``MultiNoCConfig`` of `generators/chipyard/src/main/scala/config/NoCConfigs.scala <https://github.com/ucb-bar/chipyard/blob/main/generators/chipyard/src/main/scala/config/NoCConfigs.scala>`__.
+An example of integrating dedicated private interconnects for the System Bus, Memory Bus, and Control Bus can be seen in the ``MultiNoCConfig`` of `soc-gen/generator/chipyard/src/main/scala/config/NoCConfigs.scala <https://github.com/ucb-bar/chipyard/blob/main/soc-gen/generator/chipyard/src/main/scala/config/NoCConfigs.scala>`__.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/NoCConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/NoCConfigs.scala
     :language: scala
     :start-after: DOC include start: MultiNoCConfig
     :end-before: DOC include end: MultiNoCConfig
@@ -24,9 +24,9 @@ For more information on how to construct the NoC parameters, see the `Constellat
 
 Shared Global Interconnect
 ---------------------------
-An example of integrating a single global interconnect that supports transporting multiple TileLink buses can be seen in the ``SharedNoCConfig`` of `generators/chipyard/src/main/scala/config/NoCConfigs.scala <https://github.com/ucb-bar/chipyard/blob/main/generators/chipyard/src/main/scala/config/NoCConfigs.scala>`__.
+An example of integrating a single global interconnect that supports transporting multiple TileLink buses can be seen in the ``SharedNoCConfig`` of `soc-gen/generator/chipyard/src/main/scala/config/NoCConfigs.scala <https://github.com/ucb-bar/chipyard/blob/main/soc-gen/generator/chipyard/src/main/scala/config/NoCConfigs.scala>`__.
 
-.. literalinclude:: ../../generators/chipyard/src/main/scala/config/NoCConfigs.scala
+.. literalinclude:: ../../soc-gen/generator/chipyard/src/main/scala/config/NoCConfigs.scala
     :language: scala
     :start-after: DOC include start: SharedNoCConfig
     :end-before: DOC include end: SharedNoCConfig

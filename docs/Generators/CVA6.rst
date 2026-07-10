@@ -9,11 +9,11 @@ The core by itself exposes an AXI interface, interrupt ports, and other misc. po
 
 While the core itself is not a generator, we expose the same parameterization that the CVA6 core provides (i.e. change branch prediction parameters).
 
-Configuration classes and Chipyard glue for CVA6 live under ``generators/cva6/chipyard`` and are compiled directly from the CVA6 repository sources. After running the standard setup (``./build-setup.sh``), you can build a CVA6 config like ``CVA6Config`` with the normal flow:
+Configuration classes and Chipyard glue for CVA6 live under ``soc-gen/generator/cva6/chipyard`` and are compiled directly from the CVA6 repository sources. After running the standard setup (``./build-setup.sh``), you can build a CVA6 config like ``CVA6Config`` with the normal flow:
 
 ::
 
-  cd sims/vcs && make CONFIG=CVA6Config
+  cd soc-gen/sims/vcs && make CONFIG=CVA6Config
 
 .. Warning::  This target does not support Verilator simulation at this time. Please use VCS.
 

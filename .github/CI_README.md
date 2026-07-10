@@ -48,9 +48,9 @@ will generate the data to be cached. The caching of the generated data is implic
       id: rtl-build-id
       with:
         path: |
-          sims/verilator
-          sims/firesim/sim
-          generators/gemmini/software/gemmini-rocc-tests
+          soc-gen/sims/verilator
+          soc-gen/sims/firesim/sim
+          soc-gen/generator/gemmini/software/gemmini-rocc-tests
         key: ${{ inputs.group-key }}-${{ github.ref }}-${{ github.sha }}
     - name: run rtl build script if not cached
       run: |
@@ -76,7 +76,7 @@ The following is included in `.github/scripts/: directory
     `check-commit.sh`            # check that submodule commits are valid
     `build-extra-tests.sh`       # build default chipyard tests located in tests/
     `clean-old-files.sh`         # clean up build server files
-    `do-fpga-rtl-build.sh`       # similar to `do-rtl-build` but using fpga/
+    `do-fpga-rtl-build.sh`       # similar to `do-rtl-build` but using dep/fpga/
     `remote-install-verilator.sh`       # install verilator on build server
     `remote-run-firesim-scala-tests.sh` # run firesim scala tests
     `run-tests.sh                # run tests for a specific set of designs
