@@ -12,6 +12,7 @@
         pkgs = import nixpkgs { inherit system; };
         riscvPkgs = pkgs.pkgsCross.riscv64-embedded;
         riscvCc = riscvPkgs.stdenv.cc;
+        riscvTarget = riscvPkgs.stdenv.targetPlatform.config;
         spike = pkgs.spike;
         circt = pkgs.circt;
         libglossSrc = pkgs.fetchFromGitHub {
@@ -52,6 +53,11 @@
             rawRiscvUnknownElfTools
           ];
 
+          postPatch = ''
+            substituteInPlace misc/crtmain.S \
+              --replace-fail "tail exit" "tail _exit"
+          '';
+
           configurePhase = ''
             runHook preConfigure
             mkdir build
@@ -85,9 +91,20 @@
           '';
         };
 
+        chipyardNewlibNano = (riscvPkgs.newlib.override {
+          nanoizeNewlib = true;
+        }).overrideAttrs (_old: {
+          CFLAGS_FOR_TARGET = "-Os -mcmodel=medany -march=rv64imafd -mabi=lp64d";
+        });
+
         riscvUnknownElfTools = pkgs.runCommand "chipyard-riscv64-unknown-elf-tools" { } ''
-          mkdir -p $out/bin
+          mkdir -p $out/bin $out/include/riscv-pk
           libdir=${libglossHtif}/riscv64-unknown-elf/lib
+          nano_libdir=${chipyardNewlibNano}/${riscvTarget}/lib
+          nano_incdir=${chipyardNewlibNano}/${riscvTarget}/include
+          wrapper_incdir=$out/include
+
+          ln -s ${libglossSrc}/include/encoding.h $out/include/riscv-pk/encoding.h
 
           make_cc_wrapper() {
             local tool=$1
@@ -106,7 +123,7 @@ for arg in "\$@"; do
     *) args+=("\$arg") ;;
   esac
 done
-exec $real_tool -B$libdir/ -L$libdir "\''${args[@]}"
+exec $real_tool -B$libdir/ -B$nano_libdir/ -L$libdir -L$nano_libdir -isystem $nano_incdir -isystem $wrapper_incdir "\''${args[@]}"
 EOF
             chmod +x $wrapper
           }
@@ -131,9 +148,10 @@ EOF
         '';
 
         chipyardRiscvTools = pkgs.runCommand "chipyard-riscv-tools" { } ''
-          mkdir -p $out/bin $out/include $out/lib $out/riscv64-unknown-elf
+          mkdir -p $out/bin $out/include/riscv-pk $out/lib $out/riscv64-unknown-elf
 
           ln -s ${riscvUnknownElfTools}/bin/* $out/bin/
+          ln -s ${riscvUnknownElfTools}/include/riscv-pk/encoding.h $out/include/riscv-pk/encoding.h
           ln -s ${spike}/include/* $out/include/
           ln -s ${spike}/lib/* $out/lib/
 
@@ -142,7 +160,7 @@ EOF
 
       in {
         packages = {
-          inherit chipyardRiscvTools libglossHtif rawRiscvUnknownElfTools riscvUnknownElfTools;
+          inherit chipyardNewlibNano chipyardRiscvTools libglossHtif rawRiscvUnknownElfTools riscvUnknownElfTools;
         };
 
         devShells.default = pkgs.mkShellNoCC {
