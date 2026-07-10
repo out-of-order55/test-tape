@@ -23,5 +23,5 @@
 #           email: 'firesimchipyard@gmail.com'
 #           pr-reviewers: ''
 #           pr-labels: 'changelog:changed'
-#           circt-config: './conda-reqs/circt.json'
+#           circt-config: './dep/circt-version.json'
 #           github-token: ${{ secrets.BARTENDER_PERSONAL_ACCESS_TOKEN }}

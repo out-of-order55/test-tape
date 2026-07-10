@@ -24,12 +24,16 @@ RUN apt-get update && \
 
 WORKDIR /root
 
-# Install Chipyard and run ubuntu-req.sh to install necessary dependencies
+# Install Chipyard
 RUN git clone https://github.com/ucb-bar/chipyard.git && \
         cd chipyard && \
         git checkout $CHIPYARD_HASH
 
-RUN ./chipyard/.github/scripts/install-conda.sh
+# Install Nix with flakes enabled.
+RUN sh <(curl -L https://nixos.org/nix/install) --daemon
+
+ENV PATH="/nix/var/nix/profiles/default/bin:/root/.nix-profile/bin:${PATH}"
+ENV NIX_CONFIG="experimental-features = nix-command flakes"
 
 # BUILD IMAGE WITH TOOLCHAINS
 
@@ -38,13 +42,10 @@ FROM base as base-with-tools
 
 SHELL ["/bin/bash", "-cl"]
 
-# Initialize repo
+# Initialize the repository in the Nix development environment.
 RUN cd chipyard && \
         export MAKEFLAGS=-"j $(nproc)" && \
-        conda activate base && \
-        ./setup.sh --env-name chipyard --skip-validate
-
-SHELL ["/opt/conda/bin/conda", "run", "-n", "chipyard", "/bin/bash", "-cl"]
+        nix develop -c ./build-setup.sh --skip-firesim --skip-marshal --skip-precompile
 
 # Set up FireMarshal. Building and cleaning br-base.json builds the underlying
 # buildroot image (which takes a long time) but doesn't keep all the br-base
@@ -53,7 +54,6 @@ RUN cd chipyard && \
         source env.sh && \
         cd app/firemarshal && \
         ./init-submodules.sh && \
-        pip3 install -r python-requirements.txt && \
         ./marshal build br-base.json && \
         ./marshal clean br-base.json
 

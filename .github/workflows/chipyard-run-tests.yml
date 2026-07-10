@@ -14,7 +14,6 @@ defaults:
 env:
   tools-cache-version: v17
   JVM_OPTS: -Xmx3200m # Customize the JVM maximum heap limit
-  conda-env-name-no-time: cy-${{ github.run_id }}
   workflow-timestamp: ${{ github.event.pull_request.updated_at }}
 
 jobs:
@@ -73,8 +72,8 @@ jobs:
               - '.github/dependabot.yml'
               - '.mergify.yml'
 
-  create-conda-env-as4:
-    name: create-conda-env-as4
+  setup-nix-env-as4:
+    name: setup-nix-env-as4
     needs: [change-filters, cancel-prior-workflows]
     if: needs.change-filters.outputs.needs-rtl == 'true'
     runs-on: as4
@@ -89,17 +88,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Cleanup conda
-        uses: ./.github/actions/cleanup-conda
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
 
   # Sentinel job to simplify how we specify which that basic setup is complete
   #
   # When adding new prep jobs, please add them to `needs` below
   setup-complete:
     name: setup-complete
-    needs: [create-conda-env-as4]
+    needs: [setup-nix-env-as4]
     runs-on: ubuntu-latest
     steps:
       - name: Set up complete
@@ -123,11 +120,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Check commits of each submodule
         run: |
-            conda activate ${{ env.conda-env-name-no-time }}-$(date --date "${{ env.workflow-timestamp }}" +%Y%m%d)
+            source env.sh
             .github/scripts/check-commit.sh
 
   documentation-check:
@@ -145,11 +142,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Check that documentation builds with no warnings/errors
         run: |
-          conda activate ${{ env.conda-env-name-no-time }}-$(date --date "${{ env.workflow-timestamp }}" +%Y%m%d)
+          source env.sh
           dep/scripts/init-submodules-no-riscv-tools.sh --full
           make -C docs html
       - name: Show error log from sphinx if failed
@@ -172,8 +169,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Generate keys
         id: genkey
         run: |
@@ -186,7 +183,7 @@ jobs:
           restore-keys: ${{ steps.genkey.outputs.extra-tests-cache-key }}
       - name: Build extra tests
         run: |
-            conda activate ${{ env.conda-env-name-no-time }}-$(date --date "${{ env.workflow-timestamp }}" +%Y%m%d)
+            source env.sh
             .github/scripts/build-extra-tests.sh
 
   prepare-chipyard-cores:
@@ -204,8 +201,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build RTL on self-hosted
         uses: ./.github/actions/prepare-rtl
         with:
@@ -226,8 +223,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build RTL on self-hosted
         uses: ./.github/actions/prepare-rtl
         with:
@@ -248,8 +245,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build RTL on self-hosted
         uses: ./.github/actions/prepare-rtl
         with:
@@ -270,8 +267,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build RTL on self-hosted
         uses: ./.github/actions/prepare-rtl
         with:
@@ -292,8 +289,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build RTL on self-hosted
         uses: ./.github/actions/prepare-rtl
         with:
@@ -314,8 +311,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build RTL on self-hosted
         uses: ./.github/actions/prepare-rtl
         with:
@@ -336,8 +333,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build RTL on self-hosted
         uses: ./.github/actions/prepare-rtl
         with:
@@ -361,18 +358,18 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build Gemmini FireMarshal
         run: |
-          conda activate ${{ env.conda-env-name-no-time }}-$(date --date "${{ env.workflow-timestamp }}" +%Y%m%d)
+          source env.sh
           cd ${{ github.workspace }} && ./dep/scripts/init-submodules-no-riscv-tools.sh --full
           cd ${{ github.workspace }} && source ./dep/scripts/fix-open-files.sh
           git submodule update --init app/firemarshal && cd app/firemarshal && ./init-submodules.sh
           cd ${{ github.workspace }}/soc-gen/generator/gemmini/software && ${{ github.workspace }}/app/firemarshal/marshal -v -d build gemmini-smoke.json
       - name: Running Gemmini FireMarshal smoke test
         run: |
-          conda activate ${{ env.conda-env-name-no-time }}-$(date --date "${{ env.workflow-timestamp }}" +%Y%m%d)
+          source env.sh
           cd ${{ github.workspace }}/soc-gen/generator/gemmini/software && ${{ github.workspace }}/app/firemarshal/marshal -v -d launch -s gemmini-smoke.json
 
   chipyard-rocket-run-tests:
@@ -390,8 +387,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -413,8 +410,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -436,8 +433,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -459,8 +456,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -482,8 +479,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -505,8 +502,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -528,8 +525,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -551,8 +548,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -574,8 +571,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -597,11 +594,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Build zephyr hello world
         run: |
-            conda activate ${{ env.conda-env-name-no-time }}-$(date --date "${{ env.workflow-timestamp }}" +%Y%m%d)
+            source env.sh
             .github/scripts/build-zephyr.sh
       - name: Run tests
         uses: ./.github/actions/run-tests
@@ -625,8 +622,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -648,8 +645,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -671,8 +668,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -694,8 +691,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -717,8 +714,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -740,8 +737,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -763,8 +760,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -786,8 +783,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -809,8 +806,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -832,8 +829,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -855,8 +852,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -878,8 +875,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -901,8 +898,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -924,8 +921,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -947,8 +944,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -970,8 +967,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -993,8 +990,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1016,8 +1013,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1039,8 +1036,8 @@ jobs:
   #       uses: actions/checkout@v4
   #     - name: Git workaround
   #       uses: ./.github/actions/git-workaround
-  #     - name: Create conda env
-  #       uses: ./.github/actions/create-conda-env
+  #     - name: Setup Nix environment
+  #       uses: ./.github/actions/setup-nix-env
   #     - name: Run tests
   #       uses: ./.github/actions/run-tests
   #       with:
@@ -1062,8 +1059,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1085,8 +1082,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1109,8 +1106,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1132,8 +1129,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1155,8 +1152,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1178,8 +1175,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1201,8 +1198,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1224,8 +1221,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run amba tests
         uses: ./.github/actions/run-tests
         with:
@@ -1263,8 +1260,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1286,8 +1283,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Git workaround
         uses: ./.github/actions/git-workaround
-      - name: Create conda env
-        uses: ./.github/actions/create-conda-env
+      - name: Setup Nix environment
+        uses: ./.github/actions/setup-nix-env
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:

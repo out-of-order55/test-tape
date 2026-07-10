@@ -28,7 +28,7 @@ runs:
 
     - name: Run RTL build if not cached
       run: |
-        conda activate ${{ env.conda-env-name-no-time }}-$(date --date "${{ env.workflow-timestamp }}" +%Y%m%d)
+        source env.sh
         if [[ "${{ steps.rtl-build-id.outputs.cache-hit }}" != 'true' ]]; then
           echo "Cache miss on ${{ inputs.group-key }}-${{ github.sha }}"
           ./.github/scripts/${{ inputs.build-script }} ${{ inputs.group-key }} ${{ inputs.build-type }}

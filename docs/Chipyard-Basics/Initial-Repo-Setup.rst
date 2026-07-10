@@ -22,30 +22,8 @@ At that point, instead of cloning FireSim you can clone Chipyard by following :r
 Default Requirements Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In Chipyard, we use the `Conda <https://docs.conda.io/en/latest/>`__ package manager to help manage system dependencies.
-Conda allows users to create an "environment" that holds system dependencies like ``make``, ``gcc``, etc.
-
-.. Note:: Chipyard can also run on systems without a Conda installation. However, users on these systems must manually install toolchains and dependencies.
-
-First, Chipyard requires the latest Conda to be installed on the system.
-Please refer to the `Conda installation instructions <https://github.com/conda-forge/miniforge/#install>`__ on how to install the latest Conda with the **Miniforge** installer.
-
-After Conda is installed and is on your ``PATH``, we need to install a version of ``git`` to initially checkout the repository.
-For this you can use the system package manager like ``yum`` or ``apt`` to install ``git``.
-This ``git`` is only used to first checkout the repository, we will later install a newer version of ``git`` with Conda.
-
-Next ensure that you are able to use Conda.
-By default after Conda's setup you should already be in the ``base`` environment but you can run the following to enter it if needed:
-
-.. code-block:: shell
-
-    conda activate base
-
-If Conda is not present in your path by default, activate it with the following command:
-
-.. code-block:: shell
-
-    source ~/miniforge3/bin/activate # Your miniforge3 install location may vary
+Chipyard uses the `Nix <https://nixos.org/>`__ package manager and flakes to provide a reproducible development environment.
+Install Nix with flakes enabled before continuing. A system ``git`` is required to clone the repository.
 
 Setting up the Chipyard Repo
 -------------------------------------------
@@ -65,7 +43,7 @@ Next run the following script to fully setup Chipyard with the ``riscv-tools`` t
 .. Warning:: The following script will complete a "full" installation of Chipyard which may take a long time depending on the system.
     Ensure that this script completes fully (no interruptions) before continuing on. User can use the ``--skip`` or ``-s`` flag to skip steps:
 
-    ``-s 1`` skips initializing Conda environment
+    ``-s 1`` skips initializing the Nix environment
 
     ``-s 2`` skips initializing Chipyard submodules
 
@@ -91,39 +69,26 @@ Next run the following script to fully setup Chipyard with the ``riscv-tools`` t
 
     ./build-setup.sh riscv-tools
 
-This script wraps around the conda environment initialization process, initializes all submodules (with the ``init-submodules-no-riscv-tools.sh`` script), installs a toolchain, and runs other setups.
+This script enters the Nix development environment, initializes all submodules (with the ``init-submodules-no-riscv-tools.sh`` script), installs a toolchain, and runs other setup steps.
 See ``./build-setup.sh --help`` for more details on what this does and how to disable parts of the setup.
 
 .. Warning:: Using ``git`` directly will try to initialize all submodules; this is not recommended unless you expressly desire this behavior.
 
-.. Note:: If the ``build-setup.sh`` script fails on conflict issues, sometimes it helps to run ``conda update -n base --all`` to upgrade all packages in the conda environment.
-
-.. Note:: By default, the ``build-setup.sh`` script installs extra toolchain utilities (RISC-V tests, PK, Spike, etc) to ``$CONDA_PREFIX/<toolchain-type>``. Thus, if you uninstall the compiler using ``conda remove`` these utilities/tests will also have to be re-installed/built.
-
-.. Note:: If you already have a working conda environment setup, separate Chipyard clones can use that pre-used environment in combination with running the aforementioned scripts yourself (``init-submodules...``, ``build-toolchain...``, etc).
+.. Note:: By default, the ``build-setup.sh`` script installs extra toolchain utilities (RISC-V tests, PK, Spike, etc) to ``$RISCV``.
 
 .. Note for power users: Chipyard includes internal scripts that can selectively initialize generator submodules. The default ``./build-setup.sh`` initializes all standard generator submodules and is the recommended path.
 
 .. Note:: If you are a power user and would like to build your own compiler/toolchain, you can refer to the https://github.com/ucb-bar/riscv-tools-feedstock repository (submoduled in the ``dep/toolchains/*`` directories) on how to build the compiler yourself.
 
-By running the following command you should see an environment listed with the path ``$CHIPYARD_DIRECTORY/.conda-env``.
-
-.. code-block:: shell
-
-    conda env list
-
-.. Note:: Refer to FireSim's :fsim_doc:`Conda documentation <Advanced-Usage/Conda.html>` on more information
-    on how to use Conda and some of its benefits.
+The Nix environment is entered on demand with ``nix develop``. The toolchain produced for this repository is kept in ``.nix-riscv``.
 
 Sourcing ``env.sh``
 -------------------
 
-Once setup is complete, an emitted ``env.sh`` file should exist in the top-level repository.
-This file activates the conda environment created in ``build-setup.sh`` and sets up necessary environment variables needed for future Chipyard steps (needed for the ``make`` system to work properly).
-Once the script is run, the ``PATH``, ``RISCV``, and ``LD_LIBRARY_PATH`` environment variables will be set properly for the toolchain requested.
+Once setup is complete, source the ``env.sh`` file in the top-level repository.
+This file loads the repository's Nix development environment and sets up the variables needed for future Chipyard commands.
+Once the script is run, the ``PATH``, ``RISCV``, and compiler environment variables will be set properly for the requested toolchain.
 You can source this file in your ``.bashrc`` or equivalent environment setup file to get the proper variables, or directly include it in your current environment:
-
-.. Note:: If you are on a Mac or a RHEL/CentOS-based Linux distribution, you must deactivate the base conda environment with ``conda deactivate`` first before proceeding. You may also choose to keep it deactivated by default with ``conda config --set auto_activate_base false``. See this `issue <https://github.com/conda/conda/issues/9392>`__ for more details.
 
 .. code-block:: shell
 
@@ -131,9 +96,7 @@ You can source this file in your ``.bashrc`` or equivalent environment setup fil
 
 .. Warning:: This ``env.sh`` file should always be sourced before running any ``make`` commands.
 
-.. Note:: You can deactivate/activate a compiler/toolchain (but keep it installed) by running ``source $CONDA_PREFIX/etc/conda/deactivate.d/deactivate-${PKG_NAME}.sh`` or ``$CONDA_PREFIX/etc/conda/activate.d/activate-${PKG_NAME}.sh`` (``PKG_NAME`` for example is ``ucb-bar-riscv-tools``). This will modify the aforementioned 3 environment variables.
-
-.. Warning:: ``env.sh`` files are generated per-Chipyard repository.
+.. Warning:: ``env.sh`` is provided per-Chipyard repository.
     In a multi-Chipyard repository setup, it is possible to source multiple ``env.sh`` files (in any order).
     However, it is recommended that the final ``env.sh`` file sourced is the ``env.sh`` located in the
     Chipyard repo that you expect to run ``make`` commands in.

@@ -88,21 +88,24 @@ jobs:
             rm -rf ${{ github.workspace }}/.* || true
             ls -alh .
       - uses: actions/checkout@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
       - name: Setup repo copy
         run: |
           git clone $GITHUB_WORKSPACE ${{ env.REMOTE_WORK_DIR }}
       - name: Setup repo
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          eval "$(conda shell.bash hook)"
           mkdir ${{ env.JAVA_TMP_DIR }}
           export MAKEFLAGS="-j32"
           git submodule sync
-          ./build-setup.sh -v
+          nix develop --no-write-lock-file -c ./build-setup.sh -v
       - name: Run config finder
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          eval "$(conda shell.bash hook)"
           source env.sh
           cd soc-gen/sims/verilator
           make find-config-fragments
@@ -110,48 +113,35 @@ jobs:
       - name: Run smoke test
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          eval "$(conda shell.bash hook)"
           source env.sh
           cd soc-gen/sims/verilator
           make verilog
       - name: VLSI test
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          eval "$(conda shell.bash hook)"
           source env.sh
 
           cd vlsi
 
-          # remove extra channels if put in by default (avoid clashing deps)
-          conda config --remove channels litex-hub || true
-          conda config --remove channels defaults || true
-
-          # NOTE: most conda installs are in separate conda envs because they mess up
-          #   each other's versions (for no apparent reason) and we need the latest versions
-
-          # installs for example-sky130.yml
-          conda create -y --prefix ./.conda-sky130   -c defaults -c litex-hub open_pdks.sky130a=1.0.457_0_g32e8f23
+          # The Nix shell provides the VLSI tools. The PDK is provisioned separately.
+          : "${PDK_ROOT:?PDK_ROOT must point to the installed PDK collection}"
+          test -d "$PDK_ROOT/sky130A"
+          command -v yosys openroad klayout magic netgen
           git clone https://github.com/rahulk29/sram22_sky130_macros.git
           git -C sram22_sky130_macros checkout 1f20d16
 
-          # installs for example-openroad.yml
-          conda create -y --prefix ./.conda-yosys    -c defaults -c litex-hub yosys=0.27_4_gb58664d44
-          conda create -y --prefix ./.conda-openroad -c defaults -c litex-hub openroad=2.0_7070_g0264023b6
-          conda create -y --prefix ./.conda-klayout  -c defaults -c litex-hub klayout=0.28.5_98_g87e2def28
-          conda create -y --prefix ./.conda-signoff  -c defaults -c litex-hub magic=8.3.376_0_g5e5879c netgen=1.5.250_0_g178b172
-
           echo "# Tutorial configs" > tutorial.yml
           echo "# pdk" > tutorial.yml
-          echo "technology.sky130.sky130A: $PWD/.conda-sky130/share/pdk/sky130A" >> tutorial.yml
+          echo "technology.sky130.sky130A: $PDK_ROOT/sky130A" >> tutorial.yml
           echo "technology.sky130.sram22_sky130_macros: $PWD/sram22_sky130_macros" >> tutorial.yml
           echo "" >> tutorial.yml
           echo "# tools" >> tutorial.yml
-          echo "synthesis.yosys.yosys_bin: $PWD/.conda-yosys/bin/yosys" >> tutorial.yml
-          echo "par.openroad.openroad_bin: $PWD/.conda-openroad/bin/openroad" >> tutorial.yml
-          echo "par.openroad.klayout_bin: $PWD/.conda-klayout/bin/klayout" >> tutorial.yml
-          echo "drc.magic.magic_bin: $PWD/.conda-signoff/bin/magic" >> tutorial.yml
-          echo "drc.klayout.klayout_bin: $PWD/.conda-klayout/bin/klayout" >> tutorial.yml
-          echo "lvs.netgen.netgen_bin: $PWD/.conda-signoff/bin/netgen" >> tutorial.yml
+          echo "synthesis.yosys.yosys_bin: $(command -v yosys)" >> tutorial.yml
+          echo "par.openroad.openroad_bin: $(command -v openroad)" >> tutorial.yml
+          echo "par.openroad.klayout_bin: $(command -v klayout)" >> tutorial.yml
+          echo "drc.magic.magic_bin: $(command -v magic)" >> tutorial.yml
+          echo "drc.klayout.klayout_bin: $(command -v klayout)" >> tutorial.yml
+          echo "lvs.netgen.netgen_bin: $(command -v netgen)" >> tutorial.yml
           echo "" >> tutorial.yml
           echo "# speed up tutorial runs & declutter log output" >> tutorial.yml
           echo "par.openroad.timing_driven: false" >> tutorial.yml
@@ -172,7 +162,6 @@ jobs:
       - name: Run FireChip bridge tests
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          eval "$(conda shell.bash hook)"
           source env.sh
           pushd soc-gen/sims/firesim
           source sourceme-manager.sh --skip-ssh-setup
@@ -184,7 +173,6 @@ jobs:
       - name: Run FireChip FireSim target tests
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          eval "$(conda shell.bash hook)"
           source env.sh
           pushd soc-gen/sims/firesim
           source sourceme-manager.sh --skip-ssh-setup
@@ -201,7 +189,7 @@ jobs:
     runs-on: as4
     if: ${{ always() }}
     steps:
-      - name: Delete repo copy and conda env
+      - name: Delete repo copy and Nix build outputs
         run: |
            rm -rf ${{ env.REMOTE_WORK_DIR }}
            rm -rf ${{ env.JAVA_TMP_DIR }}

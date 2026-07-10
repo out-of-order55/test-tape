@@ -12,12 +12,13 @@ target
 *~
 .idea
 .DS_Store
-env.sh
+/.nix-riscv/
+.conda-env/
+.conda-lock-env/
+conda-reqs/chipyard-base.yaml.bak
 tags
 *~
 .bsp/
-.conda-env/
-.conda-lock-env/
 .#*
 first-clone-setup-fast-log
 .bloop/
@@ -31,4 +32,3 @@ project/project/
 .coursier-cache/
 .vscode/
 tests/build/
-conda-reqs/chipyard-base.yaml.bak

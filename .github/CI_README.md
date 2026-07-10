@@ -86,7 +86,7 @@ How things are set up for Chipyard
 
 The steps for CI to run are as follows.
 1. Build the toolchains in parallel (note: `esp-tools` is currently not used in the run).
-The docker image sets up the `PATH` and `RISCV` variable so that `riscv-tools` is the default (currently the `env.sh` script that is created at tool build is unused).
+The Nix development shell sets up the `PATH` and `RISCV` variables so that `riscv-tools` is the default.
 2. Create the simulator binary.
 This requires the `riscv-tools` for `fesvr` and `verilator` to be able to build the binary.
 This stores all collateral for the tests (srcs, generated-srcs, sim binary, etc) to run "out of the gate" in the next job (make needs everything or else it will run again).
@@ -95,7 +95,7 @@ This stores all collateral for the tests (srcs, generated-srcs, sim binary, etc)
 Other CI Setup
 --------------
 
-You need to install conda on the build servers that exist.
+Build servers need Nix with flakes enabled.
 
 Notes on CIRCLE CI
 ------------------

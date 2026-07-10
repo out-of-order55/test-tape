@@ -14,6 +14,21 @@
         riscvCc = riscvPkgs.stdenv.cc;
         spike = pkgs.spike;
         circt = pkgs.circt;
+        pythonEnv = pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+          docutils
+          gitpython
+          humanfriendly
+          matplotlib
+          numpy
+          pandas
+          psutil
+          pyelftools
+          pygments
+          pyyaml
+          sphinx
+          sphinx-autobuild
+          sphinx-rtd-theme
+        ]);
         libglossSrc = pkgs.fetchFromGitHub {
           owner = "ucb-bar";
           repo = "libgloss-htif";
@@ -149,25 +164,42 @@ EOF
           RISCV = "${chipyardRiscvTools}";
           FIRTOOL_BIN = "${circt}/bin/firtool";
           JAVA_HOME = "${pkgs.jdk17_headless}";
+          COURSIER_CACHE = "$PWD/.coursier-cache";
+          SBT_OPTS = "-Dsbt.global.base=$PWD/.sbt -Dsbt.boot.directory=$PWD/.sbt/boot -Dsbt.ivy.home=$PWD/.ivy2";
+          EXTRA_SIM_CXXFLAGS = "-O1";
+          EXTRA_SIM_LDFLAGS = "-no-pie";
 
-          shellHook = ''
-            export CY_DIR="$PWD"
-            export RISCV="${chipyardRiscvTools}"
-            export FIRTOOL_BIN="${circt}/bin/firtool"
-            export JAVA_HOME="${pkgs.jdk17_headless}"
-            export PATH="$RISCV/bin:${pkgs.bash}/bin:${pkgs.bison}/bin:${pkgs.dtc}/bin:${pkgs.flex}/bin:${pkgs.gcc}/bin:${pkgs.git}/bin:${pkgs.gnumake}/bin:${pkgs.jdk17_headless}/bin:${pkgs.numactl}/bin:${pkgs.perl}/bin:${pkgs.python3}/bin:${pkgs.sbt}/bin:${pkgs.verilator}/bin:${pkgs.which}/bin:${circt}/bin:${spike}/bin:${riscvCc}/bin:$PATH"
-            export COURSIER_CACHE="$PWD/.coursier-cache"
-            export SBT_OPTS="-Dsbt.global.base=$PWD/.sbt -Dsbt.boot.directory=$PWD/.sbt/boot -Dsbt.ivy.home=$PWD/.ivy2 $SBT_OPTS"
-            unset NIX_LDFLAGS
-            export EXTRA_SIM_CXXFLAGS="-O1 ''${EXTRA_SIM_CXXFLAGS:-}"
-            export EXTRA_SIM_LDFLAGS="-no-pie ''${EXTRA_SIM_LDFLAGS:-}"
-
-            echo "Chipyard Nix environment"
-            echo "  RISCV=$RISCV"
-            echo "  firtool=$FIRTOOL_BIN"
-            echo "  verilator=$(command -v verilator)"
-            echo "  java=$JAVA_HOME"
-          '';
+          packages = [
+            pkgs.autoconf
+            pkgs.automake
+            pkgs.bash
+            pkgs.bison
+            pkgs.bc
+            pkgs.cmake
+            pkgs.coreutils
+            pkgs.dtc
+            pkgs.flex
+            pkgs.gcc
+            pkgs.git
+            pkgs.gnumake
+            pkgs.jq
+            pkgs.jdk17_headless
+            pkgs.klayout
+            pkgs.magic-vlsi
+            pkgs.netgen
+            pkgs.ninja
+            pkgs.numactl
+            pkgs.perl
+            pkgs.ctags
+            pythonEnv
+            pkgs.sbt
+            pkgs.spike
+            pkgs.verilator
+            pkgs.which
+            pkgs.yosys
+            circt
+            riscvCc
+          ];
         };
       });
 }
