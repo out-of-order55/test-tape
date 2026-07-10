@@ -19,26 +19,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install DTC (device-tree-compiler)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y device-tree-compiler
-
-      - name: Set up JDK 17 (Temurin)
-        uses: actions/setup-java@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'sbt'
+          extra_nix_config: |
+            experimental-features = nix-command flakes
 
       - name: Init submodules (saturn only)
         run: |
-          dep/scripts/init-submodules-no-riscv-tools-nolog.sh --saturn
+          nix develop --no-write-lock-file --command bash -lc \
+            'dep/scripts/init-submodules-no-riscv-tools-nolog.sh --saturn'
 
       - name: Run firrtl target with Chisel 7
         env:
           USE_CHISEL7: "1"
         run: |
-          cd soc-gen/sims/verilator
-          make firrtl
-
+          nix develop --no-write-lock-file --command bash -lc \
+            'cd soc-gen/sims/verilator && make firrtl'

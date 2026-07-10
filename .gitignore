@@ -13,14 +13,10 @@ target
 .idea
 .DS_Store
 /.nix-riscv/
-.conda-env/
-.conda-lock-env/
-conda-reqs/chipyard-base.yaml.bak
 tags
 *~
 .bsp/
 .#*
-first-clone-setup-fast-log
 .bloop/
 .metals/
 project/.bloop/

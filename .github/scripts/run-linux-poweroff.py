@@ -14,7 +14,7 @@ def run_linux_poweroff():
     """ Runs Linux Poweroff Tests - All Single-node Tests (Single-core Rocket/BOOM, Multi-core Rocket)"""
 
     # assumptions:
-    #   - machine-launch-script requirements are already installed
+    #   - FireSim runtime requirements are available from the Nix environment
     #   - repo is already setup fully
 
     with prefix(f"cd {remote_fsim_dir}"):

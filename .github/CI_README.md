@@ -22,8 +22,7 @@ For example:
 This specifies that the `prepare-chipyard-cores` job needs the both the `make-keys` and the `setup-complete` steps to
 be completed before it can run.
 
-Chipyard runs its CI using a docker image created from `dockerfiles/Dockerfile` and on Berkeley's compute infrastructure.
-See its [README](../dockerfiles/README.md) for more details.
+Chipyard runs its CI using the repository Nix development environment and Berkeley's compute infrastructure.
 
 Finally, within each job's `steps:` section, the steps are run sequentially and state persists throughout a job.
 So when you run something like `checkout` the next step has the checked out code.
@@ -31,7 +30,7 @@ So when you run something like `checkout` the next step has the checked out code
 [Composite Actions](https://docs.github.com/en/actions/creating-actions) (CA) allow for limited subroutine like code re-use within GA.
 We use both community created and our own Composite Actions in our CI process. CA capabilities are changing rapidly.
 Nesting of composite actions was only recently unveiled. There is a lot of room for more code reuse, in particular
-we specify things over and over like docker image tag and checkout commands.
+we specify things over and over like checkout commands.
 
 One use of CA: our process relies on caching to avoid running time-consuming and intensive tasks more often than necessary.
 

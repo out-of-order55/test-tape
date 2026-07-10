@@ -23,19 +23,19 @@ There are setup options for Amazon EC2 F2 FPGA-enabled virtual instances, local 
 
 In order to simuate your Chipyard design using FireSim, make sure to follow the repository setup as described by :ref:`Chipyard-Basics/Initial-Repo-Setup:Initial Repository Setup`, if you have not already.
 By default, Chipyard initializes FireSim with it's :gh-file-ref:`build-setup.sh` script by internally running :gh-file-ref:`dep/scripts/firesim-setup.sh`.
-This :gh-file-ref:`dep/scripts/firesim-setup.sh` script initializes additional submodules and then invokes FireSim's ``build-setup.sh`` script with the ``--library`` to properly initialize FireSim as a library submodule in Chipyard.
+This :gh-file-ref:`dep/scripts/firesim-setup.sh` script initializes the FireSim submodules needed by Chipyard.
 
 Finally, source the following environment at the root of the FireSim directory:
 
 .. code-block:: shell
 
     cd soc-gen/sims/firesim
-    # (Recommended) The default manager environment (includes env.sh)
+    # Enter the FireSim manager environment.
     source sourceme-manager.sh
     # Completing setup using the manager
     firesim managerinit --platform f2
 
-.. Note:: Every time you want to use FireSim with a fresh shell, you must source ``sourceme-manager.sh``
+.. Note:: Every time you want to use FireSim with a fresh shell, first enter the Chipyard Nix environment and then source ``sourceme-manager.sh``.
 
 At this point you're ready to use FireSim with Chipyard.
 If you're not already familiar with FireSim, please return to the `FireSim documentation <https://docs.fires.im/en/latest/>`__ and visit one of the guides/`tutorials <https://fires.im/tutorial-recent>`__.

@@ -24,7 +24,7 @@ assert Path(setup_clone_firesim_build_recipes).exists()
 assert Path(workspace_firesim_hwdb).exists()
 
 # host assumptions:
-#   - firesim's machine-launch-script requirements are already installed (i.e. sudo scripts on all machines)
+#   - FireSim runtime requirements are available from the Nix environment
 #   - XILINX_VITIS, XILINX_XRT, XILINX_VIVADO are setup (in environtment - LD_LIBRARY_PATH/PATH/etc)
 # priority == roughly the more powerful and available
 # ipaddr, buildtool:version, use unique build dir, unique build dir path, priority (0 is highest)(unused by code but used to track which machine has most resources)

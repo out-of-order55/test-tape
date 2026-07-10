@@ -63,7 +63,6 @@ jobs:
             # If any of the files changed match, do a doc build
             docs: &docs-filter
               - 'docs/**'
-              - '.readthedocs.yml'
 
             # If all files match to this filter, skip the main ci pipeline
             skip-rtl:

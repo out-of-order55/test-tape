@@ -11,6 +11,4 @@ cd "$CYDIR"
 
 # Reenable the FireSim submodule
 git config --unset submodule.soc-gen/sims/firesim.update || true
-pushd soc-gen/sims/firesim
-./build-setup.sh "$@" --library
-popd
+git submodule update --init --recursive soc-gen/sims/firesim

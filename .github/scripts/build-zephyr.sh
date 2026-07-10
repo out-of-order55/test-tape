@@ -7,7 +7,7 @@ set -ex
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 source $SCRIPT_DIR/defaults.sh
 
-# install Zephyr dependencies
+# initialize Zephyr sources
 git submodule update --init $LOCAL_CHIPYARD_DIR/app/zephyrproject/zephyr
 cd $LOCAL_CHIPYARD_DIR/app/zephyrproject/zephyr/
 west init -l .

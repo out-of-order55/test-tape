@@ -11,7 +11,7 @@ def run_parallel_metasim():
     """ Runs parallel baremetal metasimulations """
 
     # assumptions:
-    #   - machine-launch-script requirements are already installed
+    #   - FireSim runtime requirements are available from the Nix environment
     #   - VCS is installed
 
     with prefix(f"cd {remote_fsim_dir}"):

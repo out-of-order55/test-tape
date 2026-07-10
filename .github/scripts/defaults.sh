@@ -12,7 +12,7 @@ REMOTE_SIM_DIR=$REMOTE_CHIPYARD_DIR/soc-gen/sims/verilator
 REMOTE_FIRESIM_DIR=$REMOTE_CHIPYARD_DIR/soc-gen/sims/firesim/sim
 REMOTE_FPGA_DIR=$REMOTE_CHIPYARD_DIR/dep/fpga
 
-# local variables (aka within the docker container)
+# local checkout variables
 LOCAL_CHIPYARD_DIR=$GITHUB_WORKSPACE
 LOCAL_SIM_DIR=$LOCAL_CHIPYARD_DIR/soc-gen/sims/verilator
 LOCAL_FIRESIM_DIR=$LOCAL_CHIPYARD_DIR/soc-gen/sims/firesim/sim

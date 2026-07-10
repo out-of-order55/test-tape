@@ -101,22 +101,6 @@ You can source this file in your ``.bashrc`` or equivalent environment setup fil
     However, it is recommended that the final ``env.sh`` file sourced is the ``env.sh`` located in the
     Chipyard repo that you expect to run ``make`` commands in.
 
-.. DEPRECATED: Pre-built Docker Image
-.. -------------------------------------------
-
-.. An alternative to setting up the Chipyard repository locally is to pull the pre-built Docker image from Docker Hub. The image comes with all dependencies installed, Chipyard cloned, and toolchains initialized. This image sets up baseline Chipyard (not including FireMarshal, FireSim, and Hammer initializations). Each image comes with a tag that corresponds to the version of Chipyard cloned/set-up in that image. Not including a tag during the pull will pull the image with the latest version of Chipyard.
-.. First, pull the Docker image. Run:
-
-.. .. code-block:: shell
-
-..     sudo docker pull ucbbar/chipyard-image:<TAG>
-
-.. To run the Docker container in an interactive shell, run:
-
-.. .. code-block:: shell
-
-..     sudo docker run -it ucbbar/chipyard-image bash
-
 What's Next?
 -------------------------------------------
 

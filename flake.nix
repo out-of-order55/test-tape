@@ -14,21 +14,6 @@
         riscvCc = riscvPkgs.stdenv.cc;
         spike = pkgs.spike;
         circt = pkgs.circt;
-        pythonEnv = pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
-          docutils
-          gitpython
-          humanfriendly
-          matplotlib
-          numpy
-          pandas
-          psutil
-          pyelftools
-          pygments
-          pyyaml
-          sphinx
-          sphinx-autobuild
-          sphinx-rtd-theme
-        ]);
         libglossSrc = pkgs.fetchFromGitHub {
           owner = "ucb-bar";
           repo = "libgloss-htif";
@@ -167,6 +152,7 @@ EOF
 
           shellHook = ''
             export CY_DIR="$PWD"
+            export PATH="$RISCV/bin:$PATH"
             export COURSIER_CACHE="$PWD/.coursier-cache"
             export SBT_OPTS="-Dsbt.global.base=$PWD/.sbt -Dsbt.boot.directory=$PWD/.sbt/boot -Dsbt.ivy.home=$PWD/.ivy2 ''${SBT_OPTS:-}"
             unset NIX_LDFLAGS
@@ -189,19 +175,14 @@ EOF
             pkgs.gnumake
             pkgs.jq
             pkgs.jdk17_headless
-            pkgs.klayout
-            pkgs.magic-vlsi
-            pkgs.netgen
             pkgs.ninja
             pkgs.numactl
             pkgs.perl
             pkgs.ctags
-            pythonEnv
             pkgs.sbt
             pkgs.spike
             pkgs.verilator
             pkgs.which
-            pkgs.yosys
             circt
             riscvCc
           ];
