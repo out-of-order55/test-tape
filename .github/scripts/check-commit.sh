@@ -47,49 +47,28 @@ search () {
 
 
 submodules=("cva6" "boom" "ibex" "gemmini" "icenet" "nvdla" "rocket-chip" "rocket-chip-blocks" "rocket-chip-inclusive-cache" "testchipip" "riscv-sodor" "mempress" "bar-fetchers" "shuttle" "constellation" "fft-generator" "hardfloat" "caliptra-aes-acc" "rocc-acc-utils" "diplomacy" "rerocc" "compress-acc" "saturn" "ara" "vexiiriscv" "tacit" "radiance")
-dir="generators"
+dir="soc-generator/generator"
 branches=("master" "main" "dev")
 search
 
-submodules=("riscv-tools-feedstock")
-dir="dependencies/toolchains/riscv-tools"
-branches=("main")
-search
-
-submodules=("riscv-isa-sim" "riscv-pk" "riscv-tests")
-dir="dependencies/toolchains/riscv-tools"
-branches=("master")
-search
-
-# riscv-openocd doesn't use its master branch
-submodules=("riscv-openocd")
-dir="dependencies/toolchains/riscv-tools"
-branches=("riscv")
-search
-
-submodules=("libgloss")
-dir="toolchains"
-branches=("master")
-search
-
 submodules=("firesim")
-dir="sims"
+dir="soc-generator/sims"
 branches=("main")
 search
 
 
 submodules=("coremark" "firemarshal" "nvdla-workload" "spec2017" "zephyrproject/zephyr")
-dir="software"
+dir="applications"
 branches=("master" "dev")
 search
 
-submodules=("DRAMSim2" "axe" "dsptools" "rocket-dsp-utils" "torture" "fixedpoint" "cde" "firrtl2")
-dir="tools"
+submodules=("DRAMSim2" "dsptools" "rocket-dsp-utils" "fixedpoint" "cde" "firrtl2")
+dir="dependencies/tools"
 branches=("master" "dev" "main")
 search
 
 submodules=("fpga-shells")
-dir="fpga"
+dir="dependencies/fpga"
 branches=("main")
 search
 

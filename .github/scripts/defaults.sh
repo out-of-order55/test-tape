@@ -29,7 +29,6 @@ grouping["group-cores"]="chipyard-cva6 chipyard-ibex chipyard-rocket chipyard-he
 grouping["group-peripherals"]="chipyard-dmirocket chipyard-dmiboomv3 chipyard-dmiboomv4 chipyard-spiflashwrite chipyard-mmios chipyard-nocores chipyard-manyperipherals chipyard-chiplike chipyard-tethered chipyard-symmetric chipyard-llcchiplet"
 grouping["group-accels"]="chipyard-compressacc chipyard-mempress chipyard-gemmini chipyard-manymmioaccels chipyard-nvdla chipyard-aes256ecb chipyard-rerocc chipyard-rocketvector chipyard-shuttlevector chipyard-hlsacc" # chipyard-shuttleara - Add when Ara works again
 grouping["group-constellation"]="chipyard-constellation"
-grouping["group-tracegen"]="tracegen tracegen-boomv3 tracegen-boomv4"
 grouping["group-other"]="icenet testchipip constellation rocketchip-amba rocketchip-tlsimple rocketchip-tlwidth rocketchip-tlxbar chipyard-clusters"
 grouping["group-fpga"]="arty35t arty100t nexysvideo vc707 vcu118"
 
@@ -64,9 +63,6 @@ mapping["chipyard-symmetric"]=" CONFIG=MultiSimMultiLinkSymmetricChipletRocketCo
 mapping["chipyard-llcchiplet"]=" CONFIG=MultiSimLLCChipletRocketConfig"
 mapping["chipyard-cloneboom"]=" CONFIG=Cloned64MegaBoomV3Config verilog"
 mapping["chipyard-nocores"]=" CONFIG=NoCoresConfig verilog"
-mapping["tracegen"]=" CONFIG=NonBlockingTraceGenL2Config"
-mapping["tracegen-boomv3"]=" CONFIG=BoomV3TraceGenConfig"
-mapping["tracegen-boomv4"]=" CONFIG=BoomV4TraceGenConfig"
 mapping["chipyard-sodor"]=" CONFIG=Sodor5StageConfig"
 mapping["chipyard-shuttle"]=" CONFIG=ShuttleConfig"
 mapping["chipyard-shuttle3"]=" CONFIG=Shuttle3WideConfig"

@@ -28,11 +28,12 @@ runs:
 
     - name: Run RTL build if not cached
       run: |
-        source env.sh
-        if [[ "${{ steps.rtl-build-id.outputs.cache-hit }}" != 'true' ]]; then
-          echo "Cache miss on ${{ inputs.group-key }}-${{ github.sha }}"
-          ./.github/scripts/${{ inputs.build-script }} ${{ inputs.group-key }} ${{ inputs.build-type }}
-        else
-          echo "Cache hit do not rebuild RTL for ${{ inputs.group-key }}"
-        fi
+        nix develop --command bash -lc '
+          if [[ "${{ steps.rtl-build-id.outputs.cache-hit }}" != 'true' ]]; then
+            echo "Cache miss on ${{ inputs.group-key }}-${{ github.sha }}"
+            ./.github/scripts/${{ inputs.build-script }} ${{ inputs.group-key }} ${{ inputs.build-type }}
+          else
+            echo "Cache hit do not rebuild RTL for ${{ inputs.group-key }}"
+          fi
+        '
       shell: bash -leo pipefail {0}

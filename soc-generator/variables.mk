@@ -27,7 +27,7 @@ HELP_COMPILATION_VARIABLES = \
 "   JAVA_TOOL_OPTIONS = if overridden, set underlying java tool options (default sets misc. sizes and tmp dir)" \
 "   SBT_OPTS          = set additional sbt command line options (these take the form -Dsbt.<option>=<setting>) " \
 "                       See https://www.scala-sbt.org/1.x/docs/Command-Line-Reference.html\#Command+Line+Options" \
-"   SBT               = if overridden, used to invoke sbt (default is to invoke sbt by sbt-launch.jar)" \
+"   SBT               = if overridden, used to invoke sbt (default: sbt from the Nix development environment)" \
 "   FIRTOOL_BIN       = path to CIRCT firtool (default: 'firtool' in PATH)" \
 "   USE_CHISEL7       = EXPERIMENTAL: set to '1' to build with Chisel 7" \
 
@@ -217,7 +217,7 @@ SCALA_BUILDTOOL_DEPS = $(SBT_SOURCES)
 
 # passes $(JAVA_TOOL_OPTIONS) from env to java
 export SBT_OPTS ?= -Dsbt.ivy.home=$(base_dir)/../.ivy2 -Dsbt.global.base=$(base_dir)/../.sbt -Dsbt.boot.directory=$(base_dir)/../.sbt/boot/ -Dsbt.color=always -Dsbt.supershell=false -Dsbt.server.forcestart=true
-SBT ?= $(JAVA) -jar $(dependencies_dir)/scripts/sbt-launch.jar $(SBT_OPTS)
+SBT ?= sbt $(SBT_OPTS)
 
 # (1) - classpath of the fat jar
 # (2) - main class

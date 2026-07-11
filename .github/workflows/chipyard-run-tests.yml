@@ -123,8 +123,7 @@ jobs:
         uses: ./.github/actions/setup-nix-env
       - name: Check commits of each submodule
         run: |
-            source env.sh
-            .github/scripts/check-commit.sh
+            nix develop --command .github/scripts/check-commit.sh
 
   documentation-check:
     name: documentation-check
@@ -145,9 +144,10 @@ jobs:
         uses: ./.github/actions/setup-nix-env
       - name: Check that documentation builds with no warnings/errors
         run: |
-          source env.sh
-          dependencies/scripts/init-submodules-no-riscv-tools.sh --full
-          make -C docs html
+          nix develop --command bash -lc '
+            dependencies/scripts/init-submodules.sh --full
+            make -C docs html
+          '
       - name: Show error log from sphinx if failed
         if: ${{ failure() }}
         run: cat /tmp/sphinx-err*.log
@@ -182,8 +182,7 @@ jobs:
           restore-keys: ${{ steps.genkey.outputs.extra-tests-cache-key }}
       - name: Build extra tests
         run: |
-            source env.sh
-            .github/scripts/build-extra-tests.sh
+            nix develop --command .github/scripts/build-extra-tests.sh
 
   prepare-chipyard-cores:
     name: prepare-chipyard-cores
@@ -273,28 +272,6 @@ jobs:
         with:
           group-key: "group-accels"
 
-  prepare-chipyard-tracegen:
-    name: prepare-chipyard-tracegen
-    needs: setup-complete
-    runs-on: as4
-    steps:
-      - name: Delete old checkout
-        run: |
-            ls -alh .
-            rm -rf ${{ github.workspace }}/* || true
-            rm -rf ${{ github.workspace }}/.* || true
-            ls -alh .
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Git workaround
-        uses: ./.github/actions/git-workaround
-      - name: Setup Nix environment
-        uses: ./.github/actions/setup-nix-env
-      - name: Build RTL on self-hosted
-        uses: ./.github/actions/prepare-rtl
-        with:
-          group-key: "group-tracegen"
-
   prepare-chipyard-other:
     name: prepare-chipyard-other
     needs: setup-complete
@@ -361,15 +338,15 @@ jobs:
         uses: ./.github/actions/setup-nix-env
       - name: Build Gemmini FireMarshal
         run: |
-          source env.sh
-          cd ${{ github.workspace }} && ./dependencies/scripts/init-submodules-no-riscv-tools.sh --full
-          cd ${{ github.workspace }} && source ./dependencies/scripts/fix-open-files.sh
-          git submodule update --init applications/firemarshal && cd applications/firemarshal && ./init-submodules.sh
-          cd ${{ github.workspace }}/soc-generator/generator/gemmini/software && ${{ github.workspace }}/applications/firemarshal/marshal -v -d build gemmini-smoke.json
+          nix develop --command bash -lc '
+            cd ${{ github.workspace }} && ./dependencies/scripts/init-submodules.sh --full
+            cd ${{ github.workspace }} && source ./dependencies/scripts/fix-open-files.sh
+            git submodule update --init applications/firemarshal && cd applications/firemarshal && ./init-submodules.sh
+            cd ${{ github.workspace }}/soc-generator/generator/gemmini/software && ${{ github.workspace }}/applications/firemarshal/marshal -v -d build gemmini-smoke.json
+          '
       - name: Running Gemmini FireMarshal smoke test
         run: |
-          source env.sh
-          cd ${{ github.workspace }}/soc-generator/generator/gemmini/software && ${{ github.workspace }}/applications/firemarshal/marshal -v -d launch -s gemmini-smoke.json
+          nix develop --command bash -lc 'cd ${{ github.workspace }}/soc-generator/generator/gemmini/software && ${{ github.workspace }}/applications/firemarshal/marshal -v -d launch -s gemmini-smoke.json'
 
   chipyard-rocket-run-tests:
     name: chipyard-rocket-run-tests
@@ -597,8 +574,7 @@ jobs:
         uses: ./.github/actions/setup-nix-env
       - name: Build zephyr hello world
         run: |
-            source env.sh
-            .github/scripts/build-zephyr.sh
+            nix develop --command .github/scripts/build-zephyr.sh
       - name: Run tests
         uses: ./.github/actions/run-tests
         with:
@@ -1090,75 +1066,6 @@ jobs:
           project-key: "chipyard-compressacc"
 
 
-  tracegen-boomv3-run-tests:
-    name: tracegen-boomv3-run-tests
-    needs: prepare-chipyard-tracegen
-    runs-on: as4
-    steps:
-      - name: Delete old checkout
-        run: |
-            ls -alh .
-            rm -rf ${{ github.workspace }}/* || true
-            rm -rf ${{ github.workspace }}/.* || true
-            ls -alh .
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Git workaround
-        uses: ./.github/actions/git-workaround
-      - name: Setup Nix environment
-        uses: ./.github/actions/setup-nix-env
-      - name: Run tests
-        uses: ./.github/actions/run-tests
-        with:
-          group-key: "group-tracegen"
-          project-key: "tracegen-boomv3"
-
-  tracegen-boomv4-run-tests:
-    name: tracegen-boomv4-run-tests
-    needs: prepare-chipyard-tracegen
-    runs-on: as4
-    steps:
-      - name: Delete old checkout
-        run: |
-            ls -alh .
-            rm -rf ${{ github.workspace }}/* || true
-            rm -rf ${{ github.workspace }}/.* || true
-            ls -alh .
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Git workaround
-        uses: ./.github/actions/git-workaround
-      - name: Setup Nix environment
-        uses: ./.github/actions/setup-nix-env
-      - name: Run tests
-        uses: ./.github/actions/run-tests
-        with:
-          group-key: "group-tracegen"
-          project-key: "tracegen-boomv4"
-
-  tracegen-run-tests:
-    name: tracegen-run-tests
-    needs: prepare-chipyard-tracegen
-    runs-on: as4
-    steps:
-      - name: Delete old checkout
-        run: |
-            ls -alh .
-            rm -rf ${{ github.workspace }}/* || true
-            rm -rf ${{ github.workspace }}/.* || true
-            ls -alh .
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Git workaround
-        uses: ./.github/actions/git-workaround
-      - name: Setup Nix environment
-        uses: ./.github/actions/setup-nix-env
-      - name: Run tests
-        uses: ./.github/actions/run-tests
-        with:
-          group-key: "group-tracegen"
-          project-key: "tracegen"
-
   icenet-run-tests:
     name: icenet-run-tests
     needs: prepare-chipyard-other
@@ -1327,9 +1234,6 @@ jobs:
             chipyard-mempress-run-tests,
             chipyard-compressacc-run-tests,
             chipyard-constellation-run-tests,
-            tracegen-boomv3-run-tests,
-            tracegen-boomv4-run-tests,
-            tracegen-run-tests,
             icenet-run-tests,
             testchipip-run-tests,
             rocketchip-run-tests,

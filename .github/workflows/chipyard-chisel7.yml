@@ -28,7 +28,7 @@ jobs:
       - name: Init submodules (saturn only)
         run: |
           nix develop --no-write-lock-file --command bash -lc \
-            'dependencies/scripts/init-submodules-no-riscv-tools-nolog.sh --saturn'
+            'dependencies/scripts/init-submodules-nolog.sh --saturn'
 
       - name: Run firrtl target with Chisel 7
         env:

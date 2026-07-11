@@ -5,10 +5,6 @@ set -e
 # this should be run from chipyard repo top
 RDIR=$(git rev-parse --show-toplevel)
 
-rm -rf $RDIR/dependencies/toolchains/libgloss/build.log
-rm -rf $RDIR/dependencies/toolchains/riscv-tools/riscv-isa-sim/build.log
-rm -rf $RDIR/dependencies/toolchains/riscv-tools/riscv-pk/build.log
-rm -rf $RDIR/dependencies/toolchains/riscv-tools/riscv-tests/build.log
 (
     pushd $RDIR/soc-generator/generator/constellation
     if [ -d espresso ]

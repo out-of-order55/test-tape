@@ -101,25 +101,23 @@ jobs:
           mkdir ${{ env.JAVA_TMP_DIR }}
           export MAKEFLAGS="-j32"
           git submodule sync
-          ./build-setup.sh -v
+          nix develop --command dependencies/scripts/build-setup.sh -v
       - name: Run config finder
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          source env.sh
-          cd soc-generator/sims/verilator
-          make find-config-fragments
-          make find-configs
+          nix develop --command bash -lc '
+            cd soc-generator/sims/verilator
+            make find-config-fragments
+            make find-configs
+          '
       - name: Run smoke test
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          source env.sh
-          cd soc-generator/sims/verilator
-          make verilog
+          nix develop --command bash -lc 'cd soc-generator/sims/verilator && make verilog'
       - name: VLSI test
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          source env.sh
-
+          nix develop --command bash -lc '
           cd vlsi
 
           # The Nix shell provides the VLSI tools. The PDK is provisioned separately.
@@ -158,10 +156,11 @@ jobs:
           # make redo-par HAMMER_EXTRA_ARGS="--start_before_step extraction"
           # make drc
           # make lvs
+          '
       - name: Run FireChip bridge tests
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          source env.sh
+          nix develop --command bash -lc '
           pushd soc-generator/sims/firesim
           source sourceme-manager.sh --skip-ssh-setup
           popd
@@ -169,10 +168,11 @@ jobs:
           export TEST_DISABLE_VERILATOR=1
           export TEST_DISABLE_VIVADO=1
           make launch-sbt SBT_COMMAND=";project firechip_bridgestubs; testOnly firechip.bridgestubs.BridgeTests"
+          '
       - name: Run FireChip FireSim target tests
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          source env.sh
+          nix develop --command bash -lc '
           pushd soc-generator/sims/firesim
           source sourceme-manager.sh --skip-ssh-setup
           popd
@@ -181,6 +181,7 @@ jobs:
           export TEST_DISABLE_VERILATOR=1
           export TEST_DISABLE_VIVADO=1
           make launch-sbt SBT_COMMAND=";project firechip; testOnly firechip.chip.CITests"
+          '
 
   cleanup:
     name: cleanup

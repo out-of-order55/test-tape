@@ -15,7 +15,7 @@ error_handler() {
     local exit_code=$?
     local line_number=$1
     local submodule_name=$2
-    echo "Error occurred at line $line_number with exit code $exit_code in \`init-submodules-no-riscv-tools-nolog.sh\`."
+    echo "Error occurred at line $line_number with exit code $exit_code in \`init-submodules-nolog.sh\`."
     if [ -n "$submodule_name" ]; then
         echo "Submodule $submodule_name failed to update."
     fi
@@ -169,7 +169,6 @@ cd "$RDIR"
 
 (
     # Blocklist of submodules to initially skip:
-    # - Toolchain submodules
     # - Generators with huge submodules (e.g., linux sources)
     # - FireSim until explicitly requested
     # - Hammer tool plugins
@@ -177,8 +176,6 @@ cd "$RDIR"
         # Call the given subcommand (shell function) on each submodule
         # path to temporarily exclude during the recursive update
         for name in \
-            dependencies/toolchains/*-tools/* \
-	    dependencies/toolchains/libgloss \
 	    soc-generator/generator/cva6 \
             soc-generator/generator/ibex \
             soc-generator/generator/riscv-sodor \
@@ -202,7 +199,6 @@ cd "$RDIR"
             applications/zephyrproject/zephyr \
             dependencies/tools/dsptools \
             dependencies/tools/rocket-dsp-utils \
-            dependencies/tools/circt \
             vlsi/hammer-mentor-plugins
         do
             "$1" "${name%/}"

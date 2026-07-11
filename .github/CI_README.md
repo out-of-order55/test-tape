@@ -84,10 +84,9 @@ How things are set up for Chipyard
 ---------------------------------
 
 The steps for CI to run are as follows.
-1. Build the toolchains in parallel (note: `esp-tools` is currently not used in the run).
-The Nix development shell sets up the `PATH` and `RISCV` variables so that `riscv-tools` is the default.
+1. Enter the Nix development shell, which provides the RISC-V compiler, Spike, and simulation tools.
 2. Create the simulator binary.
-This requires the `riscv-tools` for `fesvr` and `verilator` to be able to build the binary.
+The Nix-provided tools provide `fesvr` and `verilator` for this build.
 This stores all collateral for the tests (srcs, generated-srcs, sim binary, etc) to run "out of the gate" in the next job (make needs everything or else it will run again).
 3. Finally, run the desired tests.
 
@@ -99,6 +98,6 @@ Build servers need Nix with flakes enabled.
 Notes on CIRCLE CI
 ------------------
 This code is heavily based on the origin [CircleCI]() work. There a quite a few differences
-- CCI allows a much larger cache. The entire CY directory with toolchains and RTL could be cached, with GA there is a 5Gb total cache limit
+- CCI allows a much larger cache. The entire CY directory and RTL could be cached, with GA there is a 5Gb total cache limit
 - GA support more parallel jobs 20 vs 4
 - GA seems to allow much longer run times

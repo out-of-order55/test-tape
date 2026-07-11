@@ -115,10 +115,12 @@ jobs:
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
           export MAKEFLAGS="-j32"
-          ./build-setup.sh --verbose
-          cd soc-generator/sims/firesim
-          source sourceme-manager.sh --skip-ssh-setup
-          firesim managerinit --platform xilinx_alveo_u250
+          nix develop --command bash -lc '
+            dependencies/scripts/build-setup.sh --verbose
+            cd soc-generator/sims/firesim
+            source sourceme-manager.sh --skip-ssh-setup
+            firesim managerinit --platform xilinx_alveo_u250
+          '
 
   run-metasims-xilinx_alveo_u250:
     name: run-metasims-xilinx_alveo_u250
@@ -128,8 +130,7 @@ jobs:
       - name: Run metasims (VCS + Verilator)
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          source env.sh
-          .github/scripts/run-metasims.py
+          nix develop --command .github/scripts/run-metasims.py
 
   run-basic-linux-poweroffs-xilinx_alveo_u250:
     name: run-basic-linux-poweroffs-xilinx_alveo_u250
@@ -140,8 +141,7 @@ jobs:
       - name: Run non-networked single-node Linux poweroff tests (single-core Rocket/BOOM, multi-core Rocket) w/ Xilinx Alveo U250
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          source env.sh
-          .github/scripts/run-linux-poweroff.py --platform xilinx_alveo_u250
+          nix develop --command .github/scripts/run-linux-poweroff.py --platform xilinx_alveo_u250
 
   build-default-bitstreams:
     name: build-default-bitstreams
@@ -165,8 +165,7 @@ jobs:
       - name: Run buildbitstream command and update sample local bitstreams in bitstream repository
         run: |
           cd ${{ env.REMOTE_WORK_DIR }}
-          source env.sh
-          .github/scripts/build-default-bitstreams.py
+          nix develop --command .github/scripts/build-default-bitstreams.py
       - name: Push bitstreams built/copied in bitstream repo
         run: |
           cd ${{ github.workspace }}/${{ env.GH_REPO }}

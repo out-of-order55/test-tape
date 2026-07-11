@@ -251,7 +251,7 @@ def withInitCheck(p: Project, genDirName: String): Project = {
     if (!dir.exists || !looksInitialized) {
       sys.error(
         s"Generator '$genDirName' is not initialized at '" + dir.getAbsolutePath +
-        "'. Run ../build-setup.sh or init the submodule (../dependencies/scripts/init-submodules-no-riscv-tools-nolog.sh).")
+        "'. Run ../dependencies/scripts/build-setup.sh or initialize the submodule (../dependencies/scripts/init-submodules-nolog.sh).")
     }
   }
   p.settings(

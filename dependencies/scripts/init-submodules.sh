@@ -8,4 +8,4 @@ set -o pipefail
 RDIR=$(git rev-parse --show-toplevel)
 cd "$RDIR"
 
-./dependencies/scripts/init-submodules-no-riscv-tools-nolog.sh "$@" 2>&1 | tee init-submodules-no-riscv-tools.log
+./dependencies/scripts/init-submodules-nolog.sh "$@" 2>&1 | tee init-submodules.log

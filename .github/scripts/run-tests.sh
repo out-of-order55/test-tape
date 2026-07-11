@@ -20,10 +20,6 @@ run_asm () {
     make run-asm-tests-fast -j1 -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ $MAPPING_FLAGS $@
 }
 
-run_tracegen () {
-    make tracegen -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ $MAPPING_FLAGS $@
-}
-
 run_binary () {
     make run-binary-fast -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ $MAPPING_FLAGS $@
 }
@@ -143,15 +139,6 @@ case $1 in
         # run_binary BINARY=$RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/vec-strcmp.riscv LOADMEM=1
         # run_binary BINARY=$RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/vec-daxpy.riscv LOADMEM=1
         # run_binary BINARY=$RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/vec-memcpy.riscv LOADMEM=1
-        ;;
-    tracegen)
-        run_tracegen
-        ;;
-    tracegen-boomv3)
-        run_tracegen
-        ;;
-    tracegen-boomv4)
-        run_tracegen
         ;;
     chipyard-cva6)
         run_binary BINARY=$RISCV/riscv64-unknown-elf/share/riscv-tests/benchmarks/multiply.riscv

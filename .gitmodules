@@ -25,45 +25,15 @@
 [submodule "applications/baremetal-ide"]
 	path = applications/baremetal-ide
 	url = https://github.com/ucb-bar/Baremetal-IDE.git
-[submodule "dependencies/toolchains/libgloss"]
-	path = dependencies/toolchains/libgloss
-	url = https://github.com/ucb-bar/libgloss-htif.git
-[submodule "dependencies/toolchains/riscv-tools/riscv-isa-sim"]
-	path = dependencies/toolchains/riscv-tools/riscv-isa-sim
-	url = https://github.com/riscv-software-src/riscv-isa-sim.git
-[submodule "dependencies/toolchains/riscv-tools/riscv-openocd"]
-	path = dependencies/toolchains/riscv-tools/riscv-openocd
-	url = https://github.com/riscv/riscv-openocd.git
-[submodule "dependencies/toolchains/riscv-tools/riscv-pk"]
-	path = dependencies/toolchains/riscv-tools/riscv-pk
-	url = https://github.com/riscv-software-src/riscv-pk.git
-[submodule "dependencies/toolchains/riscv-tools/riscv-spike-devices"]
-	path = dependencies/toolchains/riscv-tools/riscv-spike-devices
-	url = https://github.com/ucb-bar/spike-devices.git
-[submodule "dependencies/toolchains/riscv-tools/riscv-tests"]
-	path = dependencies/toolchains/riscv-tools/riscv-tests
-	url = https://github.com/riscv-software-src/riscv-tests.git
-[submodule "dependencies/toolchains/riscv-tools/riscv-tools-feedstock"]
-	path = dependencies/toolchains/riscv-tools/riscv-tools-feedstock
-	url = https://github.com/ucb-bar/riscv-tools-feedstock.git
 [submodule "dependencies/tools/DRAMSim2"]
 	path = dependencies/tools/DRAMSim2
 	url = https://github.com/firesim/DRAMSim2.git
-[submodule "dependencies/tools/axe"]
-	path = dependencies/tools/axe
-	url = https://github.com/CTSRD-CHERI/axe.git
 [submodule "dependencies/tools/cde"]
 	path = dependencies/tools/cde
 	url = https://github.com/chipsalliance/cde.git
-[submodule "dependencies/tools/circt"]
-	path = dependencies/tools/circt
-	url = https://github.com/llvm/circt.git
 [submodule "dependencies/tools/rocket-dsp-utils"]
 	path = dependencies/tools/rocket-dsp-utils
 	url = https://github.com/ucb-bar/rocket-dsp-utils.git
-[submodule "dependencies/tools/torture"]
-	path = dependencies/tools/torture
-	url = https://github.com/ucb-bar/riscv-torture.git
 [submodule "dependencies/tools/dsptools"]
 	path = dependencies/tools/dsptools
 	url = https://github.com/ucb-bar/dsptools.git

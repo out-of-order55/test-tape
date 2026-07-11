@@ -16,7 +16,7 @@ source $SCRIPT_DIR/defaults.sh
 
 cd $REMOTE_CHIPYARD_DIR
 git submodule sync
-./dependencies/scripts/init-submodules-no-riscv-tools.sh --full
+./dependencies/scripts/init-submodules.sh --full
 
 # Constellation can run without espresso, but this improves
 # elaboration time drastically
