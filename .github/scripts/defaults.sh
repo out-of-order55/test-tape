@@ -8,14 +8,14 @@ REMOTE_MAKE_NPROC=4
 # remote variables
 REMOTE_WORK_DIR=$GITHUB_WORKSPACE
 REMOTE_CHIPYARD_DIR=$GITHUB_WORKSPACE
-REMOTE_SIM_DIR=$REMOTE_CHIPYARD_DIR/soc-gen/sims/verilator
-REMOTE_FIRESIM_DIR=$REMOTE_CHIPYARD_DIR/soc-gen/sims/firesim/sim
-REMOTE_FPGA_DIR=$REMOTE_CHIPYARD_DIR/dep/fpga
+REMOTE_SIM_DIR=$REMOTE_CHIPYARD_DIR/soc-generator/sims/verilator
+REMOTE_FIRESIM_DIR=$REMOTE_CHIPYARD_DIR/soc-generator/sims/firesim/sim
+REMOTE_FPGA_DIR=$REMOTE_CHIPYARD_DIR/dependencies/fpga
 
 # local checkout variables
 LOCAL_CHIPYARD_DIR=$GITHUB_WORKSPACE
-LOCAL_SIM_DIR=$LOCAL_CHIPYARD_DIR/soc-gen/sims/verilator
-LOCAL_FIRESIM_DIR=$LOCAL_CHIPYARD_DIR/soc-gen/sims/firesim/sim
+LOCAL_SIM_DIR=$LOCAL_CHIPYARD_DIR/soc-generator/sims/verilator
+LOCAL_FIRESIM_DIR=$LOCAL_CHIPYARD_DIR/soc-generator/sims/firesim/sim
 
 # CI uses temp directories with very long names
 # explicitly force socket creation to use /tmp to avoid name length errors

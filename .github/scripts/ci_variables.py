@@ -58,4 +58,4 @@ ci_env = {
 
 # for most uses these should be used (over using GITHUB_WORKSPACE)
 remote_cy_dir = ci_env['REMOTE_WORK_DIR']
-remote_fsim_dir = ci_env['REMOTE_WORK_DIR'] + "/soc-gen/sims/firesim"
+remote_fsim_dir = ci_env['REMOTE_WORK_DIR'] + "/soc-generator/sims/firesim"

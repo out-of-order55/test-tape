@@ -52,18 +52,18 @@ branches=("master" "main" "dev")
 search
 
 submodules=("riscv-tools-feedstock")
-dir="dep/toolchains/riscv-tools"
+dir="dependencies/toolchains/riscv-tools"
 branches=("main")
 search
 
 submodules=("riscv-isa-sim" "riscv-pk" "riscv-tests")
-dir="dep/toolchains/riscv-tools"
+dir="dependencies/toolchains/riscv-tools"
 branches=("master")
 search
 
 # riscv-openocd doesn't use its master branch
 submodules=("riscv-openocd")
-dir="dep/toolchains/riscv-tools"
+dir="dependencies/toolchains/riscv-tools"
 branches=("riscv")
 search
 

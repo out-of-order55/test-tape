@@ -146,7 +146,7 @@ jobs:
       - name: Check that documentation builds with no warnings/errors
         run: |
           source env.sh
-          dep/scripts/init-submodules-no-riscv-tools.sh --full
+          dependencies/scripts/init-submodules-no-riscv-tools.sh --full
           make -C docs html
       - name: Show error log from sphinx if failed
         if: ${{ failure() }}
@@ -362,14 +362,14 @@ jobs:
       - name: Build Gemmini FireMarshal
         run: |
           source env.sh
-          cd ${{ github.workspace }} && ./dep/scripts/init-submodules-no-riscv-tools.sh --full
-          cd ${{ github.workspace }} && source ./dep/scripts/fix-open-files.sh
-          git submodule update --init app/firemarshal && cd app/firemarshal && ./init-submodules.sh
-          cd ${{ github.workspace }}/soc-gen/generator/gemmini/software && ${{ github.workspace }}/app/firemarshal/marshal -v -d build gemmini-smoke.json
+          cd ${{ github.workspace }} && ./dependencies/scripts/init-submodules-no-riscv-tools.sh --full
+          cd ${{ github.workspace }} && source ./dependencies/scripts/fix-open-files.sh
+          git submodule update --init applications/firemarshal && cd applications/firemarshal && ./init-submodules.sh
+          cd ${{ github.workspace }}/soc-generator/generator/gemmini/software && ${{ github.workspace }}/applications/firemarshal/marshal -v -d build gemmini-smoke.json
       - name: Running Gemmini FireMarshal smoke test
         run: |
           source env.sh
-          cd ${{ github.workspace }}/soc-gen/generator/gemmini/software && ${{ github.workspace }}/app/firemarshal/marshal -v -d launch -s gemmini-smoke.json
+          cd ${{ github.workspace }}/soc-generator/generator/gemmini/software && ${{ github.workspace }}/applications/firemarshal/marshal -v -d launch -s gemmini-smoke.json
 
   chipyard-rocket-run-tests:
     name: chipyard-rocket-run-tests

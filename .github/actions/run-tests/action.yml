@@ -20,7 +20,7 @@ runs:
       run: |
         source env.sh
         git submodule sync
-        ./dep/scripts/init-submodules-no-riscv-tools.sh --full
+        ./dependencies/scripts/init-submodules-no-riscv-tools.sh --full
       shell: bash -leo pipefail {0}
 
     # Note: You shouldn't need the other inputs since it shouldn't build RTL from scratch
