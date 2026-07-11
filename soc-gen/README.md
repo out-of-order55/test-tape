@@ -31,38 +31,15 @@ not contain a `dep/` entry; the SBT build is loaded from the repository root so
 The FireSim checkout lives at `sims/firesim`. Application and software trees
 live at the repository top level under `../app`.
 
-## BOOM and Gemmini workflow
+## Application boundary
 
-Initialize all generator submodules, including Gemmini's test software:
-
-```sh
-git submodule update --init --recursive soc-gen/generator/boom soc-gen/generator/gemmini
-```
-
-Run Rocket's bare-metal hello test from this directory:
+`soc-gen` does not build application binaries. Build the RISC-V application in
+`../app` (or another application workspace) first, then pass its existing ELF
+to the simulator:
 
 ```sh
-make rocket-hello
+make CONFIG=RocketConfig run BINARY=/abs/path/test.elf
 ```
 
-The same test can be run in one command from the repository root without
-loading `env.sh`:
-
-```sh
-nix develop --command bash -lc 'cd soc-gen && make rocket-hello'
-```
-
-Run the BOOM hello test from this directory:
-
-```sh
-make boom-hello
-```
-
-Run Gemmini's `mvin_mvout` bare-metal smoke test with:
-
-```sh
-make gemmini-test
-```
-
-Set `GEMMINI_TEST=<name>` to run another test listed in
-`generator/gemmini/software/gemmini-rocc-tests/bareMetalC/Makefile`.
+The `run` target validates that `BINARY` already exists and uses it only as a
+simulation input.

@@ -82,32 +82,12 @@ HELP_COMMANDS += \
 "   run-binaries-debug          = run [./$(shell basename $(sim_debug))] and log instructions and waveform to files" \
 "   verilog                     = generate intermediate verilog files from chisel elaboration and firrtl passes" \
 "   firrtl                      = generate intermediate firrtl files from chisel elaboration" \
-"   run-tests                   = run all assembly and benchmark tests" \
 "   launch-sbt                  = start sbt terminal" \
 "   find-configs                = list Chipyard Config classes (eligible CONFIG=)" \
 "   find-config-fragments       = list all config. fragments" \
 "   run-firtool                 = run CIRCT firtool to emit Verilog/JSON/mem conf" \
 "   run-uniquify                = run uniquify-module-names on current elaboration outputs"
 
-#########################################################################################
-# include additional subproject make fragments
-# see HELP_COMPILATION_VARIABLES
-#########################################################################################
-HELP_COMMANDS += \
-"   torture                = run torture on the RTL testbench" \
-"   torture-overnight      = run torture overnight tests (set TORTURE_ONIGHT_OPTIONS to pass test options)"
-
-.PHONY: torture torture-overnight
-
-torture: $(output_dir) $(sim)
-	$(MAKE) -C $(deps_dir)/tools/torture/output clean
-	$(MAKE) -C $(deps_dir)/tools/torture R_SIM=$(sim) gen rtest
-	cp -r $(deps_dir)/tools/torture/output $(output_dir)/torture
-	rm $(output_dir)/torture/Makefile
-
-TORTURE_ONIGHT_OPTIONS :=
-torture-overnight: $(output_dir) $(sim)
-	$(MAKE) -C $(deps_dir)/tools/torture R_SIM=$(sim) OPTIONS="$(TORTURE_ONIGHT_OPTIONS)" rnight
 # Optional generator make fragments should not fail build if absent
 # Wildcard include for standardized per-generator make fragments
 -include $(wildcard $(base_dir)/generator/*/chipyard.mk)
