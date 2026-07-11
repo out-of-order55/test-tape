@@ -140,7 +140,7 @@ TAPEOUT_SOURCE_DIRS = $(deps_dir)/tools/tapeout
 TAPEOUT_SCALA_SOURCES = $(call lookup_srcs_by_multiple_type,$(TAPEOUT_SOURCE_DIRS),$(SCALA_EXT))
 TAPEOUT_VLOG_SOURCES = $(call lookup_srcs_by_multiple_type,$(TAPEOUT_SOURCE_DIRS),$(VLOG_EXT))
 # This assumes no SBT meta-build sources
-SBT_ROOT ?= $(base_dir)/..
+SBT_ROOT ?= $(base_dir)
 SBT_SOURCE_DIRS = $(base_dir)/generator $(deps_dir)/tools $(deps_dir)/fpga
 SBT_SOURCES = $(call lookup_srcs,$(SBT_SOURCE_DIRS),sbt) $(SBT_ROOT)/build.sbt $(SBT_ROOT)/project/plugins.sbt $(SBT_ROOT)/project/build.properties
 
@@ -529,7 +529,7 @@ $(dramsim_lib):
 SBT_COMMAND ?= shell
 .PHONY: launch-sbt
 launch-sbt:
-	cd $(base_dir)/.. && $(SBT) "$(SBT_COMMAND)"
+	cd $(base_dir) && $(SBT) "$(SBT_COMMAND)"
 
 #########################################################################################
 # print help text (and other help)
