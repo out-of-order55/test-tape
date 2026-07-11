@@ -9,11 +9,11 @@ Primary entry points:
 - `make CONFIG=RocketConfig emu-debug`
 - `make CONFIG=RocketConfig run BINARY=/abs/path/test.elf`
 
-When using the repository Nix environment, run them through `nix develop` from
-the repository root:
+Enter the repository Nix environment before running these commands:
 
 ```sh
-nix develop --command bash -lc 'cd soc-gen && make CONFIG=RocketConfig verilog'
+nix develop
+cd soc-gen
 ```
 
 By default these commands use `sims/verilator`. Set `SIM=vcs` to use the VCS
@@ -39,8 +39,20 @@ Initialize all generator submodules, including Gemmini's test software:
 git submodule update --init --recursive soc-gen/generator/boom soc-gen/generator/gemmini
 ```
 
-After setting up the Chipyard environment (`source env.sh`), run the BOOM hello
-test from this directory:
+Run Rocket's bare-metal hello test from this directory:
+
+```sh
+make rocket-hello
+```
+
+The same test can be run in one command from the repository root without
+loading `env.sh`:
+
+```sh
+nix develop --command bash -lc 'cd soc-gen && make rocket-hello'
+```
+
+Run the BOOM hello test from this directory:
 
 ```sh
 make boom-hello
