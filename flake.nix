@@ -14,7 +14,21 @@
         riscvCc = riscvPkgs.stdenv.cc;
         riscvTarget = riscvPkgs.stdenv.targetPlatform.config;
         spike = pkgs.spike;
-        circt = pkgs.circt;
+        # Match upstream Chipyard's default prebuilt CIRCT release. Gemmini's
+        # Chisel3 annotations are not accepted by newer nixpkgs firtool builds.
+        circt = pkgs.stdenvNoCC.mkDerivation {
+          pname = "circt";
+          version = "1.75.0";
+          src = pkgs.fetchurl {
+            url = "https://github.com/llvm/circt/releases/download/firtool-1.75.0/circt-full-static-linux-x64.tar.gz";
+            hash = "sha256-yl4LCp9PO77KRKPmjo33/z7GQSbXHJHD5ODp7BhMeYQ=";
+          };
+          sourceRoot = "firtool-1.75.0";
+          installPhase = ''
+            mkdir -p $out
+            cp -a bin lib $out/
+          '';
+        };
         libglossSrc = pkgs.fetchFromGitHub {
           owner = "ucb-bar";
           repo = "libgloss-htif";

@@ -79,3 +79,9 @@
 [submodule "app/firemarshal"]
 	path = app/firemarshal
 	url = https://github.com/firesim/FireMarshal.git
+[submodule "soc-gen/generator/boom"]
+	path = soc-gen/generator/boom
+	url = https://github.com/riscv-boom/riscv-boom.git
+[submodule "soc-gen/generator/gemmini"]
+	path = soc-gen/generator/gemmini
+	url = https://github.com/ucb-bar/gemmini.git

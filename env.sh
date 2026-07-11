@@ -17,6 +17,7 @@ NIX_JAVA_HOME=${NIX_ENV_REST%%$'\n'*}
 NIX_RISCV=${NIX_ENV_REST#*$'\n'}
 export PATH="$NIX_PATH"
 export JAVA_HOME="$NIX_JAVA_HOME"
+NIX_FIRTOOL=$(command -v firtool)
 
 export RISCV="$CY_DIR/.nix-riscv"
 mkdir -p "$RISCV"
@@ -42,9 +43,13 @@ while IFS= read -r -d '' link; do
     esac
 done < <(find "$RISCV" -type l -print0)
 
+# The local toolchain prefix persists across shell invocations. Refresh its
+# firtool link whenever the flake changes so it cannot mask the Nix version.
+ln -sfn "$NIX_FIRTOOL" "$RISCV/bin/firtool"
+
 export PATH="$RISCV/bin:$PATH"
 
-export FIRTOOL_BIN="$(command -v firtool)"
+export FIRTOOL_BIN="$NIX_FIRTOOL"
 export COURSIER_CACHE="$CY_DIR/.coursier-cache"
 export SBT_OPTS="-Dsbt.global.base=$CY_DIR/.sbt -Dsbt.boot.directory=$CY_DIR/.sbt/boot -Dsbt.ivy.home=$CY_DIR/.ivy2 ${SBT_OPTS:-}"
 unset NIX_LDFLAGS

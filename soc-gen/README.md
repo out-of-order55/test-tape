@@ -30,3 +30,27 @@ not contain a `dep/` entry; the SBT build is loaded from the repository root so
 
 The FireSim checkout lives at `sims/firesim`. Application and software trees
 live at the repository top level under `../app`.
+
+## BOOM and Gemmini workflow
+
+Initialize all generator submodules, including Gemmini's test software:
+
+```sh
+git submodule update --init --recursive soc-gen/generator/boom soc-gen/generator/gemmini
+```
+
+After setting up the Chipyard environment (`source env.sh`), run the BOOM hello
+test from this directory:
+
+```sh
+make boom-hello
+```
+
+Run Gemmini's `mvin_mvout` bare-metal smoke test with:
+
+```sh
+make gemmini-test
+```
+
+Set `GEMMINI_TEST=<name>` to run another test listed in
+`generator/gemmini/software/gemmini-rocc-tests/bareMetalC/Makefile`.

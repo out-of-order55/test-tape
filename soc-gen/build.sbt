@@ -195,7 +195,7 @@ lazy val chipyard = {
   // Use explicit Project(...) so the project id remains 'chipyard'
   val baseProjects: Seq[ProjectReference] =
     Seq(
-      testchipip, rocketchip, rocketchip_blocks, rocketchip_inclusive_cache,
+      testchipip, rocketchip, boom, gemmini, rocketchip_blocks, rocketchip_inclusive_cache,
     ).map(sbt.Project.projectToRef) ++
     (if (useChisel7) Seq() else Seq(sbt.Project.projectToRef(firrtl2_bridge))) ++
     (if (useChisel7) Seq() else Seq(sbt.Project.projectToRef(dsptools), sbt.Project.projectToRef(rocket_dsp_utils)))
@@ -306,6 +306,16 @@ lazy val rocketchip_inclusive_cache = withInitCheck((project in file("generator/
     Compile / scalaSource := baseDirectory.value / "design/craft")
   .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
+
+lazy val boom = withInitCheck(freshProject("boom", file("generator/boom")), "boom")
+  .dependsOn(rocketchip)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(commonSettings)
+
+lazy val gemmini = withInitCheck(freshProject("gemmini", file("generator/gemmini")), "gemmini")
+  .dependsOn(rocketchip)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(commonSettings)
 
 lazy val fpga_shells = projectFromDir("fpga_shells", file("../dep/fpga/fpga-shells"))
   .dependsOn(rocketchip, rocketchip_blocks)
