@@ -22,9 +22,6 @@
 [submodule "soc-generator/sims/firesim"]
 	path = soc-generator/sims/firesim
 	url = https://github.com/firesim/firesim.git
-[submodule "applications/baremetal-ide"]
-	path = applications/baremetal-ide
-	url = https://github.com/ucb-bar/Baremetal-IDE.git
 [submodule "dependencies/tools/DRAMSim2"]
 	path = dependencies/tools/DRAMSim2
 	url = https://github.com/firesim/DRAMSim2.git
@@ -43,9 +40,6 @@
 [submodule "dependencies/tools/firrtl2"]
 	path = dependencies/tools/firrtl2
 	url = https://github.com/ucb-bar/firrtl2.git
-[submodule "applications/tacit_decoder"]
-	path = applications/tacit_decoder
-	url = https://github.com/riscv-tacit/tacit_decoder.git
 [submodule "applications/firemarshal"]
 	path = applications/firemarshal
 	url = https://github.com/firesim/FireMarshal.git
